@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.scripts;
+using UnityEngine;
 using Toolbox;
 
 [RequireComponent(typeof(Blinker))]
@@ -76,7 +77,7 @@ public class Player : Base2DBehaviour
         Show(false);
         _explosionParticleSystem.Play();
         GetComponent<Rigidbody2D>().velocity *= 0.5f; // Slow down when killed.
-        GameManager.Instance.PlayerKilled(this);
+        SafeGameManager.SceneController.PlayerKilled(this);
         GameManager.Instance.PlayClip(ExplosionSound);
         Destroy(this.gameObject, _explosionParticleSystem.duration + 0.5f);
     }

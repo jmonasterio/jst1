@@ -12,7 +12,9 @@ public class SceneController : Base2DBehaviour {
     public Player PlayerPrefab;
     public GameOver GameOverPrefab;
     public Instructions InstructionsPrefab;
+#if OLD_WAY
     public ParticleSystem AsteroidExplosionParticlePrefab;
+#endif
     //public AudioClip Jaws1;
     //public AudioClip Jaws2;
     public AudioClip FreeLifeSound;
@@ -31,11 +33,27 @@ public class SceneController : Base2DBehaviour {
     //private float _nextJawsSoundTime;
     //private float _jawsIntervalSeconds;
     //private bool _jawsAlternate;
-    private Rect _camRect;
-    private double _disableStartButtonUntilTime; 
+    private double _disableStartButtonUntilTime;
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
 
+    public void PlayerKilled(Player player)
+    {
+        if (GameManager.Instance.Lives < 1)
+        {
+            GameManager.Instance.State = GameManager.States.Over;
+            GameOver(player);
+        }
+        else
+        {
+            Respawn(player, 2.0f);
+
+        }
+
+    }
+
+
+#if OLD_WAY
     public Vector3? GetAlienTargetOrNull()
     {
         if (Random.Range(0, 10) > 4)
@@ -55,12 +73,12 @@ public class SceneController : Base2DBehaviour {
         }
         return null;
     }
+#endif
 
     // Use this for initialization
     void Start ()
     {
         //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
-        _camRect = GetCameraWorldRect();
         _gameOver = GameOverPrefab.InstantiateInTransform(GameManager.Instance.SceneRoot);
         _instructions = InstructionsPrefab.InstantiateInTransform(GameManager.Instance.SceneRoot);
 
@@ -81,6 +99,23 @@ public class SceneController : Base2DBehaviour {
 
         UpdateAlienSpawn();
 #endif
+
+        if (GameManager.Instance.State == GameManager.States.Over)
+        {
+            if (Input.GetButton(GameManager.Buttons.FLAP))
+            {
+                // Try to prevent game starting right after previous if you keep firing.
+                if (CanStartGame())
+                {
+                    GameManager.Instance.StartGame();
+                    this.StartGame();
+
+                }
+
+            }
+        }
+
+
     }
 #if OLD_WAY
     private void UpdateAlienSpawn()
@@ -204,7 +239,7 @@ public class SceneController : Base2DBehaviour {
     }
 #endif
 
-    public bool CanStartGame()
+    private bool CanStartGame()
     {
         if (Time.time < _disableStartButtonUntilTime)
         {
@@ -271,26 +306,6 @@ public class SceneController : Base2DBehaviour {
         return AsteroidPrefabs[(int) astSize];
     }
 #endif
-
-    private Vector2 MakeRandomForce()
-    {
-        const float max = 15.0f;
-        var f = new Vector2(Random.Range(-max, max), Random.Range(-max, max));
-        f = f * 2.0f;
-        return f;
-    }
-
-    private Vector3 MakeRandomPos()
-    {
-        return new Vector3(Random.Range(_camRect.xMin, _camRect.xMax),
-            Random.Range(_camRect.yMin, _camRect.yMax), 0.0f);
-    }
-
-    private Vector3 MakeRandomCentralPos()
-    {
-        return new Vector3(Random.Range(_camRect.xMin/2, _camRect.xMax/2),
-            Random.Range(_camRect.yMin/2, _camRect.yMax/2), 0.0f);
-    }
 
     // Best effort.
     private Vector3 MakeSafeRandomPos()
