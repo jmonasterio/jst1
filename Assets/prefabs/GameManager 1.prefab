@@ -69,6 +69,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   panLevelCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -79,6 +80,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -89,6 +91,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -99,6 +102,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &11474252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,13 +111,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 159664}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38b5cf5c88d1b61418b0286ca7500850, type: 3}
+  m_Script: {fileID: -1760467703, guid: 570cbe918681dc74c9165c725cee32b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Score: 0
   Lives: 0
-  SceneControllerPrefab: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
-    type: 2}
+  SceneControllerPrefab: {fileID: 0}
+  State: 1
   SceneController: {fileID: 0}
   SceneRoot: {fileID: 0}
 --- !u!1001 &100100000

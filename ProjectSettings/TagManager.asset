@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Rider
+    uniqueID: 112601109
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

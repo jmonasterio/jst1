@@ -10,9 +10,19 @@ public class Player : Base2DBehaviour
         public const string BULLET_CONTAINER_NAME = "PlayerBulletsContainer";
     }
 
+    public struct AnimParams
+    {
+        public const string Flap = "Flap"; // Trigger
+        public const string Brake = "Brake"; // Trigger
+        public const string Grounded = "Grounded"; // Bool
+        public const string GroundSpeed = "GroundSpeed"; // Float
+    }
+
     public float Thrust = 500.0f;
     public float MaxSpeed = 25.0f;
     public int PlayerIndex = 0; // Or 1, for 2 players.
+    public Bird BirdPrefab;
+    public Rider RiderPrefab;
 
     public AudioClip ExplosionSound;
     public AudioClip FlapSound;
@@ -109,12 +119,28 @@ public class Player : Base2DBehaviour
             {
                 rigidBody.AddForce(Vector2.up*Thrust*Time.deltaTime, ForceMode2D.Impulse);
                 rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, MaxSpeed);
-                //if (_exhaustParticleSystem.isStopped)
-                {
                     GameManager.Instance.PlayClip( FlapSound);
-                    this.GetComponent<Animation>().wrapMode = WrapMode.Once;
-                    this.GetComponent<Animation>().Play();
-                }
+
+                var animator = this.transform.GetComponent<Animator>();
+                animator.SetBool(AnimParams.Grounded, false);
+                animator.SetFloat(AnimParams.GroundSpeed, 0.0f);
+                animator.SetTrigger(AnimParams.Flap);
+                animator.Play("Flying");
+                //var sprite = this.GetComponent<SpriteRenderer>();
+                //sprite.enabled = false;
+
+                //var anim = this.GetComponent<Animation>();
+                //anim.enabled = true;
+                //if (!anim.isPlaying)
+                //{
+                //    anim.wrapMode = WrapMode.Once;
+                //    anim.Play();
+                //}
+                //else
+                //{
+                //    anim.Stop();
+                //}
+
             }
             else
             {
