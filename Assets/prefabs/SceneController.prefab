@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e8fa80afd3b2b4599e04e82644410e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 11472906, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  PlayerPrefab: {fileID: 11464982, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
   GameOverPrefab: {fileID: 11469834, guid: ef8c1e0ce9b965f4db5ce1b56f44f796, type: 2}
   InstructionsPrefab: {fileID: 11482144, guid: a97c70521b10e034097a9d4ca0c4165c, type: 2}
   FreeLifeSound: {fileID: 8300000, guid: 35b856007fbc2c945a9ee6105b45ca74, type: 3}
@@ -59,7 +59,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: PlayerPrefab
       value: 
-      objectReference: {fileID: 11472906, guid: 68bf65475d902e24ba59ec464e957212,
+      objectReference: {fileID: 11464982, guid: 68bf65475d902e24ba59ec464e957212,
         type: 2}
     - target: {fileID: 0}
       propertyPath: InstructionsPrefab

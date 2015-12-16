@@ -112,6 +112,8 @@ public class Player : Base2DBehaviour
                 //if (_exhaustParticleSystem.isStopped)
                 {
                     GameManager.Instance.PlayClip( FlapSound);
+                    this.GetComponent<Animation>().wrapMode = WrapMode.Once;
+                    this.GetComponent<Animation>().Play();
                 }
             }
             else
