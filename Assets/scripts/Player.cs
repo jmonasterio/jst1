@@ -122,6 +122,8 @@ public class Player : Base2DBehaviour
                     GameManager.Instance.PlayClip( FlapSound);
 
                 var animator = this.transform.GetComponent<Animator>();
+                Debug.Assert(animator.runtimeAnimatorController.animationClips.Length > 0);
+                animator.enabled = true;
                 animator.SetBool(AnimParams.Grounded, false);
                 animator.SetFloat(AnimParams.GroundSpeed, 0.0f);
                 animator.SetTrigger(AnimParams.Flap);
