@@ -45,6 +45,7 @@ public class Bird : Base2DBehaviour
     private float _lastFlap;
     private Animator _animator;
     private Rigidbody2D _rigidBody;
+    private bool _flapButtonDown;
 
 
     // Use this for initialization
@@ -101,8 +102,13 @@ public class Bird : Base2DBehaviour
     }
 
 
+    void Update()
+    {
+        _flapButtonDown = Input.GetButtonDown(GameManager.Buttons.FLAP);
+    }
+
     // Update is called once per frame
-    void Update ()
+    void FixedUpdate ()
     {
 
 
@@ -118,7 +124,7 @@ public class Bird : Base2DBehaviour
             float horz = Input.GetAxisRaw(GameManager.Buttons.HORIZ);
             if (horz != 0.0f)
             {
-                _rigidBody.AddRelativeForce(Vector2.right*200.0f*Time.deltaTime*horz, ForceMode2D.Force);
+                _rigidBody.AddRelativeForce(Vector2.right*20.0f*horz, ForceMode2D.Force);
                 _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
                 this.transform.localScale = new Vector3(Mathf.Sign(horz), 1, 1);
             }
@@ -128,12 +134,13 @@ public class Bird : Base2DBehaviour
             var braking = (horzSpeed > 1.5f) && (horz == 0.0f);
             _animator.SetBool(AnimParams.InBrake, braking );
 
-            bool vert = Input.GetButtonDown(GameManager.Buttons.FLAP);
+            bool vert = _flapButtonDown;
+            _flapButtonDown = false;
 
             // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
             if (vert)
             {
-                _rigidBody.AddForce(Vector2.up*Thrust*Time.deltaTime, ForceMode2D.Impulse);
+                _rigidBody.AddForce(Vector2.up*Thrust, ForceMode2D.Impulse);
                 _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
                 GameManager.Instance.PlayClip(FlapSound);
 

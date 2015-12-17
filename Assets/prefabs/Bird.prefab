@@ -289,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LegsChild: {fileID: 11449768}
   RiderChild: {fileID: 11420170}
-  Thrust: 40
+  Thrust: 2
   MaxSpeed: 4
   PlayerIndex: 0
   ExplosionSound: {fileID: 0}
@@ -380,7 +380,7 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: Thrust
-      value: 40
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MaxSpeed
