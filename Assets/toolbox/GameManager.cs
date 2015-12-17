@@ -20,7 +20,14 @@ public class GameManager : Base2DBehaviour
     private static GameManager _instance;
     public static GameManager Instance
     {
-        get { return _instance; }
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType(typeof (GameManager)) as GameManager;
+            }
+            return _instance;
+        }
     }
 
     public enum States

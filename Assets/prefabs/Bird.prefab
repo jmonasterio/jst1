@@ -64,7 +64,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.97438, y: 2.5312743, z: 0}
+  m_LocalPosition: {x: -2.0224602, y: 2.4790423, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 490078}
@@ -103,8 +103,8 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134744}
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 100
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0.5
   m_IsKinematic: 0
@@ -127,8 +127,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -0.11051804, y: -0.022257216}
-      - {x: -0.14151031, y: -0.18495333}
-      - {x: 0.10113984, y: -0.18495333}
+      - {x: -0.04482371, y: -0.17689621}
+      - {x: -0.0036039986, y: -0.18495333}
       - {x: 0.053200778, y: -0.13231719}
       - {x: 0.09618884, y: -0.029422171}
 --- !u!60 &6070650
@@ -145,13 +145,16 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.1625}
-      - {x: -0.2, y: 0.1125}
-      - {x: -0.2, y: -0.1375}
-      - {x: -0.175, y: -0.1625}
-      - {x: 0.125, y: -0.1625}
-      - {x: 0.2, y: 0.0125}
-      - {x: 0.2, y: 0.1625}
+    - - {x: -0.022298574, y: 0.19594741}
+      - {x: -0.0773592, y: 0.062328577}
+      - {x: -0.18327641, y: -0.009284496}
+      - {x: -0.108104706, y: -0.09560466}
+      - {x: 0.082196355, y: -0.083322525}
+      - {x: 0.18964148, y: 0.041553736}
+      - {x: 0.26436472, y: 0.060483932}
+      - {x: 0.1473527, y: 0.17013335}
+      - {x: 0.071784616, y: 0.12956667}
+      - {x: 0.043911576, y: 0.18479824}
 --- !u!82 &8286114
 AudioSource:
   m_ObjectHideFlags: 1
@@ -289,7 +292,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LegsChild: {fileID: 11449768}
   RiderChild: {fileID: 11420170}
-  Thrust: 2
+  Thrust: 200
+  SideThrust: 1000
+  BrakingSpeed: 1
   MaxSpeed: 4
   PlayerIndex: 0
   ExplosionSound: {fileID: 0}
@@ -380,7 +385,7 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: Thrust
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MaxSpeed
@@ -469,6 +474,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: DopplerLevel
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SideThrust
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LinearDrag
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -22,6 +22,8 @@ public class Bird : Base2DBehaviour
     public Rider RiderChild;
 
     public float Thrust = 500.0f;
+    public float SideThrust = 100.0f;
+    public float BrakingSpeed = 1.0f;
     public float MaxSpeed = 25.0f;
     public int PlayerIndex = 0; // Or 1, for 2 players.
 
@@ -124,14 +126,14 @@ public class Bird : Base2DBehaviour
             float horz = Input.GetAxisRaw(GameManager.Buttons.HORIZ);
             if (horz != 0.0f)
             {
-                _rigidBody.AddRelativeForce(Vector2.right*20.0f*horz, ForceMode2D.Force);
+                _rigidBody.AddForce(Vector2.right*SideThrust*horz, ForceMode2D.Force);
                 _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
                 this.transform.localScale = new Vector3(Mathf.Sign(horz), 1, 1);
             }
             var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
             _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
 
-            var braking = (horzSpeed > 1.5f) && (horz == 0.0f);
+            var braking = (horzSpeed > BrakingSpeed) && (horz == 0.0f);
             _animator.SetBool(AnimParams.InBrake, braking );
 
             bool vert = _flapButtonDown;

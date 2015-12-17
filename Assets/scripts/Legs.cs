@@ -48,7 +48,7 @@ public class Legs : MonoBehaviour {
                 Debug.Log("We touched the platforms's bottom!");
             }
 #endif
-            if ( IsCloseTo(pointOfContact.x,0.0f,.01f) && IsCloseTo(pointOfContact.y, 1.0f,.01f))
+            if ( IsCloseTo(pointOfContact.x,0.0f,.1f) && IsCloseTo(pointOfContact.y, 1.0f,.1f))
             {
                 //Debug.Log("We touched the top of the platform!");
                 _isGrounded = true;
