@@ -9,7 +9,7 @@ public class SceneController : Base2DBehaviour {
     public int Level { get; set; }
     //public Asteroid[] AsteroidPrefabs;
     //public Alien AlienPrefab; 
-    public Player PlayerPrefab;
+    public Bird BirdPrefab;
     public GameOver GameOverPrefab;
     public Instructions InstructionsPrefab;
 #if OLD_WAY
@@ -26,7 +26,7 @@ public class SceneController : Base2DBehaviour {
 
     private GameOver _gameOver;
     private Instructions _instructions;
-    private Player _player1;
+    private Bird _player1;
     private List<Asteroid> _asteroids = new List<Asteroid>();
 //    private Alien _alien;
 
@@ -37,16 +37,16 @@ public class SceneController : Base2DBehaviour {
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
 
-    public void PlayerKilled(Player player)
+    public void PlayerKilled(Bird bird)
     {
         if (GameManager.Instance.Lives < 1)
         {
             GameManager.Instance.State = GameManager.States.Over;
-            GameOver(player);
+            GameOver(bird);
         }
         else
         {
-            Respawn(player, 2.0f);
+            Respawn(bird, 2.0f);
 
         }
 
@@ -271,13 +271,13 @@ public class SceneController : Base2DBehaviour {
     {
 
         Alien.ClearBullets();
-        Player.ClearBullets();
+        Bird.ClearBullets();
     }
 #endif
 
     private void MakeNewPlayer()
     {
-        _player1 = Instantiate(PlayerPrefab); //, Vector3.zero, Quaternion.identity);
+        _player1 = Instantiate(BirdPrefab); //, Vector3.zero, Quaternion.identity);
         _player1.PlayerIndex = 0;
         // TBD _player1.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
         _player1.transform.position = MakeSafeRandomPos();
@@ -390,7 +390,7 @@ public class SceneController : Base2DBehaviour {
         _instructions.GetComponent<MeshRenderer>().enabled = b;
     }
 
-    public void GameOver(Player player)
+    public void GameOver(Bird bird)
     {
 #if OLD_WAY
         if (_alien != null)
@@ -407,7 +407,7 @@ public class SceneController : Base2DBehaviour {
     }
 
 
-    public void Respawn(Player player, float delay )
+    public void Respawn(Bird bird, float delay )
     {
         _player1 = null;
 

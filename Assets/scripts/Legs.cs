@@ -3,22 +3,32 @@ using System.Collections;
 
 public class Legs : MonoBehaviour {
 
+    public bool IsGrounded
+    {
+        get { return _isGrounded; }
+    }
+
 	// Use this for initialization
 	void Start () {
-	
+        _animator = GetComponentInParent<Animator>();
+        _renderer = GetComponent<SpriteRenderer>();
+	    _rigidBody = GetComponentInParent<Rigidbody2D>(); // For velocity of legs.
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        var animator = this.transform.GetComponent<Animator>();
-        animator.enabled = true;
-        animator.SetBool(Player.AnimParams.Grounded, _isGrounded);
-	    var renderer = GetComponent<SpriteRenderer>();
-	    renderer.enabled = _isGrounded;
+
+    // Update is called once per frame
+    void Update () {
+        _animator.SetBool(Bird.AnimParams.Grounded, _isGrounded);
+        _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x)); // Only works when animator is enabled.
+
+	    _renderer.enabled = _isGrounded;
 	}
 
 
     private bool _isGrounded = false;
+    private Animator _animator;
+    private SpriteRenderer _renderer;
+    private Rigidbody2D _rigidBody;
 
     bool IsCloseTo(float y1, float y2, float epsilon)
     {
