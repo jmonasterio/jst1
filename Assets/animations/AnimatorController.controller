@@ -8,26 +8,26 @@ AnimatorController:
   m_Name: AnimatorController
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Flap
-    m_Type: 9
+  - m_Name: InBrake
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: InFlap
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: HorzSpeed
+    m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Grounded
     m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: GroundSpeed
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: Brake
-    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -56,7 +56,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Grounded
     m_EventTreshold: 0
   - m_ConditionMode: 4
-    m_ConditionEvent: GroundSpeed
+    m_ConditionEvent: HorzSpeed
     m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110220014}
@@ -80,7 +80,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Flap
+    m_ConditionEvent: InFlap
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110293966}
@@ -103,12 +103,12 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Grounded
+  - m_ConditionMode: 2
+    m_ConditionEvent: InBrake
     m_EventTreshold: 0
   - m_ConditionMode: 3
-    m_ConditionEvent: GroundSpeed
-    m_EventTreshold: 0.5
+    m_ConditionEvent: HorzSpeed
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110233170}
   m_Solo: 0
@@ -134,7 +134,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Grounded
     m_EventTreshold: 0
   - m_ConditionMode: 4
-    m_ConditionEvent: GroundSpeed
+    m_ConditionEvent: HorzSpeed
     m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110220014}
@@ -160,6 +160,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Grounded
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: InFlap
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110208528}
   m_Solo: 0
@@ -181,8 +184,11 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: InBrake
+    m_EventTreshold: 0.1
   - m_ConditionMode: 4
-    m_ConditionEvent: GroundSpeed
+    m_ConditionEvent: HorzSpeed
     m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110220014}
@@ -209,11 +215,8 @@ AnimatorStateTransition:
     m_ConditionEvent: Grounded
     m_EventTreshold: 0
   - m_ConditionMode: 3
-    m_ConditionEvent: GroundSpeed
+    m_ConditionEvent: HorzSpeed
     m_EventTreshold: 0.1
-  - m_ConditionMode: 3
-    m_ConditionEvent: GroundSpeed
-    m_EventTreshold: 0.5
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110233170}
   m_Solo: 0
@@ -330,7 +333,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Flying
+  m_Name: InFlap
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -382,4 +385,4 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 120, y: -120, z: 0}
   m_ExitPosition: {x: 660, y: 240, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 110220014}
+  m_DefaultState: {fileID: 110208528}

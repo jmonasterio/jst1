@@ -1,4 +1,6 @@
-﻿using Assets.scripts;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Assets.scripts;
 using UnityEngine;
 using Toolbox;
 
@@ -12,10 +14,10 @@ public class Player : Base2DBehaviour
 
     public struct AnimParams
     {
-        public const string Flap = "Flap"; // Trigger
-        public const string Brake = "Brake"; // Trigger
+        public const string InFlap = "InFlap"; // Bool
+        public const string InBrake = "InBrake"; // Bool
         public const string Grounded = "Grounded"; // Bool
-        public const string GroundSpeed = "GroundSpeed"; // Float
+        public const string HorzSpeed = "HorzSpeed"; // Float
     }
 
     public float Thrust = 500.0f;
@@ -41,6 +43,7 @@ public class Player : Base2DBehaviour
     private State _state;
     private GameObject _bulletsContainer;
     private float _lastHyperSpaceTime;
+    private float _lastFlap;
 
 
     // Use this for initialization
@@ -94,10 +97,15 @@ public class Player : Base2DBehaviour
 
 
     // Update is called once per frame
-    void FixedUpdate ()
+    void Update ()
     {
+
+
         if (_state != State.Killed)
         {
+            var animator = this.transform.GetComponent<Animator>();
+            animator.enabled = true;
+            
 
             //base.DebugForceSinusoidalFrameRate();
 
@@ -106,7 +114,7 @@ public class Player : Base2DBehaviour
             float horz = Input.GetAxisRaw(GameManager.Buttons.HORIZ);
             if (horz != 0.0f)
             {
-                rigidBody.AddRelativeForce(Vector2.right * 200.0f * Time.deltaTime * horz, ForceMode2D.Force);
+                rigidBody.AddRelativeForce(Vector2.right*200.0f*Time.deltaTime*horz, ForceMode2D.Force);
                 rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, MaxSpeed);
                 this.transform.localScale = new Vector3(Mathf.Sign(horz), 1, 1);
             }
@@ -119,15 +127,12 @@ public class Player : Base2DBehaviour
             {
                 rigidBody.AddForce(Vector2.up*Thrust*Time.deltaTime, ForceMode2D.Impulse);
                 rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, MaxSpeed);
-                    GameManager.Instance.PlayClip( FlapSound);
+                GameManager.Instance.PlayClip(FlapSound);
 
-                var animator = this.transform.GetComponent<Animator>();
-                Debug.Assert(animator.runtimeAnimatorController.animationClips.Length > 0);
-                animator.enabled = true;
-                animator.SetBool(AnimParams.Grounded, false);
-                animator.SetFloat(AnimParams.GroundSpeed, 0.0f);
-                animator.SetTrigger(AnimParams.Flap);
-                animator.Play("Flying");
+                animator.SetBool(AnimParams.InFlap, true);
+                _lastFlap = Time.time;
+            
+
                 //var sprite = this.GetComponent<SpriteRenderer>();
                 //sprite.enabled = false;
 
@@ -142,16 +147,25 @@ public class Player : Base2DBehaviour
                 //{
                 //    anim.Stop();
                 //}
-
             }
             else
             {
+                if (Time.time - _lastFlap > 0.5f)
+                {
+                    animator.SetBool(AnimParams.InFlap, false);
+                    _lastFlap = 0.0f;
+                }
             }
-
+        }
+        else
+        {
 
         }
 
     }
+
+
+
 
     public void Show(bool b)
     {
