@@ -125,7 +125,7 @@ public class Bird : Base2DBehaviour
             var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
             _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
 
-            var braking = (horzSpeed > 0) && (horz == 0.0f);
+            var braking = (horzSpeed > 1.5f) && (horz == 0.0f);
             _animator.SetBool(AnimParams.InBrake, braking );
 
             bool vert = Input.GetButtonDown(GameManager.Buttons.FLAP);

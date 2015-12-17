@@ -169,48 +169,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac901e87b9f41cf4bbecb2a7257a418a, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &562526912
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.97438
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2.5312743
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 410068, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
-  m_IsPrefabParent: 0
 --- !u!4 &619372097 stripped
 Transform:
   m_PrefabParentObject: {fileID: 457388, guid: ac901e87b9f41cf4bbecb2a7257a418a, type: 2}
@@ -427,4 +385,4 @@ Transform:
   - {fileID: 985942561}
   - {fileID: 1156195979}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1

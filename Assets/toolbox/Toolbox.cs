@@ -191,27 +191,29 @@ namespace Toolbox
 
     public class Base2DBehaviour : MonoBehaviour
     {
-        private Rect _camRect;
+        private Rect? _camRect;
 
         protected Vector3 MakeRandomPos()
         {
-            if (_camRect == null)
+            if (!_camRect.HasValue)
             {
                 _camRect = GetCameraWorldRect();
             }
 
-            return new Vector3(Random.Range(_camRect.xMin, _camRect.xMax),
-                Random.Range(_camRect.yMin, _camRect.yMax), 0.0f);
+            var camRect = _camRect.Value;
+            return new Vector3(Random.Range(camRect.xMin, camRect.xMax),
+                Random.Range(camRect.yMin, camRect.yMax), 0.0f);
         }
 
         protected Vector3 MakeRandomCentralPos()
         {
-            if (_camRect == null)
+            if (!_camRect.HasValue)
             {
                 _camRect = GetCameraWorldRect();
             }
-            return new Vector3(Random.Range(_camRect.xMin / 2, _camRect.xMax / 2),
-                Random.Range(_camRect.yMin / 2, _camRect.yMax / 2), 0.0f);
+            var camRect = _camRect.Value;
+            return new Vector3(Random.Range(camRect.xMin / 2, camRect.xMax / 2),
+                Random.Range(camRect.yMin / 2, camRect.yMax / 2), 0.0f);
         }
 
 
