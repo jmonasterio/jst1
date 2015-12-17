@@ -43,6 +43,8 @@ public class Bird : Base2DBehaviour
     private GameObject _bulletsContainer;
     private float _lastHyperSpaceTime;
     private float _lastFlap;
+    private Animator _animator;
+    private Rigidbody2D _rigidBody;
 
 
     // Use this for initialization
@@ -55,6 +57,8 @@ public class Bird : Base2DBehaviour
         //_explosionParticleSystem.Stop();
 
         this.GetComponent<SpriteRenderer>().enabled = false; // Only using animations at runtime.
+        _animator = GetComponent<Animator>();
+        _rigidBody = GetComponent<Rigidbody2D>();
 
         _state = State.Alive;
     }
@@ -104,35 +108,36 @@ public class Bird : Base2DBehaviour
 
         if (_state != State.Killed)
         {
-            var animator = this.transform.GetComponent<Animator>();
+
+            _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
+            _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x)); // Only works when animator is enabled.
 
             //base.DebugForceSinusoidalFrameRate();
 
-            var rigidBody = GetComponent<Rigidbody2D>();
 
             float horz = Input.GetAxisRaw(GameManager.Buttons.HORIZ);
             if (horz != 0.0f)
             {
-                rigidBody.AddRelativeForce(Vector2.right*200.0f*Time.deltaTime*horz, ForceMode2D.Force);
-                rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, MaxSpeed);
+                _rigidBody.AddRelativeForce(Vector2.right*200.0f*Time.deltaTime*horz, ForceMode2D.Force);
+                _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
                 this.transform.localScale = new Vector3(Mathf.Sign(horz), 1, 1);
             }
-            var horzSpeed = Mathf.Abs(rigidBody.velocity.x);
-            animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
+            var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
+            _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
 
             var braking = (horzSpeed > 0) && (horz == 0.0f);
-            animator.SetBool(AnimParams.InBrake, braking );
+            _animator.SetBool(AnimParams.InBrake, braking );
 
             bool vert = Input.GetButtonDown(GameManager.Buttons.FLAP);
 
             // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
             if (vert)
             {
-                rigidBody.AddForce(Vector2.up*Thrust*Time.deltaTime, ForceMode2D.Impulse);
-                rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, MaxSpeed);
+                _rigidBody.AddForce(Vector2.up*Thrust*Time.deltaTime, ForceMode2D.Impulse);
+                _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
                 GameManager.Instance.PlayClip(FlapSound);
 
-                animator.SetBool(AnimParams.InFlap, true);
+                _animator.SetBool(AnimParams.InFlap, true);
                 _lastFlap = Time.time;
             
 
@@ -155,7 +160,7 @@ public class Bird : Base2DBehaviour
             {
                 if (Time.time - _lastFlap > 0.5f)
                 {
-                    animator.SetBool(AnimParams.InFlap, false);
+                    _animator.SetBool(AnimParams.InFlap, false);
                     _lastFlap = 0.0f;
                 }
             }

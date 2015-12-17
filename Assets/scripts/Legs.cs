@@ -10,31 +10,19 @@ public class Legs : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _animator = GetComponentInParent<Animator>();
-        _renderer = GetComponent<SpriteRenderer>();
-	    _rigidBody = GetComponentInParent<Rigidbody2D>(); // For velocity of legs.
-
 	}
 
     // Update is called once per frame
     void Update () {
-        _animator.SetBool(Bird.AnimParams.Grounded, _isGrounded);
-        _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x)); // Only works when animator is enabled.
-
-	    _renderer.enabled = _isGrounded;
 	}
 
 
     private bool _isGrounded = false;
-    private Animator _animator;
-    private SpriteRenderer _renderer;
-    private Rigidbody2D _rigidBody;
 
     bool IsCloseTo(float y1, float y2, float epsilon)
     {
         return Mathf.Abs(y1 - y2) < epsilon;
     }
-
 
     //make sure u replace "floor" with your gameobject name.on which player is standing
     void OnCollisionEnter2D(Collision2D theCollision)

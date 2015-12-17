@@ -8,10 +8,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 428052}
-  - 212: {fileID: 21221064}
   - 60: {fileID: 6070214}
   - 114: {fileID: 11449768}
-  - 95: {fileID: 9572396}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -31,13 +29,12 @@ GameObject:
   - 60: {fileID: 6070650}
   - 114: {fileID: 11464982}
   - 82: {fileID: 8286114}
-  - 114: {fileID: 11453530}
   - 212: {fileID: 21215820}
   - 114: {fileID: 11443966}
   - 114: {fileID: 11496144}
   - 95: {fileID: 9596594}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Bird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,23 +226,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &9572396
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 109100}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1c0c826bcafc4e84aa658182ee324699, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &9596594
 Animator:
   serializedVersion: 3
@@ -253,7 +233,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134744}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1c0c826bcafc4e84aa658182ee324699, type: 2}
   m_CullingMode: 0
@@ -282,7 +262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 134744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 540448964, guid: 570cbe918681dc74c9165c725cee32b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 455847127d5628949b1bb1c2a99fbc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11449768
@@ -296,17 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85aeb660c665faf428a5074b224894be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11453530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1053064754, guid: 570cbe918681dc74c9165c725cee32b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11464982
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,11 +287,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04dfbf24e12ea5b40a8f3dda0c6dfbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Thrust: 60
+  LegsChild: {fileID: 11449768}
+  RiderChild: {fileID: 11420170}
+  Thrust: 40
   MaxSpeed: 4
   PlayerIndex: 0
-  BirdPrefab: {fileID: 0}
-  RiderPrefab: {fileID: 0}
   ExplosionSound: {fileID: 0}
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
   ExplosionParticlePrefab: {fileID: 0}
@@ -334,7 +303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 134744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75cba8ef110b0d44e9df1ccc40245436, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a9d94a53c9b45a4285508a594e66263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &21215820
@@ -364,36 +333,6 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300024, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
---- !u!212 &21221064
-SpriteRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 109100}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 0
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300020, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -441,7 +380,7 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: Thrust
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MaxSpeed
@@ -473,7 +412,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
@@ -489,6 +428,30 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_PlayAutomatically
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Legs
+      value: 
+      objectReference: {fileID: 11449768}
+    - target: {fileID: 0}
+      propertyPath: Rider
+      value: 
+      objectReference: {fileID: 11420170}
+    - target: {fileID: 0}
+      propertyPath: m_Name
+      value: Bird
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LegsChild
+      value: 
+      objectReference: {fileID: 11449768}
+    - target: {fileID: 0}
+      propertyPath: RiderChild
+      value: 
+      objectReference: {fileID: 11420170}
+    - target: {fileID: 0}
+      propertyPath: m_UseAutoMass
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
