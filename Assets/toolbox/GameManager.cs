@@ -3,19 +3,15 @@ using UnityEngine;
 using System.Collections;
 using Toolbox;
 
-
+/// <summary>
+/// This is the MOM.
+/// </summary>
 [RequireComponent(typeof(AudioSource))] 
-public class GameManager : Base2DBehaviour 
+public class GameManager : BaseBehaviour 
 {
-    public struct Buttons
-    {
-        public const string HORIZ = "Horizontal";
-        public const string FLAP = "Vertical";
-    }
-
-    public int Score = 0;
-    public int Lives = 0;
     public MonoBehaviour SceneControllerPrefab;
+    public MonoBehaviour NetworkControllerPrefab;
+    public MonoBehaviour PlayerControllerPrefab;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -30,6 +26,7 @@ public class GameManager : Base2DBehaviour
         }
     }
 
+    // TBD: Maybe in a gameController
     public enum States
     {
         Playing = 0,
@@ -38,20 +35,35 @@ public class GameManager : Base2DBehaviour
     public States State = States.Over;
 
     [HideInInspector]
+    public Transform SceneRoot;
+    [HideInInspector]
     public MonoBehaviour SceneController;
     [HideInInspector]
-    public Transform SceneRoot;
+    public MonoBehaviour NetworkController;
+    [HideInInspector]
+    public MonoBehaviour PlayerController;
 
     // Use this for initialization
     void Awake()
-	{
+    {
         DontDestroyOnLoad(this); // Keep running across different scenes.
+
         _instance = this; // Simple singleton.
+
         SceneRoot = this.transform.parent;
-	    this.transform.parent = SceneRoot;
-	    SceneController = Instantiate(SceneControllerPrefab); 
-	    SceneController.transform.parent = this.transform.parent;
-	}
+        this.transform.parent = SceneRoot;
+
+        SceneController = InstantiateController(SceneControllerPrefab);
+        NetworkController = InstantiateController(NetworkControllerPrefab);
+        PlayerController = InstantiateController(PlayerControllerPrefab);
+    }
+
+    private MonoBehaviour InstantiateController(MonoBehaviour prefab)
+    {
+        MonoBehaviour ret = Instantiate(prefab);
+        ret.transform.parent =  SceneRoot;
+        return ret;
+    }
 
     // Safer to play sounds on the game object, since bullets or or asteroids may get destroyed while sound is playing???
     public void PlayClip(AudioClip clip, bool loop = false)
@@ -75,8 +87,7 @@ public class GameManager : Base2DBehaviour
 
     public void StartGame()
     {
-        Lives = 4;
-        Score = 0;
         State = States.Playing;
     }
+
 }

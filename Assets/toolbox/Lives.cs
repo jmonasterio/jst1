@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Assets.scripts;
 using Toolbox;
 
 namespace Assets.Scripts
@@ -18,7 +19,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            var lives = GameManager.Instance.Lives;
+            var lives = SafeGameManager.PlayerController.Lives;
             if (_lives != lives)
             {
                 if (lives > 0)

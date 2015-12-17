@@ -184,12 +184,12 @@ namespace Toolbox
         }
     }
 
-    public static class UnityExt
+    public class BaseBehaviour : MonoBehaviour
     {
-
+        // Any shared stuff that everyone should have.
     }
 
-    public class Base2DBehaviour : MonoBehaviour
+    public class Base2DBehaviour : BaseBehaviour
     {
         private Rect? _camRect;
 

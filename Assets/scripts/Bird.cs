@@ -53,7 +53,7 @@ public class Bird : Base2DBehaviour
     // Use this for initialization
     public void Start()
     {
-        //_bulletsContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer(GoNames.BULLET_CONTAINER_NAME);
+        //_bulletsContainer = SafeGameManager.Instance.SceneRoot.FindOrCreateTempContainer(GoNames.BULLET_CONTAINER_NAME);
 
         //_explosionParticleSystem = ExplosionParticlePrefab.InstantiateAtTransform( this.transform);
         //_explosionParticleSystem.loop = false;
@@ -99,14 +99,14 @@ public class Bird : Base2DBehaviour
         _explosionParticleSystem.Play();
         GetComponent<Rigidbody2D>().velocity *= 0.5f; // Slow down when killed.
         SafeGameManager.SceneController.PlayerKilled(this);
-        GameManager.Instance.PlayClip(ExplosionSound);
+        SafeGameManager.PlayClip(ExplosionSound);
         Destroy(this.gameObject, _explosionParticleSystem.duration + 0.5f);
     }
 
 
     void Update()
     {
-        _flapButtonDown = Input.GetButtonDown(GameManager.Buttons.FLAP);
+        _flapButtonDown = Input.GetButtonDown(PlayerController.Buttons.FLAP);
     }
 
     // Update is called once per frame
@@ -123,7 +123,7 @@ public class Bird : Base2DBehaviour
             //base.DebugForceSinusoidalFrameRate();
 
 
-            float horz = Input.GetAxisRaw(GameManager.Buttons.HORIZ);
+            float horz = Input.GetAxisRaw(PlayerController.Buttons.HORIZ);
             if (horz != 0.0f)
             {
                 _rigidBody.AddForce(Vector2.right*SideThrust*horz, ForceMode2D.Force);

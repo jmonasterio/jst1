@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.scripts;
 using Toolbox;
 
 public class Score : Base2DBehaviour
@@ -15,7 +16,7 @@ public class Score : Base2DBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    var curScore = GameManager.Instance.Score;
+	    var curScore = SafeGameManager.PlayerController.Score;
         if (_score != curScore )
         {
             GetComponent<TextMesh>().text = "" + curScore;

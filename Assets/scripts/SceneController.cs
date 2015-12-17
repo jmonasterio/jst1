@@ -1,10 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.scripts;
 using Toolbox;
 using Random = UnityEngine.Random;
 
-public class SceneController : Base2DBehaviour {
+public class SceneController : Base2DBehaviour
+{
 
     public int Level { get; set; }
     //public Asteroid[] AsteroidPrefabs;
@@ -39,9 +41,9 @@ public class SceneController : Base2DBehaviour {
 
     public void PlayerKilled(Bird bird)
     {
-        if (GameManager.Instance.Lives < 1)
+        if (SafeGameManager.PlayerController.Lives < 1)
         {
-            GameManager.Instance.State = GameManager.States.Over;
+            SafeGameManager.SetGameState( GameManager.States.Over);
             GameOver(bird);
         }
         else
@@ -100,9 +102,9 @@ public class SceneController : Base2DBehaviour {
         UpdateAlienSpawn();
 #endif
 
-        if (GameManager.Instance.State == GameManager.States.Over)
+        if (SafeGameManager.GetGameState() == GameManager.States.Over)
         {
-            if (Input.GetButton(GameManager.Buttons.FLAP))
+            if (Input.GetButton(PlayerController.Buttons.FLAP))
             {
                 // Try to prevent game starting right after previous if you keep firing.
                 if (CanStartGame())
@@ -172,11 +174,11 @@ public class SceneController : Base2DBehaviour {
 
     private void UpdateFreeLives()
     {
-        if (GameManager.Instance.Score > _nextFreeLifeScore)
+        if (SafeGameManager.PlayerController.Score > _nextFreeLifeScore)
         {
-            GameManager.Instance.Lives++;
+            SafeGameManager.PlayerController.Lives++;
             _nextFreeLifeScore += FREE_USER_AT;
-            GameManager.Instance.PlayClip(FreeLifeSound);
+            SafeGameManager.PlayClip(FreeLifeSound);
         }
     }
 
@@ -417,7 +419,7 @@ public class SceneController : Base2DBehaviour {
             _player1.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
 
             // Change the count AFTER the respawn occurs. It looks better.
-            GameManager.Instance.Lives--;
+            SafeGameManager.PlayerController.Lives--;
 #if OLD_WAY
             _lastAsteroidKilled = Time.time;
 #endif

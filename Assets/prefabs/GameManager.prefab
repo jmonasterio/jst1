@@ -80,7 +80,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -91,7 +91,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -102,7 +102,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &11498672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,6 +118,8 @@ MonoBehaviour:
   Lives: 0
   SceneControllerPrefab: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
     type: 2}
+  NetworkControllerPrefab: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
+    type: 2}
   State: 1
   SceneController: {fileID: 0}
   SceneRoot: {fileID: 0}
@@ -132,6 +134,23 @@ Prefab:
       propertyPath: SceneControllerPrefab
       value: 
       objectReference: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: NetworkControllerPrefab
+      value: 
+      objectReference: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
