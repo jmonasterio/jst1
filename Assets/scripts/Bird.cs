@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Blinker))]
 public class Bird : BaseNetworkBehaviour
 {
+    public Sprite LocalPlayerSprite;
+
     public class GoNames
     {
         public const string BULLET_CONTAINER_NAME = "PlayerBulletsContainer";
@@ -59,6 +61,8 @@ public class Bird : BaseNetworkBehaviour
     public override void OnStartLocalPlayer() // this is our player
     {
         SafeGameManager.SceneController.AttachLocalPlayer( this);
+
+        RiderChild.GetComponent<SpriteRenderer>().sprite = LocalPlayerSprite;
 
         base.OnStartLocalPlayer();
 

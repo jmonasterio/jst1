@@ -47,9 +47,6 @@ public class Wrapped2D : BaseNetworkBehaviour
         }
 
         // Teleport better?
-        bool oldEnabled = this.GetComponent<Collider2D>().isTrigger;
-        this.GetComponent<Collider2D>().isTrigger = true;
         this.transform.position = MathfExt.From2D(t);
-        this.GetComponent<Collider2D>().enabled = oldEnabled;
     }
 }
