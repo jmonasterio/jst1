@@ -2,7 +2,7 @@
 using System.Collections;
 using Toolbox;
 
-public class Wrapped2D : Base2DBehaviour
+public class Wrapped2D : BaseNetworkBehaviour
 {
 
     protected Rect? _camRect = null;
@@ -18,7 +18,7 @@ public class Wrapped2D : Base2DBehaviour
         if (!_camRect.HasValue)
         {
             // Cache
-            _camRect = GetCameraWorldRect();
+            _camRect = GameObjectExt.GetCameraWorldRect(this.gameObject);
         }
         var camRect = _camRect.Value;
 
@@ -45,6 +45,11 @@ public class Wrapped2D : Base2DBehaviour
         {
             t.y = camRect.yMax;
         }
+
+        // Teleport better?
+        bool oldEnabled = this.GetComponent<Collider2D>().isTrigger;
+        this.GetComponent<Collider2D>().isTrigger = true;
         this.transform.position = MathfExt.From2D(t);
+        this.GetComponent<Collider2D>().enabled = oldEnabled;
     }
 }

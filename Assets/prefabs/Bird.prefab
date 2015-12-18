@@ -52,6 +52,7 @@ GameObject:
   - 4: {fileID: 490078}
   - 212: {fileID: 21257188}
   - 114: {fileID: 11420170}
+  - 60: {fileID: 6084790}
   m_Layer: 0
   m_Name: Rider
   m_TagString: Untagged
@@ -66,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.0224602, y: 2.4790423, z: 0}
+  m_LocalPosition: {x: -1.8539733, y: 2.514057, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 490078}
@@ -92,8 +93,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.086, y: 0.106, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.085, y: 0.106, z: 0}
+  m_LocalScale: {x: 0.994154, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 410068}
   m_RootOrder: 0
@@ -149,14 +150,39 @@ PolygonCollider2D:
     m_Paths:
     - - {x: -0.022298574, y: 0.19594741}
       - {x: -0.0773592, y: 0.062328577}
-      - {x: -0.18327641, y: -0.009284496}
+      - {x: -0.19906127, y: 0.011762142}
       - {x: -0.108104706, y: -0.09560466}
       - {x: 0.082196355, y: -0.083322525}
-      - {x: 0.18964148, y: 0.041553736}
-      - {x: 0.26436472, y: 0.060483932}
-      - {x: 0.1473527, y: 0.17013335}
+      - {x: 0.12721324, y: -0.039072275}
+      - {x: 0.1414212, y: 0.04483533}
+      - {x: 0.2001648, y: 0.10118604}
+      - {x: 0.1994704, y: 0.19553399}
+      - {x: 0.14559877, y: 0.20345736}
+      - {x: 0.08835459, y: 0.17423463}
       - {x: 0.071784616, y: 0.12956667}
       - {x: 0.043911576, y: 0.18479824}
+--- !u!60 &6084790
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176194}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: d4cb93ca6542b374fbeafc7a58dc70d5, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -0.12986103, y: 0.08078713}
+      - {x: -0.15, y: -0.0875}
+      - {x: -0.007755436, y: -0.08414345}
+      - {x: 0.0045944, y: -0.06535917}
+      - {x: 0.14839754, y: -0.048923068}
+      - {x: 0.14768848, y: -0.009358458}
+      - {x: -0.03440205, y: -0.0040436313}
+      - {x: -0.03206078, y: 0.08750004}
 --- !u!82 &8286114
 AudioSource:
   m_ObjectHideFlags: 1
@@ -310,7 +336,7 @@ MonoBehaviour:
   m_MovementTheshold: 0.001
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0
 --- !u!114 &11443966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -346,6 +372,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LegsChild: {fileID: 11449768}
   RiderChild: {fileID: 11420170}
+  FaceDir: -1
+  Braking: 0
+  InFlap: 0
   Thrust: 200
   SideThrust: 1000
   BrakingSpeed: 1
@@ -612,6 +641,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TransformSyncMode
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_InterpolateMovement
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
