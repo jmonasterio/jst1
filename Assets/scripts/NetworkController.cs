@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Toolbox;
+using UnityEngine.Networking;
 
-public class NetworkController : BaseBehaviour
+public class NetworkController : MonoBehaviour
 {
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	
 	}
 	

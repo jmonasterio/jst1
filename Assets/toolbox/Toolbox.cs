@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -185,6 +186,11 @@ namespace Toolbox
     }
 
     public class BaseBehaviour : MonoBehaviour
+    {
+        // Any shared stuff that everyone should have.
+    }
+
+    public class BaseNetworkBehaviour : NetworkBehaviour
     {
         // Any shared stuff that everyone should have.
     }

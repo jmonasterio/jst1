@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Assets.scripts;
 using Toolbox;
+using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 public class SceneController : Base2DBehaviour
@@ -28,7 +29,7 @@ public class SceneController : Base2DBehaviour
 
     private GameOver _gameOver;
     private Instructions _instructions;
-    private Bird _player1;
+    private Bird _birdPlayer;
     private List<Asteroid> _asteroids = new List<Asteroid>();
 //    private Alien _alien;
 
@@ -48,7 +49,7 @@ public class SceneController : Base2DBehaviour
         }
         else
         {
-            Respawn(bird, 2.0f);
+            //Respawn(bird, 2.0f);
 
         }
 
@@ -60,11 +61,11 @@ public class SceneController : Base2DBehaviour
     {
         if (Random.Range(0, 10) > 4)
         {
-            if ( _player1 == null)
+            if ( _birdPlayer == null)
             {
                 return null;
             }
-            return _player1.transform.position;
+            return _birdPlayer.transform.position;
         }
         else
         {
@@ -151,7 +152,7 @@ public class SceneController : Base2DBehaviour
     {
         if (Time.time > _nextJawsSoundTime)
         {
-            if (_player1 != null) // Means we're in level
+            if (_birdPlayer != null) // Means we're in level
             {
                 if (_jawsIntervalSeconds > .1800f)
                 {
@@ -212,10 +213,10 @@ public class SceneController : Base2DBehaviour
 
     public void OnDestroy()
     {
-        if (_player1 != null)
+        if (_birdPlayer != null)
         {
-            Destroy(_player1.gameObject);
-            _player1 = null;
+            Destroy(_birdPlayer.gameObject);
+            _birdPlayer = null;
         }
         if (_instructions != null)
         {
@@ -265,7 +266,7 @@ public class SceneController : Base2DBehaviour
         ShowInstructions(false);
         //ClearAsteroids();
         StartLevel();
-        Respawn(_player1, 0.5f);
+        //Respawn(_birdPlayer, 0.5f);
     }
 
 #if OLD_WAY
@@ -277,21 +278,26 @@ public class SceneController : Base2DBehaviour
     }
 #endif
 
+    public void AttachLocalPlayer( Bird bird)
+    {
+        _birdPlayer = bird;
+    }
+
     private void MakeNewPlayer()
     {
-        _player1 = Instantiate(BirdPrefab); //, Vector3.zero, Quaternion.identity);
-        _player1.PlayerIndex = 0;
-        // TBD _player1.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
-        _player1.transform.position = MakeSafeRandomPos();
-        _player1.transform.rotation = Quaternion.identity;
-        _player1.transform.parent = GameManager.Instance.SceneRoot;
-        _player1.gameObject.SetActive(true);
+        _birdPlayer = Instantiate(BirdPrefab); //, Vector3.zero, Quaternion.identity);
+        _birdPlayer.PlayerIndex = 0;
+        // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
+        _birdPlayer.transform.position = MakeSafeRandomPos();
+        _birdPlayer.transform.rotation = Quaternion.identity;
+        _birdPlayer.transform.parent = GameManager.Instance.SceneRoot;
+        _birdPlayer.gameObject.SetActive(true);
     }
 
 #if OLD_WAY
     public void HyperSpace()
     {
-        _player1.transform.position = MakeRandomPos(); // Not safe on purpose
+        _birdPlayer.transform.position = MakeRandomPos(); // Not safe on purpose
     }
 
     private void AddAsteroids(int astCount)
@@ -348,9 +354,9 @@ public class SceneController : Base2DBehaviour
 
     private Vector3 MakeSafeAsteroidPos()
     {
-        if (_player1 != null)
+        if (_birdPlayer != null)
         {
-            var playerPos = _player1.transform.position;
+            var playerPos = _birdPlayer.transform.position;
             for (int ii = 1; ii < 1000; ii++)
             {
                 var astPos = MakeRandomPos();
@@ -400,7 +406,7 @@ public class SceneController : Base2DBehaviour
             _alien.PlaySound( false);
         }
 #endif
-        _player1 = null;
+        _birdPlayer = null;
         Level = 0;
         // Leave score.
 
@@ -411,12 +417,12 @@ public class SceneController : Base2DBehaviour
 
     public void Respawn(Bird bird, float delay )
     {
-        _player1 = null;
+        _birdPlayer = null;
 
         StartCoroutine(CoroutineUtils.DelaySeconds(() =>
         {
             MakeNewPlayer();
-            _player1.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
+            _birdPlayer.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
 
             // Change the count AFTER the respawn occurs. It looks better.
             SafeGameManager.PlayerController.Lives--;

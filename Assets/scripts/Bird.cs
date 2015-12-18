@@ -1,9 +1,10 @@
 ﻿using Assets.scripts;
 using UnityEngine;
 using Toolbox;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Blinker))]
-public class Bird : Base2DBehaviour
+public class Bird : BaseNetworkBehaviour
 {
     public class GoNames
     {
@@ -20,6 +21,12 @@ public class Bird : Base2DBehaviour
 
     public Legs LegsChild;
     public Rider RiderChild;
+    [SyncVar]
+    public float FaceDir = -1.0f;
+    [SyncVar]
+    public bool Braking = false;
+    [SyncVar]
+    public bool InFlap = false;
 
     public float Thrust = 500.0f;
     public float SideThrust = 100.0f;
@@ -49,6 +56,17 @@ public class Bird : Base2DBehaviour
     private Rigidbody2D _rigidBody;
     private bool _flapButtonDown;
 
+    public override void OnStartLocalPlayer() // this is our player
+    {
+        SafeGameManager.SceneController.AttachLocalPlayer( this);
+
+        base.OnStartLocalPlayer();
+
+        this.PlayerIndex = 0;
+        // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
+        this.transform.parent = GameManager.Instance.SceneRoot;
+        this.gameObject.SetActive(true);
+    }
 
     // Use this for initialization
     public void Start()
@@ -59,13 +77,14 @@ public class Bird : Base2DBehaviour
         //_explosionParticleSystem.loop = false;
         //_explosionParticleSystem.Stop();
 
-        this.GetComponent<SpriteRenderer>().enabled = false; // Only using animations at runtime.
+        //this.GetComponent<SpriteRenderer>().enabled = false; // Only using animations at runtime.
         _animator = GetComponent<Animator>();
         _rigidBody = GetComponent<Rigidbody2D>();
 
         _state = State.Alive;
     }
 
+#if OLD_WAY
     void OnTriggerEnter2D(Collider2D other)
     {
         if (_state == State.Killed)
@@ -102,86 +121,97 @@ public class Bird : Base2DBehaviour
         SafeGameManager.PlayClip(ExplosionSound);
         Destroy(this.gameObject, _explosionParticleSystem.duration + 0.5f);
     }
+#endif
 
 
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         _flapButtonDown = Input.GetButtonDown(PlayerController.Buttons.FLAP);
     }
 
     // Update is called once per frame
     void FixedUpdate ()
     {
-
-
-        if (_state != State.Killed)
+        //if (_state != State.Killed)
         {
 
-            _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
-            _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x)); // Only works when animator is enabled.
-
             //base.DebugForceSinusoidalFrameRate();
-
-
-            float horz = Input.GetAxisRaw(PlayerController.Buttons.HORIZ);
-            if (horz != 0.0f)
+            if (isLocalPlayer)
             {
-                _rigidBody.AddForce(Vector2.right*SideThrust*horz, ForceMode2D.Force);
-                _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
-                this.transform.localScale = new Vector3(Mathf.Sign(horz), 1, 1);
+                float horz = Input.GetAxisRaw(PlayerController.Buttons.HORIZ);
+                if (horz != 0.0f)
+                {
+                    _rigidBody.AddForce(Vector2.right*SideThrust*horz, ForceMode2D.Force);
+                    _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
+
+                    // Sync var will get sent over network so other player flips.
+                    var newFaceDir = Mathf.Sign(horz);
+                    if (newFaceDir != FaceDir)
+                    {
+                        FaceDir = newFaceDir;
+                        if (!isServer)
+                        {
+                            CmdSetFaceDir(newFaceDir);
+                        }
+                    }
+                    Braking = false;
+                }
+                else
+                {
+                    var horzSpeedLocal = Mathf.Abs(_rigidBody.velocity.x);
+                    Braking = (horzSpeedLocal > BrakingSpeed) && (horz == 0.0f);
+                }
+
+                bool vert = _flapButtonDown;
+                _flapButtonDown = false;
+
+                // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
+                if (vert)
+                {
+                    _rigidBody.AddForce(Vector2.up * Thrust, ForceMode2D.Impulse);
+                    _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
+                    GameManager.Instance.PlayClip(FlapSound);
+
+                    InFlap = true;
+                    _lastFlap = Time.time;
+                }
+                else
+                {
+                    if (Time.time - _lastFlap > 0.5f)
+                    {
+                        InFlap = false;
+                        _lastFlap = 0.0f;
+                    }
+                }
+
             }
+
+            // Only works when animator is enabled.
+            this.transform.localScale = new Vector3(FaceDir, 1, 1);
+
+            _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
+            _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x));
+
             var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
             _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
 
-            var braking = (horzSpeed > BrakingSpeed) && (horz == 0.0f);
-            _animator.SetBool(AnimParams.InBrake, braking );
-
-            bool vert = _flapButtonDown;
-            _flapButtonDown = false;
-
-            // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
-            if (vert)
-            {
-                _rigidBody.AddForce(Vector2.up*Thrust, ForceMode2D.Impulse);
-                _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
-                GameManager.Instance.PlayClip(FlapSound);
-
-                _animator.SetBool(AnimParams.InFlap, true);
-                _lastFlap = Time.time;
-            
-
-                //var sprite = this.GetComponent<SpriteRenderer>();
-                //sprite.enabled = false;
-
-                //var anim = this.GetComponent<Animation>();
-                //anim.enabled = true;
-                //if (!anim.isPlaying)
-                //{
-                //    anim.wrapMode = WrapMode.Once;
-                //    anim.Play();
-                //}
-                //else
-                //{
-                //    anim.Stop();
-                //}
-            }
-            else
-            {
-                if (Time.time - _lastFlap > 0.5f)
-                {
-                    _animator.SetBool(AnimParams.InFlap, false);
-                    _lastFlap = 0.0f;
-                }
-            }
-        }
-        else
-        {
+            _animator.SetBool(AnimParams.InBrake, Braking);
+            _animator.SetBool(AnimParams.InFlap, InFlap);
 
         }
 
     }
 
-
+    [Command]
+    public void CmdSetFaceDir(float newFaceDir)
+    {
+        FaceDir = newFaceDir;
+    }
 
 
     public void Show(bool b)

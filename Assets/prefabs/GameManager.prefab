@@ -114,15 +114,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb3d61c11e3a0d478a92976cf7dd237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Score: 0
-  Lives: 0
   SceneControllerPrefab: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
     type: 2}
   NetworkControllerPrefab: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
     type: 2}
+  PlayerControllerPrefab: {fileID: 11449700, guid: 6a17e44154ec9cc44aa4e4421fbb69f1,
+    type: 2}
   State: 1
-  SceneController: {fileID: 0}
   SceneRoot: {fileID: 0}
+  SceneController: {fileID: 0}
+  NetworkController: {fileID: 0}
+  PlayerController: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -151,6 +153,11 @@ Prefab:
       propertyPath: NetworkControllerPrefab
       value: 
       objectReference: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: PlayerControllerPrefab
+      value: 
+      objectReference: {fileID: 11449700, guid: 6a17e44154ec9cc44aa4e4421fbb69f1,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
