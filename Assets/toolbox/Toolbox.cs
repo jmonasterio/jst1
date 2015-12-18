@@ -102,6 +102,19 @@ namespace Toolbox
             return instance;
         }
 
+        public static Rect GetCameraWorldRect( this GameObject go)
+        {
+            var dist = (go.transform.position - Camera.main.transform.position).z;
+            var leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).x;
+            var rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, dist)).x;
+            var topBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).y;
+            var bottomBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, dist)).y;
+            var camRect = new Rect(new Vector2(leftBorder, topBorder),
+                new Vector2(rightBorder - leftBorder, bottomBorder - topBorder));
+            return camRect;
+        }
+
+
         public static void SafeDestroy(ref Component obj)
         {
             if (obj != null)
@@ -203,7 +216,7 @@ namespace Toolbox
         {
             if (!_camRect.HasValue)
             {
-                _camRect = GetCameraWorldRect();
+                _camRect = GameObjectExt.GetCameraWorldRect(this.gameObject);
             }
 
             var camRect = _camRect.Value;
@@ -215,7 +228,7 @@ namespace Toolbox
         {
             if (!_camRect.HasValue)
             {
-                _camRect = GetCameraWorldRect();
+                _camRect = GameObjectExt.GetCameraWorldRect(this.gameObject);
             }
             var camRect = _camRect.Value;
             return new Vector3(Random.Range(camRect.xMin / 2, camRect.xMax / 2),
@@ -223,17 +236,6 @@ namespace Toolbox
         }
 
 
-        public Rect GetCameraWorldRect()
-        {
-            var dist = (transform.position - Camera.main.transform.position).z;
-            var leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).x;
-            var rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, dist)).x;
-            var topBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).y;
-            var bottomBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, dist)).y;
-            var camRect = new Rect(new Vector2(leftBorder, topBorder),
-                new Vector2(rightBorder - leftBorder, bottomBorder - topBorder));
-            return camRect;
-        }
 
 
 

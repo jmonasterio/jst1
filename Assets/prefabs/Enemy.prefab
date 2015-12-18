@@ -36,7 +36,7 @@ GameObject:
   - 114: {fileID: 11403320}
   - 114: {fileID: 11421028}
   m_Layer: 0
-  m_Name: Bird
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,11 +148,19 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: -0.15, y: 0.0875}
-      - {x: -0.15, y: -0.0875}
-      - {x: 0.15, y: -0.0875}
-      - {x: 0.15, y: 0.0375}
-      - {x: 0.025, y: 0.0875}
+    - - {x: -0.022298574, y: 0.19594741}
+      - {x: -0.0773592, y: 0.062328577}
+      - {x: -0.19906127, y: 0.011762142}
+      - {x: -0.108104706, y: -0.09560466}
+      - {x: 0.082196355, y: -0.083322525}
+      - {x: 0.12721324, y: -0.039072275}
+      - {x: 0.1414212, y: 0.04483533}
+      - {x: 0.2001648, y: 0.10118604}
+      - {x: 0.1994704, y: 0.19553399}
+      - {x: 0.14559877, y: 0.20345736}
+      - {x: 0.08835459, y: 0.17423463}
+      - {x: 0.071784616, y: 0.12956667}
+      - {x: 0.043911576, y: 0.18479824}
 --- !u!60 &6084790
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -280,24 +288,24 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 104
-    i1: 191
-    i2: 101
-    i3: 71
-    i4: 93
-    i5: 144
-    i6: 46
-    i7: 36
-    i8: 186
-    i9: 89
-    i10: 236
-    i11: 70
-    i12: 78
-    i13: 149
-    i14: 114
-    i15: 18
+    i0: 188
+    i1: 129
+    i2: 51
+    i3: 204
+    i4: 91
+    i5: 169
+    i6: 50
+    i7: 100
+    i8: 152
+    i9: 99
+    i10: 207
+    i11: 35
+    i12: 188
+    i13: 34
+    i14: 95
+    i15: 67
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11420170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04dfbf24e12ea5b40a8f3dda0c6dfbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalPlayerSprite: {fileID: 21300046, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
+  LocalPlayerSprite: {fileID: 0}
   LegsChild: {fileID: 11449768}
   RiderChild: {fileID: 11420170}
   FaceDir: -1
@@ -443,7 +451,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300042, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
+  m_Sprite: {fileID: 21300050, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -457,7 +465,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300024, guid: b4115156b1ada4b4ca7982fa949e68a5,
+      objectReference: {fileID: 21300050, guid: b4115156b1ada4b4ca7982fa949e68a5,
         type: 3}
     - target: {fileID: 0}
       propertyPath: Thrust
@@ -629,7 +637,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPlayerAuthority
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TransformSyncMode
@@ -639,11 +647,6 @@ Prefab:
       propertyPath: m_InterpolateMovement
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: LocalPlayerSprite
-      value: 
-      objectReference: {fileID: 21300046, guid: b4115156b1ada4b4ca7982fa949e68a5,
-        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}
