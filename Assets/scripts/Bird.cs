@@ -61,16 +61,16 @@ public class Bird : BaseNetworkBehaviour
 
     public override void OnStartLocalPlayer() // this is our player
     {
+        base.OnStartLocalPlayer();
         SafeGameManager.SceneController.AttachLocalPlayer( this);
 
         // change color of local player.
         RiderChild.GetComponent<SpriteRenderer>().sprite = LocalPlayerSprite;
 
-        base.OnStartLocalPlayer();
 
         this.PlayerIndex = 0;
         // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
-        this.transform.parent = GameManager.Instance.SceneRoot;
+        this.transform.parent = GameManager.SceneRoot;
         this.gameObject.SetActive(true);
     }
 
@@ -184,7 +184,7 @@ public class Bird : BaseNetworkBehaviour
                 {
                     _rigidBody.AddForce(Vector2.up * Thrust, ForceMode2D.Impulse);
                     _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
-                    GameManager.Instance.PlayClip(FlapSound);
+                    SafeGameManager.PlayClip(FlapSound);
 
                     InFlap = true;
                     _lastFlap = Time.time;
@@ -242,7 +242,7 @@ public class Bird : BaseNetworkBehaviour
 
     public static void ClearBullets()
     {
-        var abc = GameManager.Instance.SceneRoot.FindOrCreateTempContainer(GoNames.BULLET_CONTAINER_NAME);
+        var abc = GameManager.SceneRoot.FindOrCreateTempContainer(GoNames.BULLET_CONTAINER_NAME);
         GameObjectExt.DestroyChildren(abc);
 
     }

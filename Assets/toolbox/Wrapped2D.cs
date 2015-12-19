@@ -24,7 +24,7 @@ public class Wrapped2D : BaseNetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if( isLocalPlayer)
+        if( isLocalPlayer || isServer)
         {
             if (InTeleport)
             {

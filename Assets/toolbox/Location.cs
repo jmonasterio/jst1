@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Location2 : MonoBehaviour
+public class Location : MonoBehaviour
 {
 
-    public Vector2 Location;
+    public Vector2 Location2D;
 
 	// Use this for initialization
 	void Start () {

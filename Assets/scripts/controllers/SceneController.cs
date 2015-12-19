@@ -82,8 +82,8 @@ public class SceneController : Base2DBehaviour
     void Start ()
     {
         //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
-        _gameOver = GameOverPrefab.InstantiateInTransform(GameManager.Instance.SceneRoot);
-        _instructions = InstructionsPrefab.InstantiateInTransform(GameManager.Instance.SceneRoot);
+        _gameOver = GameOverPrefab.InstantiateInTransform(GameManager.SceneRoot);
+        _instructions = InstructionsPrefab.InstantiateInTransform(GameManager.SceneRoot);
 
         ShowGameOver(true);
         ShowInstructions(true);
@@ -110,7 +110,7 @@ public class SceneController : Base2DBehaviour
                 // Try to prevent game starting right after previous if you keep firing.
                 if (CanStartGame())
                 {
-                    GameManager.Instance.StartGame();
+                    SafeGameManager.StartGame();
                     this.StartGame();
 
                 }
@@ -290,7 +290,7 @@ public class SceneController : Base2DBehaviour
         // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
         _birdPlayer.transform.position = MakeSafeRandomPos();
         _birdPlayer.transform.rotation = Quaternion.identity;
-        _birdPlayer.transform.parent = GameManager.Instance.SceneRoot;
+        _birdPlayer.transform.parent = SafeGameManager.SceneRoot;
         _birdPlayer.gameObject.SetActive(true);
     }
 

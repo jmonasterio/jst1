@@ -10,21 +10,9 @@ using Toolbox;
 public class GameManager : BaseBehaviour 
 {
     public MonoBehaviour SceneControllerPrefab;
+    public MonoBehaviour OfflineSceneControllerPrefab;
     public MonoBehaviour NetworkControllerPrefab;
     public MonoBehaviour PlayerControllerPrefab;
-
-    private static GameManager _instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType(typeof (GameManager)) as GameManager;
-            }
-            return _instance;
-        }
-    }
 
     // TBD: Maybe in a gameController
     public enum States
@@ -32,28 +20,43 @@ public class GameManager : BaseBehaviour
         Playing = 0,
         Over = 1
     }
-    public States State = States.Over;
+    public static States State = States.Over;
 
     [HideInInspector]
-    public Transform SceneRoot;
+    public static Transform SceneRoot;
     [HideInInspector]
-    public MonoBehaviour SceneController;
+    public static MonoBehaviour SceneController;
     [HideInInspector]
-    public MonoBehaviour NetworkController;
+    public static MonoBehaviour OfflineSceneController;
     [HideInInspector]
-    public MonoBehaviour PlayerController;
+    public static MonoBehaviour NetworkController;
+    [HideInInspector]
+    public static MonoBehaviour PlayerController;
+
+    public static GameManager __instance;
 
     // Use this for initialization
     void Awake()
     {
         DontDestroyOnLoad(this); // Keep running across different scenes.
 
-        _instance = this; // Simple singleton.
+        //Check if instance already exists
+        if (__instance == null)
 
-        SceneRoot = this.transform.parent;
+            //if not, set instance to this
+            __instance = this;
+
+        //If instance already exists and it's not this:
+        else if (__instance != this)
+
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+
+        SceneRoot = this.gameObject.transform.Find("root");
         this.transform.parent = SceneRoot;
 
         SceneController = InstantiateController(SceneControllerPrefab);
+        OfflineSceneController = InstantiateController(SceneControllerPrefab);
         NetworkController = InstantiateController(NetworkControllerPrefab);
         PlayerController = InstantiateController(PlayerControllerPrefab);
     }

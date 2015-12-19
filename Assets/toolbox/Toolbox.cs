@@ -168,7 +168,7 @@ namespace Toolbox
         {
             foreach (IEnumerator action in actions)
             {
-                yield return GameManager.Instance.StartCoroutine(action); 
+                yield return GameManager.__instance.StartCoroutine(action); 
             }
         }
 

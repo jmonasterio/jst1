@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 447138}
   - 82: {fileID: 8273396}
   - 114: {fileID: 11498672}
+  - 114: {fileID: 11471374}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -103,6 +104,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &11471374
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd408f10bb3efbf49b42dc88bb9f1219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DisplayFrameRate: 1
+  DebugSinusoidalFrameRate: 0
 --- !u!114 &11498672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,8 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb3d61c11e3a0d478a92976cf7dd237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneControllerPrefab: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
+  SceneControllerPrefab: {fileID: 11486310, guid: aa1bce8ee5ddeb749add68d0c9375042,
     type: 2}
+  OfflineSceneControllerPrefab: {fileID: 0}
   NetworkControllerPrefab: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
     type: 2}
   PlayerControllerPrefab: {fileID: 11449700, guid: 6a17e44154ec9cc44aa4e4421fbb69f1,
@@ -135,7 +150,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: SceneControllerPrefab
       value: 
-      objectReference: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
+      objectReference: {fileID: 11486310, guid: aa1bce8ee5ddeb749add68d0c9375042,
         type: 2}
     - target: {fileID: 0}
       propertyPath: panLevelCustomCurve.m_RotationOrder
@@ -159,6 +174,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11449700, guid: 6a17e44154ec9cc44aa4e4421fbb69f1,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: DisplayFrameRate
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 143856}

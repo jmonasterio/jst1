@@ -14,4 +14,15 @@ public class NetworkController : MonoBehaviour
 	void Update () {
 	
 	}
+
+    public void OnClientDisconnect()
+    {
+        GetComponent<NetworkManagerHUD>().showGUI = false;
+    }
+
+    public void OnClientConnect()
+    {
+        GetComponent<NetworkManagerHUD>().showGUI = true;
+    }
+
 }
