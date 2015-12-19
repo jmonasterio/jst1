@@ -82,8 +82,8 @@ public class SceneController : Base2DBehaviour
     void Start ()
     {
         //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
-        _gameOver = GameOverPrefab.InstantiateInTransform(GameManager.SceneRoot);
-        _instructions = InstructionsPrefab.InstantiateInTransform(GameManager.SceneRoot);
+        _gameOver = GameOverPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+        _instructions = InstructionsPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
 
         ShowGameOver(true);
         ShowInstructions(true);

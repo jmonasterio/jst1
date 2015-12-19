@@ -12,8 +12,7 @@ namespace Assets.scripts.behaviors
     {
         public const int maxHealth = 100;
 
-        [SyncVar]
-        public int health = maxHealth;
+        [SyncVar] public int health = maxHealth;
 
         public void TakeDamage(int amount)
         {
@@ -25,6 +24,20 @@ namespace Assets.scripts.behaviors
             {
                 health = 0;
                 Debug.Log("Dead!");
+            }
+        }
+
+        void OnCollisionEnter(Collision2D collision)
+        {
+            var hit = collision.gameObject;
+            var hitCombat = hit.GetComponent<Combat>();
+            if (hitCombat != null)
+            {
+                if (hit.transform.position.y > this.transform.position.y)
+                {
+                    hitCombat.TakeDamage(10);
+                    Destroy(gameObject);
+                }
             }
         }
     }

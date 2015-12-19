@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
@@ -42,6 +44,40 @@ namespace Toolbox
 
     public static class GameObjectExt
     {
+        public static IEnumerable<GameObject> SceneRoots()
+        {
+            var prop = new HierarchyProperty(HierarchyType.GameObjects);
+            var expanded = new int[0];
+            while (prop.Next(expanded))
+            {
+                yield return prop.pptrValue as GameObject;
+            }
+        }
+
+        /// <summary>
+        /// Breadthfirst enumeration of all game objects
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<Transform> AllSceneObjects()
+        {
+            var queue = new Queue<Transform>();
+
+            foreach (var root in SceneRoots())
+            {
+                var tf = root.transform;
+                yield return tf;
+                queue.Enqueue(tf);
+            }
+
+            while (queue.Count > 0)
+            {
+                foreach (Transform child in queue.Dequeue())
+                {
+                    yield return child;
+                    queue.Enqueue(child);
+                }
+            }
+        }
         public static void Show(this GameObject go, bool b)
         {
             go.GetComponent<SpriteRenderer>().enabled = b;

@@ -285,6 +285,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
+      propertyPath: SceneControllerPrefab
+      value: 
+      objectReference: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
+        type: 2}
+    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
+      propertyPath: OfflineSceneControllerPrefab
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
   m_IsPrefabParent: 0

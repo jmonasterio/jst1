@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Assets.scripts.behaviors
 {
+    // TBD: Different health bar: http://answers.unity3d.com/questions/546678/healthbar-above-enemy-2d.html
     public class HealthBar : BaseBehaviour
     {
         GUIStyle healthStyle;

@@ -70,7 +70,7 @@ public class Bird : BaseNetworkBehaviour
 
         this.PlayerIndex = 0;
         // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
-        this.transform.parent = GameManager.SceneRoot;
+        this.transform.parent = SafeGameManager.SceneRoot;
         this.gameObject.SetActive(true);
     }
 
@@ -242,7 +242,7 @@ public class Bird : BaseNetworkBehaviour
 
     public static void ClearBullets()
     {
-        var abc = GameManager.SceneRoot.FindOrCreateTempContainer(GoNames.BULLET_CONTAINER_NAME);
+        var abc = SafeGameManager.SceneRoot.FindOrCreateTempContainer(GoNames.BULLET_CONTAINER_NAME);
         GameObjectExt.DestroyChildren(abc);
 
     }

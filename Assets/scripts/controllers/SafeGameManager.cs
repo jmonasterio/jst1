@@ -37,7 +37,7 @@ namespace Assets.scripts
 
         public static Transform SceneRoot
         {
-            get { return GameManager.SceneRoot; } 
+            get { return GameManager.__instance.SceneRoot.transform; } 
         }
 
         public static void PlayClip(AudioClip clip)

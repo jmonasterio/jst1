@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 using Toolbox;
 
 /// <summary>
@@ -22,8 +23,10 @@ public class GameManager : BaseBehaviour
     }
     public static States State = States.Over;
 
+
     [HideInInspector]
-    public static Transform SceneRoot;
+    public GameObject SceneRoot;
+
     [HideInInspector]
     public static MonoBehaviour SceneController;
     [HideInInspector]
@@ -42,18 +45,22 @@ public class GameManager : BaseBehaviour
 
         //Check if instance already exists
         if (__instance == null)
+        {
 
             //if not, set instance to this
             __instance = this;
+        }
 
         //If instance already exists and it's not this:
         else if (__instance != this)
-
+        {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
+            return;
+        }
 
-        SceneRoot = this.gameObject.transform.Find("root");
-        this.transform.parent = SceneRoot;
+        SceneRoot = GameObjectExt.SceneRoots().First( _ => _.name == "root");
+        this.transform.parent = SceneRoot.transform;
 
         SceneController = InstantiateController(SceneControllerPrefab);
         OfflineSceneController = InstantiateController(SceneControllerPrefab);
@@ -64,7 +71,7 @@ public class GameManager : BaseBehaviour
     private MonoBehaviour InstantiateController(MonoBehaviour prefab)
     {
         MonoBehaviour ret = Instantiate(prefab);
-        ret.transform.parent =  SceneRoot;
+        ret.transform.parent =  SceneRoot.transform;
         return ret;
     }
 
