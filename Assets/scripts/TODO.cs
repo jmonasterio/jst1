@@ -13,6 +13,9 @@
 // Networking support for 2-player
 // x Auto-deploy to GITHUB.
 // Eggs
+// Multi-game. Need to have same screensize everywhere.
+// Multi-game. Guy sticks to top.
+// Multi-game. Extra player invisible.
 
 
 // TODO:

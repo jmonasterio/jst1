@@ -25,9 +25,9 @@ public class Bird : BaseNetworkBehaviour
     public Rider RiderChild;
     [SyncVar]
     public float FaceDir = -1.0f;
-    [SyncVar]
+
+
     public bool Braking = false;
-    [SyncVar]
     public bool InFlap = false;
 
     public float Thrust = 500.0f;
@@ -62,6 +62,7 @@ public class Bird : BaseNetworkBehaviour
     {
         SafeGameManager.SceneController.AttachLocalPlayer( this);
 
+        // change color of local player.
         RiderChild.GetComponent<SpriteRenderer>().sprite = LocalPlayerSprite;
 
         base.OnStartLocalPlayer();
@@ -195,17 +196,19 @@ public class Bird : BaseNetworkBehaviour
 
             }
 
-            // Only works when animator is enabled.
+            // Only works when animator is enabled. The faceDir was not handled by the NetworkTransform.
             this.transform.localScale = new Vector3(FaceDir, 1, 1);
 
-            _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
-            _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x));
-
-            var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
-            _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
-
-            _animator.SetBool(AnimParams.InBrake, Braking);
-            _animator.SetBool(AnimParams.InFlap, InFlap);
+            // Using networkAnimator, so assume this stuff will get sent over.
+            if (isLocalPlayer)
+            {
+                var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
+                _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
+                _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
+                _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x));
+                _animator.SetBool(AnimParams.InBrake, Braking);
+                _animator.SetBool(AnimParams.InFlap, InFlap);
+            }
 
         }
 

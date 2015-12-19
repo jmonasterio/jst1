@@ -1,16 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Toolbox;
+using UnityEngine.Networking;
 
 public class Wrapped2D : BaseNetworkBehaviour
 {
 
+    [SyncVar]
+    public bool InTeleport = false;
     protected Rect? _camRect = null;
+    private Rigidbody2D _rigidBody2D;
+    private bool _oldIsKinemetic;
+    private bool _oldAwake;
+    private Vector2 _oldVelocity;
+
+    void Start()
+    {
+        _rigidBody2D = this.GetComponent<Rigidbody2D>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        WrapScreen();
+        if( isServer)
+        {
+            if (InTeleport)
+            {
+                EndTeleport();
+            }
+            WrapScreen();
+        }
     }
 
     protected void WrapScreen()
@@ -46,7 +65,31 @@ public class Wrapped2D : BaseNetworkBehaviour
             t.y = camRect.yMax;
         }
 
-        // Teleport better?
-        this.transform.position = MathfExt.From2D(t);
+        StartTeleportTo(MathfExt.From2D(t));
+    }
+
+    private void StartTeleportTo(Vector3 toPos)
+    {
+
+        //_oldIsKinemetic = _rigidBody2D.isKinematic;
+        //oldVelocity = _rigidBody2D.velocity;
+        _rigidBody2D.interpolation = RigidbodyInterpolation2D.None;
+        //_rigidBody2D.isKinematic = true;
+        //_oldAwake = _rigidBody2D.IsAwake();
+        //_rigidBody2D.Sleep();
+        this.transform.position = toPos;
+        InTeleport = true;
+    }
+
+    private void EndTeleport()
+    {
+        //if (_oldAwake)
+        //{
+        //    _rigidBody2D.WakeUp();
+        //}
+        //_rigidBody2D.isKinematic = _oldIsKinemetic;
+        _rigidBody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
+       // _rigidBody2D.velocity = _oldVelocity;
+
     }
 }
