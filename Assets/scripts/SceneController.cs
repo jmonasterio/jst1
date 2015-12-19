@@ -42,7 +42,7 @@ public class SceneController : Base2DBehaviour
 
     public void PlayerKilled(Bird bird)
     {
-        if (SafeGameManager.PlayerController.Lives < 1)
+        if (SafeGameManager.PlayController.Lives < 1)
         {
             SafeGameManager.SetGameState( GameManager.States.Over);
             GameOver(bird);
@@ -105,7 +105,7 @@ public class SceneController : Base2DBehaviour
 
         if (SafeGameManager.GetGameState() == GameManager.States.Over)
         {
-            if (Input.GetButton(PlayerController.Buttons.FLAP))
+            if (Input.GetButton(PlayController.Buttons.FLAP))
             {
                 // Try to prevent game starting right after previous if you keep firing.
                 if (CanStartGame())
@@ -175,9 +175,9 @@ public class SceneController : Base2DBehaviour
 
     private void UpdateFreeLives()
     {
-        if (SafeGameManager.PlayerController.Score > _nextFreeLifeScore)
+        if (SafeGameManager.PlayController.Score > _nextFreeLifeScore)
         {
-            SafeGameManager.PlayerController.Lives++;
+            SafeGameManager.PlayController.Lives++;
             _nextFreeLifeScore += FREE_USER_AT;
             SafeGameManager.PlayClip(FreeLifeSound);
         }
@@ -425,7 +425,7 @@ public class SceneController : Base2DBehaviour
             _birdPlayer.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
 
             // Change the count AFTER the respawn occurs. It looks better.
-            SafeGameManager.PlayerController.Lives--;
+            SafeGameManager.PlayController.Lives--;
 #if OLD_WAY
             _lastAsteroidKilled = Time.time;
 #endif

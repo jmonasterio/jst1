@@ -2,7 +2,7 @@
 using System.Collections;
 using Toolbox;
 
-public class PlayerController : Base2DBehaviour
+public class PlayController : Base2DBehaviour
 {
 
     public struct Buttons

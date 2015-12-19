@@ -19,9 +19,9 @@ namespace Assets.scripts
             get { return (GameManager.Instance.NetworkControllerPrefab) as NetworkController; }
         }
 
-        public static PlayerController PlayerController
+        public static PlayController PlayController
         {
-            get { return (GameManager.Instance.PlayerController) as PlayerController; }
+            get { return (GameManager.Instance.PlayerController) as PlayController; }
         }
 
 

@@ -3,16 +3,18 @@ using System.Collections;
 using Toolbox;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Wraps object around to other side of screen (left/right and top/bottom). Will turn off physics while
+///     teleporting the player, so the telportation doesn't collide. Seems to work on network.
+/// </summary>
 public class Wrapped2D : BaseNetworkBehaviour
 {
+    public bool VerticalWrap = false;
 
-    [SyncVar]
-    public bool InTeleport = false;
-    protected Rect? _camRect = null;
+    private bool InTeleport = false;
+    private Rect? _camRect = null;
     private Rigidbody2D _rigidBody2D;
-    private bool _oldIsKinemetic;
-    private bool _oldAwake;
-    private Vector2 _oldVelocity;
+    private RigidbodyInterpolation2D _oldInterpolate;
 
     void Start()
     {
@@ -22,7 +24,7 @@ public class Wrapped2D : BaseNetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if( isServer)
+        if( isLocalPlayer)
         {
             if (InTeleport)
             {
@@ -56,13 +58,16 @@ public class Wrapped2D : BaseNetworkBehaviour
         {
             t.x = camRect.xMax;
         }
-        if (t.y > camRect.yMax)
+        if (VerticalWrap)
         {
-            t.y = camRect.yMin;
-        }
-        else if (t.y < camRect.yMin)
-        {
-            t.y = camRect.yMax;
+            if (t.y > camRect.yMax)
+            {
+                t.y = camRect.yMin;
+            }
+            else if (t.y < camRect.yMin)
+            {
+                t.y = camRect.yMax;
+            }
         }
 
         StartTeleportTo(MathfExt.From2D(t));
@@ -70,26 +75,21 @@ public class Wrapped2D : BaseNetworkBehaviour
 
     private void StartTeleportTo(Vector3 toPos)
     {
-
-        //_oldIsKinemetic = _rigidBody2D.isKinematic;
-        //oldVelocity = _rigidBody2D.velocity;
+        // Normally you want interpolation on, so you have smooth movement while networking.
+        // But, while teleporting to other side of screen, you really don't want to interpolate because
+        //  you'll collide with objects between current position and other side.
+        _oldInterpolate = _rigidBody2D.interpolation;
         _rigidBody2D.interpolation = RigidbodyInterpolation2D.None;
-        //_rigidBody2D.isKinematic = true;
-        //_oldAwake = _rigidBody2D.IsAwake();
-        //_rigidBody2D.Sleep();
+
+        // No position.
         this.transform.position = toPos;
+
+        // Notify server (if necessary) that this player is teleporting. Server will end the telport.
         InTeleport = true;
     }
 
     private void EndTeleport()
     {
-        //if (_oldAwake)
-        //{
-        //    _rigidBody2D.WakeUp();
-        //}
-        //_rigidBody2D.isKinematic = _oldIsKinemetic;
-        _rigidBody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
-       // _rigidBody2D.velocity = _oldVelocity;
-
+        _rigidBody2D.interpolation = _oldInterpolate;
     }
 }

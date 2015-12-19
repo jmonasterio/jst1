@@ -2,6 +2,7 @@
 using UnityEngine;
 using Toolbox;
 using UnityEngine.Networking;
+using PlayerController = UnityEngine.Networking.PlayerController;
 
 [RequireComponent(typeof(Blinker))]
 public class Bird : BaseNetworkBehaviour
@@ -136,7 +137,9 @@ public class Bird : BaseNetworkBehaviour
             return;
         }
 
-        _flapButtonDown = Input.GetButtonDown(PlayerController.Buttons.FLAP);
+        _flapButtonDown = Input.GetButtonDown(global::PlayController.Buttons.FLAP);
+
+        
     }
 
     // Update is called once per frame
@@ -148,7 +151,8 @@ public class Bird : BaseNetworkBehaviour
             //base.DebugForceSinusoidalFrameRate();
             if (isLocalPlayer)
             {
-                float horz = Input.GetAxisRaw(PlayerController.Buttons.HORIZ);
+
+                float horz = Input.GetAxisRaw(PlayController.Buttons.HORIZ);
                 if (horz != 0.0f)
                 {
                     _rigidBody.AddForce(Vector2.right*SideThrust*horz, ForceMode2D.Force);

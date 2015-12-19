@@ -19,7 +19,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            var lives = SafeGameManager.PlayerController.Lives;
+            var lives = SafeGameManager.PlayController.Lives;
             if (_lives != lives)
             {
                 if (lives > 0)

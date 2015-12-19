@@ -16,7 +16,7 @@ public class Score : Base2DBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    var curScore = SafeGameManager.PlayerController.Score;
+	    var curScore = SafeGameManager.PlayController.Score;
         if (_score != curScore )
         {
             GetComponent<TextMesh>().text = "" + curScore;
