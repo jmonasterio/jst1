@@ -11,7 +11,7 @@ public class SceneController : Base2DBehaviour
 
     public int Level { get; set; }
     //public Asteroid[] AsteroidPrefabs;
-    //public Alien AlienPrefab; 
+    public Enemy EnemyPrefab; 
     public Bird BirdPrefab;
     public GameOver GameOverPrefab;
     public Instructions InstructionsPrefab;
@@ -40,11 +40,25 @@ public class SceneController : Base2DBehaviour
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
 
+
+    public void OnStartServer()
+    {
+        const int numEnemies = 1;
+        for (int i = 0; i < numEnemies; i++)
+        {
+            var pos = SafeGameManager.SceneRoot.Find("SpawnPoint(1)").transform.position;
+
+            var enemy = EnemyPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+            enemy.transform.position = pos;
+            NetworkServer.Spawn(enemy.gameObject);
+        }
+    }
+
     public void PlayerKilled(Bird bird)
     {
         if (SafeGameManager.PlayController.Lives < 1)
         {
-            SafeGameManager.SetGameState( GameManager.States.Over);
+            SafeGameManager.SetGameState( PlayController.States.Over);
             GameOver(bird);
         }
         else
@@ -53,6 +67,11 @@ public class SceneController : Base2DBehaviour
 
         }
 
+    }
+
+    public void DestroyEnemy(Enemy e, bool explode = false)
+    {
+        // TBD: Need to remove from list or something.
     }
 
 
@@ -88,6 +107,7 @@ public class SceneController : Base2DBehaviour
         ShowGameOver(true);
         ShowInstructions(true);
         _disableStartButtonUntilTime = Time.time;
+
     }
 
     // Update is called once per frame
@@ -103,7 +123,7 @@ public class SceneController : Base2DBehaviour
         UpdateAlienSpawn();
 #endif
 
-        if (SafeGameManager.GetGameState() == GameManager.States.Over)
+        if (SafeGameManager.GetGameState() == PlayController.States.Over)
         {
             if (Input.GetButton(PlayController.Buttons.FLAP))
             {
@@ -112,6 +132,7 @@ public class SceneController : Base2DBehaviour
                 {
                     SafeGameManager.StartGame();
                     this.StartGame();
+
 
                 }
 
@@ -283,17 +304,6 @@ public class SceneController : Base2DBehaviour
         _birdPlayer = bird;
     }
 
-    private void MakeNewPlayer()
-    {
-        _birdPlayer = Instantiate(BirdPrefab); //, Vector3.zero, Quaternion.identity);
-        _birdPlayer.PlayerIndex = 0;
-        // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
-        _birdPlayer.transform.position = MakeSafeRandomPos();
-        _birdPlayer.transform.rotation = Quaternion.identity;
-        _birdPlayer.transform.parent = SafeGameManager.SceneRoot;
-        _birdPlayer.gameObject.SetActive(true);
-    }
-
 #if OLD_WAY
     public void HyperSpace()
     {
@@ -315,60 +325,6 @@ public class SceneController : Base2DBehaviour
     }
 #endif
 
-    // Best effort.
-    private Vector3 MakeSafeRandomPos()
-    {
-        for(int ii=0; ii<1000; ii++)
-        {
-
-            var pos = MakeRandomCentralPos();
-            if (ii == 0)
-            {
-                // Try the center, because it's the best place.
-                pos = new Vector3(0,0,0);
-            }
-            
-
-            if ((_asteroids==null) || (_asteroids.Count == 0))
-            {
-                return pos;
-            }
-            bool foundClose = false;
-            foreach (var ast in _asteroids)
-            {
-                if (Vector3.Distance(ast.transform.position, pos) < 0.75f)
-                {
-                    foundClose = true;
-                    break;
-                }
-            }
-            if (!foundClose)
-            {
-                return pos;
-            }
-        }
-
-        return MakeRandomPos();
-
-    }
-
-    private Vector3 MakeSafeAsteroidPos()
-    {
-        if (_birdPlayer != null)
-        {
-            var playerPos = _birdPlayer.transform.position;
-            for (int ii = 1; ii < 1000; ii++)
-            {
-                var astPos = MakeRandomPos();
-                if (Vector3.Distance(astPos, playerPos) > 2.0)
-                {
-                    return astPos;
-                }
-            }
-        }
-        return MakeRandomPos();
-
-    }
 
     public void StartLevel()
     {
@@ -421,7 +377,6 @@ public class SceneController : Base2DBehaviour
 
         StartCoroutine(CoroutineUtils.DelaySeconds(() =>
         {
-            MakeNewPlayer();
             _birdPlayer.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
 
             // Change the count AFTER the respawn occurs. It looks better.

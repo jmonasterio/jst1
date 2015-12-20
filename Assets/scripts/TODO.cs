@@ -1,5 +1,7 @@
 ﻿// GOALS: Improvements from Ast3
 
+// http://wiki.unity3d.com/index.php/Toolbox
+
 // x Teleport across screen in network mode is problematic because of collions and "INTERPOLATE" mode on the NetworkTransform.
 // Remote player doesn't "walk" on the server. 
 // Todo: Feet collider should only stop you from hitting ground. It should collide with another player while flying.

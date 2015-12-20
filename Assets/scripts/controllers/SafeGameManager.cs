@@ -5,54 +5,50 @@ using System.Text;
 using Assets.scripts.controllers;
 using Toolbox;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Assets.scripts
 {
-    public class SafeGameManager
+    public static class SafeGameManager
     {
         public static SceneController SceneController
         {
-            get { return (GameManager.SceneController) as SceneController; }
+            get { return (GameManager.Instance.SceneController); }
         }
 
         public static OfflineSceneController OfflineSceneController
         {
-            get { return (GameManager.OfflineSceneController) as OfflineSceneController; }
-        }
-
-        public static NetworkController NetworkController
-        {
-            get { return (GameManager.NetworkController) as NetworkController; }
+            get { return (GameManager.Instance.OfflineSceneController) as OfflineSceneController; }
         }
 
         public static PlayController PlayController
         {
-            get { return (GameManager.PlayerController) as PlayController; }
+            get { return (GameManager.Instance.PlayController); }
         }
 
         public static void StartGame()
         {
-            GameManager.__instance.StartGame();
+            GameManager.Instance.PlayController.StartGame();
         }
 
         public static Transform SceneRoot
         {
-            get { return GameManager.__instance.SceneRoot.transform; } 
+            get { return GameManager.Instance.SceneRoot.transform; } 
         }
 
         public static void PlayClip(AudioClip clip)
         {
-            GameManager.__instance.PlayClip(clip);
+            GameManager.Instance.PlayController.PlayClip(clip);
         }
 
-        public static void SetGameState(GameManager.States state)
+        public static void SetGameState(PlayController.States state)
         {
-            GameManager.State = state;
+            GameManager.Instance.PlayController.State = state;
         }
 
-        public static GameManager.States GetGameState()
+        public static PlayController.States GetGameState()
         {
-            return GameManager.State;
+            return GameManager.Instance.PlayController.State;
         }
 
     }

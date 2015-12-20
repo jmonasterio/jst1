@@ -7,63 +7,44 @@ using UnityEngine;
 
 namespace Assets.scripts.behaviors
 {
-    // TBD: Different health bar: http://answers.unity3d.com/questions/546678/healthbar-above-enemy-2d.html
     public class HealthBar : BaseBehaviour
     {
-        GUIStyle healthStyle;
-        GUIStyle backStyle;
-        Combat combat;
+        public Sprite Health0; // Not really used.
+        public Sprite Health1;
+        public Sprite Health2;
+        public Sprite Health3;
+
+        private Combat _combat;
+        private SpriteRenderer _spriteRender;
 
         void Awake()
         {
-            combat = GetComponent<Combat>();
+            _combat = GetComponentInParent<Combat>();
+            _spriteRender = GetComponent<SpriteRenderer>();
         }
 
-        void OnGUI()
+        void Update()
         {
-            InitStyles();
-
-            // Draw a Health Bar
-
-            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-
-            // draw health bar background
-            GUI.color = Color.grey;
-            GUI.backgroundColor = Color.grey;
-            GUI.Box(new Rect(pos.x - 26, Screen.height - pos.y + 20, Combat.maxHealth / 2, 7), ".", backStyle);
-
-            // draw health bar amount
-            GUI.color = Color.green;
-            GUI.backgroundColor = Color.green;
-            GUI.Box(new Rect(pos.x - 25, Screen.height - pos.y + 21, combat.health / 2, 5), ".", healthStyle);
-        }
-
-        void InitStyles()
-        {
-            if (healthStyle == null)
+            if (_combat != null)
             {
-                healthStyle = new GUIStyle(GUI.skin.box);
-                healthStyle.normal.background = MakeTex(2, 2, new Color(0f, 1f, 0f, 1.0f));
-            }
-
-            if (backStyle == null)
-            {
-                backStyle = new GUIStyle(GUI.skin.box);
-                backStyle.normal.background = MakeTex(2, 2, new Color(0f, 0f, 0f, 1.0f));
+                if (_combat.health == 3)
+                {
+                    _spriteRender.sprite = Health3;
+                }
+                else if (_combat.health == 2)
+                {
+                    _spriteRender.sprite = Health2;
+                }
+                else if (_combat.health == 1)
+                {
+                    _spriteRender.sprite = Health1;
+                }
+                else
+                {
+                    _spriteRender.sprite = Health0;
+                }
             }
         }
 
-        Texture2D MakeTex(int width, int height, Color col)
-        {
-            Color[] pix = new Color[width * height];
-            for (int i = 0; i < pix.Length; ++i)
-            {
-                pix[i] = col;
-            }
-            Texture2D result = new Texture2D(width, height);
-            result.SetPixels(pix);
-            result.Apply();
-            return result;
-        }
     }
 }

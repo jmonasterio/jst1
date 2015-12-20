@@ -1,4 +1,5 @@
 ﻿using Assets.scripts;
+using Assets.scripts.behaviors;
 using UnityEngine;
 using Toolbox;
 using UnityEngine.Networking;
@@ -24,6 +25,8 @@ public class Bird : BaseNetworkBehaviour
 
     public Legs LegsChild;
     public Rider RiderChild;
+    public HealthBar HealthBarChild;
+
     [SyncVar]
     public float FaceDir = -1.0f;
 
@@ -59,6 +62,7 @@ public class Bird : BaseNetworkBehaviour
     private Rigidbody2D _rigidBody;
     private bool _flapButtonDown;
 
+
     public override void OnStartLocalPlayer() // this is our player
     {
         base.OnStartLocalPlayer();
@@ -72,6 +76,18 @@ public class Bird : BaseNetworkBehaviour
         // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
         this.transform.parent = SafeGameManager.SceneRoot;
         this.gameObject.SetActive(true);
+
+        if (isServer)
+        {
+            var x = SafeGameManager.SceneController.EnemyPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+            NetworkServer.Spawn(x.gameObject);
+        }
+
+
+    }
+
+    public override void OnStartServer()
+    {
     }
 
     // Use this for initialization

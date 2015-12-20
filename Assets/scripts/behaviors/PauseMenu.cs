@@ -35,7 +35,7 @@ namespace Assets.scripts
                 Time.timeScale = 0.0f;
                 GUILayout.Window(0, windowRect, Pause,
                     "Game Paused", GUILayout.Width(100));
-                SafeGameManager.NetworkController.GetComponent<NetworkManagerHUD>().showGUI = true;
+                //SafeGameManager.NetController.GetComponent<NetworkManagerHUD>().showGUI = true;
             }
         }
         void Pause(int windowPause)
@@ -44,7 +44,7 @@ namespace Assets.scripts
             {
                 Time.timeScale = 1.0f;
                 gamePaused = false;
-                SafeGameManager.NetworkController.GetComponent<NetworkManagerHUD>().showGUI = false;
+                //SafeGameManager.NetController.GetComponent<NetworkManagerHUD>().showGUI = false;
             }
         }
     }

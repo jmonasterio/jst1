@@ -37,9 +37,25 @@ GameObject:
   - 114: {fileID: 11421028}
   - 114: {fileID: 11475346}
   - 114: {fileID: 11486146}
-  - 114: {fileID: 11400474}
   m_Layer: 0
   m_Name: Bird
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &150334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 408912}
+  - 212: {fileID: 21231512}
+  - 114: {fileID: 11411166}
+  m_Layer: 5
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +79,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &408912
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150334}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.002, y: 0.248, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 410068}
+  m_RootOrder: 2
 --- !u!4 &410068
 Transform:
   m_ObjectHideFlags: 1
@@ -70,11 +98,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8539733, y: 2.514057, z: 0}
+  m_LocalPosition: {x: 4.5700083, y: 2.6754913, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 490078}
   - {fileID: 428052}
+  - {fileID: 408912}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &428052
@@ -269,17 +298,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11400474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b0723d0c9d6da24c970985be40c1eb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11403320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -312,6 +330,20 @@ MonoBehaviour:
     i15: 18
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &11411166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b0723d0c9d6da24c970985be40c1eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health1: {fileID: 21300128, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
+  Health2: {fileID: 21300130, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
+  Health3: {fileID: 21300132, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
 --- !u!114 &11420170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -379,6 +411,7 @@ MonoBehaviour:
   LocalPlayerSprite: {fileID: 21300046, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   LegsChild: {fileID: 11449768}
   RiderChild: {fileID: 11420170}
+  HealthBarChild: {fileID: 11411166}
   FaceDir: -1
   Braking: 0
   InFlap: 0
@@ -420,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a77f5b15b5f95146afa5bc056e81041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 3
 --- !u!114 &11496144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -460,6 +493,36 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300024, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+--- !u!212 &21231512
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150334}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 0
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300132, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -706,6 +769,29 @@ Prefab:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: health
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Health1
+      value: 
+      objectReference: {fileID: 21300128, guid: b4115156b1ada4b4ca7982fa949e68a5,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: Health2
+      value: 
+      objectReference: {fileID: 21300130, guid: b4115156b1ada4b4ca7982fa949e68a5,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: Health3
+      value: 
+      objectReference: {fileID: 21300132, guid: b4115156b1ada4b4ca7982fa949e68a5,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: HealthBarChild
+      value: 
+      objectReference: {fileID: 11411166}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

@@ -11,6 +11,9 @@ GameObject:
   - 82: {fileID: 8273396}
   - 114: {fileID: 11498672}
   - 114: {fileID: 11471374}
+  - 114: {fileID: 11402034}
+  - 114: {fileID: 11448900}
+  - 114: {fileID: 11452140}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -104,6 +107,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &11402034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1e8fa80afd3b2b4599e04e82644410e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyPrefab: {fileID: 11443994, guid: bc8133cc5ba932649863cf23bc225f43, type: 2}
+  BirdPrefab: {fileID: 11464982, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  GameOverPrefab: {fileID: 11469834, guid: ef8c1e0ce9b965f4db5ce1b56f44f796, type: 2}
+  InstructionsPrefab: {fileID: 11482144, guid: a97c70521b10e034097a9d4ca0c4165c, type: 2}
+  FreeLifeSound: {fileID: 0}
+  FREE_USER_AT: 10000
+--- !u!114 &11448900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcdb42bd705294348a70aab56d1d5b47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11452140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3125829157d78468ec126e0339dcc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  State: 1
+  Score: 0
+  Lives: 4
 --- !u!114 &11471374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,15 +173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb3d61c11e3a0d478a92976cf7dd237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneControllerPrefab: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
-    type: 2}
-  OfflineSceneControllerPrefab: {fileID: 11441956, guid: 7d19888e13af1424fb7a6bbd5396a229,
-    type: 2}
-  NetworkControllerPrefab: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
-    type: 2}
-  PlayerControllerPrefab: {fileID: 11449700, guid: 6a17e44154ec9cc44aa4e4421fbb69f1,
-    type: 2}
   SceneRoot: {fileID: 0}
+  SceneController: {fileID: 0}
+  OfflineSceneController: {fileID: 0}
+  PlayController: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -164,7 +204,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: NetworkControllerPrefab
       value: 
-      objectReference: {fileID: 11421268, guid: dba5ad53778b7114a98b00f6df59d790,
+      objectReference: {fileID: 11406368, guid: dba5ad53778b7114a98b00f6df59d790,
         type: 2}
     - target: {fileID: 0}
       propertyPath: PlayerControllerPrefab
@@ -180,6 +220,35 @@ Prefab:
       value: 
       objectReference: {fileID: 11441956, guid: 7d19888e13af1424fb7a6bbd5396a229,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: NetworkManagerPrefab
+      value: 
+      objectReference: {fileID: 11406368, guid: dba5ad53778b7114a98b00f6df59d790,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: EnemyPrefab
+      value: 
+      objectReference: {fileID: 11443994, guid: bc8133cc5ba932649863cf23bc225f43,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: BirdPrefab
+      value: 
+      objectReference: {fileID: 11464982, guid: 68bf65475d902e24ba59ec464e957212,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: GameOverPrefab
+      value: 
+      objectReference: {fileID: 11469834, guid: ef8c1e0ce9b965f4db5ce1b56f44f796,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: InstructionsPrefab
+      value: 
+      objectReference: {fileID: 11482144, guid: a97c70521b10e034097a9d4ca0c4165c,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: Lives
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 143856}
