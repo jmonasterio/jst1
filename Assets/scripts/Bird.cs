@@ -32,7 +32,7 @@ public class Bird : BaseNetworkBehaviour
     public float FaceDir = -1.0f;
 
 
-    public bool Braking = false;
+    public bool InBrake = false;
     public bool InFlap = false;
 
     public float Thrust = 500.0f;
@@ -43,6 +43,7 @@ public class Bird : BaseNetworkBehaviour
 
     public AudioClip ExplosionSound;
     public AudioClip FlapSound;
+    public AudioClip BrakeSound;
 
     public ParticleSystem ExplosionParticlePrefab;
 
@@ -193,17 +194,22 @@ public class Bird : BaseNetworkBehaviour
                     if (newFaceDir != FaceDir)
                     {
                         FaceDir = newFaceDir;
-                        if (!isServer)
+                        if (!isServer && isClient)
                         {
                             CmdSetFaceDir(newFaceDir);
                         }
                     }
-                    Braking = false;
+                    InBrake = false;
                 }
                 else
                 {
                     var horzSpeedLocal = Mathf.Abs(_rigidBody.velocity.x);
-                    Braking = (horzSpeedLocal > BrakingSpeed) && (horz == 0.0f);
+                    bool wasInBrake = InBrake;
+                    InBrake = (horzSpeedLocal > BrakingSpeed) && (horz == 0.0f) && LegsChild.IsGrounded;
+                    if (InBrake && !wasInBrake)
+                    {
+                        SafeGameManager.PlayClip(BrakeSound);
+                    }
                 }
 
                 bool vert = _flapButtonDown;
@@ -240,7 +246,7 @@ public class Bird : BaseNetworkBehaviour
                 _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
                 _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
                 _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x));
-                _animator.SetBool(AnimParams.InBrake, Braking);
+                _animator.SetBool(AnimParams.InBrake, InBrake);
                 _animator.SetBool(AnimParams.InFlap, InFlap);
             }
 

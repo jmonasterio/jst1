@@ -37,6 +37,7 @@ GameObject:
   - 114: {fileID: 11421028}
   - 114: {fileID: 11475346}
   - 114: {fileID: 11486146}
+  - 81: {fileID: 8169560}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -207,6 +208,13 @@ PolygonCollider2D:
       - {x: 0.14768848, y: -0.009358458}
       - {x: -0.03440205, y: -0.0040436313}
       - {x: -0.03206078, y: 0.08750004}
+--- !u!81 &8169560
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134744}
+  m_Enabled: 1
 --- !u!82 &8286114
 AudioSource:
   m_ObjectHideFlags: 1
@@ -414,7 +422,7 @@ MonoBehaviour:
   RiderChild: {fileID: 11420170}
   HealthBarChild: {fileID: 11411166}
   FaceDir: -1
-  Braking: 0
+  InBrake: 0
   InFlap: 0
   Thrust: 200
   SideThrust: 1000
@@ -423,6 +431,7 @@ MonoBehaviour:
   PlayerIndex: 0
   ExplosionSound: {fileID: 0}
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
+  BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
   ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11475346
 MonoBehaviour:
@@ -798,6 +807,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300134, guid: b4115156b1ada4b4ca7982fa949e68a5,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: BrakeSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

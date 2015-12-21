@@ -378,14 +378,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 156112, guid: 73259b5cf26f7db4ab9f7bbe6e33ce65, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 2086828, guid: 73259b5cf26f7db4ab9f7bbe6e33ce65, type: 2}
-      propertyPath: orthographic size
-      value: 2.1306114
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 73259b5cf26f7db4ab9f7bbe6e33ce65, type: 2}
   m_IsPrefabParent: 0
