@@ -105,8 +105,10 @@ public class SceneController : Base2DBehaviour
             var bird = FindObjectOfType(typeof(Bird));
             this.AttachLocalPlayer( bird as Bird);
 
-            AddSomeEnemies();
-
+            if (GameManager.Instance.isServer)
+            {
+                AddSomeEnemies();
+            }
             //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
             _gameOver = GameOverPrefab.InstantiateInTransform( SafeGameManager.SceneRoot);
             _instructions = InstructionsPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
