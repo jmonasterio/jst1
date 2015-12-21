@@ -341,6 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b0723d0c9d6da24c970985be40c1eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health0: {fileID: 21300134, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   Health1: {fileID: 21300128, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   Health2: {fileID: 21300130, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
   Health3: {fileID: 21300132, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
@@ -792,6 +793,11 @@ Prefab:
       propertyPath: HealthBarChild
       value: 
       objectReference: {fileID: 11411166}
+    - target: {fileID: 0}
+      propertyPath: Health0
+      value: 
+      objectReference: {fileID: 21300134, guid: b4115156b1ada4b4ca7982fa949e68a5,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

@@ -24,7 +24,7 @@ public class PlayController : Base2DBehaviour
     public int Lives = 0;
 
     // Use this for initialization
-    void Start () {
+    public void Start () {
 	
 	}
 	

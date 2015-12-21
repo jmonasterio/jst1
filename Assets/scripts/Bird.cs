@@ -1,4 +1,5 @@
-﻿using Assets.scripts;
+﻿using System;
+using Assets.scripts;
 using Assets.scripts.behaviors;
 using UnityEngine;
 using Toolbox;
@@ -54,9 +55,6 @@ public class Bird : BaseNetworkBehaviour
     }
 
 
-    private State _state;
-    private GameObject _bulletsContainer;
-    private float _lastHyperSpaceTime;
     private float _lastFlap;
     private Animator _animator;
     private Rigidbody2D _rigidBody;
@@ -66,21 +64,35 @@ public class Bird : BaseNetworkBehaviour
     public override void OnStartLocalPlayer() // this is our player
     {
         base.OnStartLocalPlayer();
-        SafeGameManager.SceneController.AttachLocalPlayer( this);
+        try
+        {
+            /// NOTE: GameManager and UnityNetworkManager not safe here! Because this is before sceneController created, etc.
+            /// 
 
-        // change color of local player.
-        RiderChild.GetComponent<SpriteRenderer>().sprite = LocalPlayerSprite;
+            // change color of local player.
+            RiderChild.GetComponent<SpriteRenderer>().sprite = LocalPlayerSprite;
 
 
-        this.PlayerIndex = 0;
-        // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
-        this.transform.parent = SafeGameManager.SceneRoot;
-        this.gameObject.SetActive(true);
+            this.PlayerIndex = 0;
+            // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
+            //this.transform.parent = SafeGameManager.SceneRoot;
+            // this.gameObject.SetActive(true);
+
+
+#if OLD_WAY
+    // Can't do this here when switching scenes. Too early.
+        
 
         if (isServer)
         {
             var x = SafeGameManager.SceneController.EnemyPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
             NetworkServer.Spawn(x.gameObject);
+        }
+#endif
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("BIRD.CS: " + ex.Message);
         }
 
 
@@ -103,7 +115,6 @@ public class Bird : BaseNetworkBehaviour
         _animator = GetComponent<Animator>();
         _rigidBody = GetComponent<Rigidbody2D>();
 
-        _state = State.Alive;
     }
 
 #if OLD_WAY
@@ -161,6 +172,9 @@ public class Bird : BaseNetworkBehaviour
     // Update is called once per frame
     void FixedUpdate ()
     {
+        try
+        {
+
         //if (_state != State.Killed)
         {
 
@@ -232,6 +246,11 @@ public class Bird : BaseNetworkBehaviour
 
         }
 
+        }
+        catch (Exception ex)
+        {
+            Debug.Log( "Bird.FixedUpdate: " + ex.Message);
+        }
     }
 
     [Command]

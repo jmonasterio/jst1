@@ -8,5 +8,8 @@ namespace Assets.scripts.controllers
 {
     public class OfflineSceneController : Base2DBehaviour
     {
+        public void Start()
+        {
+        }
     }
 }

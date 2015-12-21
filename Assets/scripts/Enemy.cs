@@ -34,10 +34,8 @@ public class Enemy : Base2DBehaviour
     private ParticleSystem _explosionParticleSystem;
 
 
-    private States _state;
     private List<Vector3> _path = new List<Vector3>();
     private int _curPoint = 0;
-    private float travelSpeed = 25.0f;
 
     public void SetPath(List<Vector3> newPath)
     {
@@ -93,7 +91,6 @@ public class Enemy : Base2DBehaviour
 
     private void EnemyKilled()
     {
-        _state = States.Killed;
         this.gameObject.Show(false);
         _explosionParticleSystem.Play();
         GetComponent<Rigidbody2D>().velocity *= 0.5f; // Slow down when killed.

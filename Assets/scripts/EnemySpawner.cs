@@ -11,7 +11,7 @@ namespace Assets.scripts
         public override void OnStartServer()
         {
             base.OnStartServer();
-            SafeGameManager.SceneController.OnStartServer();
+            SafeGameManager.SceneController.AddSomeEnemies();
         }
 
         public override void OnStartLocalPlayer() // this is our player

@@ -41,12 +41,12 @@ public class SceneController : Base2DBehaviour
     //private float _lastAsteroidKilled;
 
 
-    public void OnStartServer()
+    public void AddSomeEnemies()
     {
         const int numEnemies = 1;
         for (int i = 0; i < numEnemies; i++)
         {
-            var pos = SafeGameManager.SceneRoot.Find("SpawnPoint(1)").transform.position;
+            var pos = SafeGameManager.SceneRoot.Find("SpawnPoint (1)").transform.position;
 
             var enemy = EnemyPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
             enemy.transform.position = pos;
@@ -98,21 +98,36 @@ public class SceneController : Base2DBehaviour
 #endif
 
     // Use this for initialization
-    void Start ()
+    public void Start()
     {
-        //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
-        _gameOver = GameOverPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
-        _instructions = InstructionsPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+        try
+        {
+            var bird = FindObjectOfType(typeof(Bird));
+            this.AttachLocalPlayer( bird as Bird);
 
-        ShowGameOver(true);
-        ShowInstructions(true);
-        _disableStartButtonUntilTime = Time.time;
+            AddSomeEnemies();
+
+            //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
+            _gameOver = GameOverPrefab.InstantiateInTransform( SafeGameManager.SceneRoot);
+            _instructions = InstructionsPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+
+            ShowGameOver(true);
+            ShowInstructions(true);
+            _disableStartButtonUntilTime = Time.time;
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Scenecontroller.Start: " + ex.Message);
+        }
 
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
 	{
+        try
+        {
+
         // TBD: These could be components. Especially JAWS sound and free lives.
 
         UpdateFreeLives();
@@ -139,6 +154,11 @@ public class SceneController : Base2DBehaviour
             }
         }
 
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("SceneController.Udpate: " + ex.Message);
+        }
 
     }
 #if OLD_WAY
@@ -202,6 +222,7 @@ public class SceneController : Base2DBehaviour
             _nextFreeLifeScore += FREE_USER_AT;
             SafeGameManager.PlayClip(FreeLifeSound);
         }
+
     }
 
     private bool IsGamePlaying()
@@ -299,7 +320,7 @@ public class SceneController : Base2DBehaviour
     }
 #endif
 
-    public void AttachLocalPlayer( Bird bird)
+    private void AttachLocalPlayer( Bird bird)
     {
         _birdPlayer = bird;
     }

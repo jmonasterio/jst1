@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11402034}
   - 114: {fileID: 11448900}
   - 114: {fileID: 11452140}
+  - 114: {fileID: 11489712}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -162,6 +163,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayFrameRate: 1
   DebugSinusoidalFrameRate: 0
+--- !u!114 &11489712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 145
+    i1: 108
+    i2: 196
+    i3: 162
+    i4: 194
+    i5: 120
+    i6: 135
+    i7: 84
+    i8: 202
+    i9: 135
+    i10: 141
+    i11: 106
+    i12: 216
+    i13: 205
+    i14: 174
+    i15: 234
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11498672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,7 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb3d61c11e3a0d478a92976cf7dd237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneRoot: {fileID: 0}
   SceneController: {fileID: 0}
   OfflineSceneController: {fileID: 0}
   PlayController: {fileID: 0}

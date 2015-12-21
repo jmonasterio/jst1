@@ -1,12 +1,16 @@
 ﻿// GOALS: Improvements from Ast3
 
-// http://wiki.unity3d.com/index.php/Toolbox
+// Problems with network manager
+//    GameManager needs to be a networkbehaviour and have a network identity.
+//    GameManager can't be on offline screen because the logic for moving between screens creates copies of the singleton which you can see in the hierarchy.
 
+// x http://wiki.unity3d.com/index.php/Toolbox
+// x Instantiate multiple enemies at spawn locations.
 // x Teleport across screen in network mode is problematic because of collions and "INTERPOLATE" mode on the NetworkTransform.
 // Remote player doesn't "walk" on the server. 
 // Todo: Feet collider should only stop you from hitting ground. It should collide with another player while flying.
 // In orginal game, your feet would not collide with floor if you hit it fast horizontally (on a platform, so you'd schootch alonig).
-// On connection, need to spawn new player.
+// x On connection, need to spawn new player.
 // Finish sound: Spawn and bounce
 // Network spawning points.
 // AI enempies

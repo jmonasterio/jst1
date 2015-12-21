@@ -159,12 +159,77 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 497516, guid: 73259b5cf26f7db4ab9f7bbe6e33ce65, type: 2}
   m_PrefabInternal: {fileID: 764803694}
---- !u!114 &1036195993 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11406368, guid: dba5ad53778b7114a98b00f6df59d790,
-    type: 2}
+--- !u!1 &1455311225 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 150524, guid: dba5ad53778b7114a98b00f6df59d790, type: 2}
   m_PrefabInternal: {fileID: 1806691644}
-  m_Script: {fileID: -822479833, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+--- !u!114 &1455311226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1455311225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e6afec7922302448090256c6f958a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NetworkPort: 7777
+  m_ServerBindToIP: 0
+  m_ServerBindAddress: 
+  m_NetworkAddress: localhost
+  m_DontDestroyOnLoad: 1
+  m_RunInBackground: 1
+  m_ScriptCRCCheck: 1
+  m_MaxDelay: 0.01
+  m_LogLevel: 2
+  m_PlayerPrefab: {fileID: 134744, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  m_AutoCreatePlayer: 1
+  m_PlayerSpawnMethod: 0
+  m_OfflineScene: offline
+  m_OnlineScene: main
+  m_SpawnPrefabs:
+  - {fileID: 134744, guid: bc8133cc5ba932649863cf23bc225f43, type: 2}
+  - {fileID: 151880, guid: 569f6a77bb5869443b27e875f9e8f66d, type: 2}
+  m_CustomConfig: 0
+  m_MaxConnections: 4
+  m_ConnectionConfig:
+    m_PacketSize: 1500
+    m_FragmentSize: 500
+    m_ResendTimeout: 1200
+    m_DisconnectTimeout: 2000
+    m_ConnectTimeout: 2000
+    m_MinUpdateTimeout: 10
+    m_PingTimeout: 500
+    m_ReducedPingTimeout: 100
+    m_AllCostTimeout: 20
+    m_NetworkDropThreshold: 5
+    m_OverflowDropThreshold: 5
+    m_MaxConnectionAttempt: 10
+    m_AckDelay: 33
+    m_MaxCombinedReliableMessageSize: 100
+    m_MaxCombinedReliableMessageCount: 10
+    m_MaxSentMessageQueueSize: 128
+    m_IsAcksLong: 0
+    m_UsePlatformSpecificProtocols: 0
+    m_Channels: []
+  m_GlobalConfig:
+    m_ThreadAwakeTimeout: 1
+    m_ReactorModel: 0
+    m_ReactorMaximumReceivedMessages: 1024
+    m_ReactorMaximumSentMessages: 1024
+    m_MaxPacketSize: 2000
+  m_Channels: 
+  m_UseWebSockets: 0
+  m_UseSimulator: 0
+  m_SimulatedLatency: 1
+  m_PacketLossPercentage: 0
+  m_MatchHost: mm.unet.unity3d.com
+  m_MatchPort: 443
+  isNetworkActive: 0
+  matchMaker: {fileID: 0}
+  matchName: default
+  matchSize: 4
 --- !u!1001 &1806691644
 Prefab:
   m_ObjectHideFlags: 0
@@ -216,74 +281,11 @@ Prefab:
       propertyPath: m_SpawnPrefabs.Array.data[2]
       value: 
       objectReference: {fileID: 103248, guid: 2515bcb084fcfaf4ebf6e276ae90da40, type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 11406368, guid: dba5ad53778b7114a98b00f6df59d790, type: 2}
+      propertyPath: m_DontDestroyOnLoad
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11406368, guid: dba5ad53778b7114a98b00f6df59d790, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: dba5ad53778b7114a98b00f6df59d790, type: 2}
-  m_IsPrefabParent: 0
---- !u!1001 &1936765556
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 2.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 4.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 447138, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: SceneControllerPrefab
-      value: 
-      objectReference: {fileID: 11411036, guid: 79ae6f0e460468e47afb9a91536da876,
-        type: 2}
-    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: OfflineSceneControllerPrefab
-      value: 
-      objectReference: {fileID: 11441956, guid: 7d19888e13af1424fb7a6bbd5396a229,
-        type: 2}
-    - target: {fileID: 143856, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: m_TagString
-      value: GameController
-      objectReference: {fileID: 0}
-    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: SceneRoot
-      value: 
-      objectReference: {fileID: 266498512}
-    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: NetworkManager
-      value: 
-      objectReference: {fileID: 1036195993}
-    - target: {fileID: 11498672, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
-      propertyPath: UnityNetworkManager
-      value: 
-      objectReference: {fileID: 1036195993}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
   m_IsPrefabParent: 0
