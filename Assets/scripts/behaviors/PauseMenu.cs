@@ -5,16 +5,30 @@ using System.Text;
 using Toolbox;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace Assets.scripts
 {
-    public class PauseMenu : BaseBehaviour
+    public class PauseMenu : BaseNetworkBehaviour
     {
         public Rect windowRect = new Rect(295, 175, 0, 0);
         public bool gamePaused = false;
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (isServer)
+                {
+                    NetworkManager.singleton.StopHost();
+                }
+                else
+                {
+                    NetworkManager.singleton.client.Disconnect();
+                    SceneManager.LoadScene("offline");
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.P))
             {
                 if (gamePaused)
                 {

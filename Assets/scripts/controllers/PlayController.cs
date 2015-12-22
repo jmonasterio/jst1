@@ -30,8 +30,7 @@ public class PlayController : Base2DBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+    }
 
     public void StartGame()
     {
