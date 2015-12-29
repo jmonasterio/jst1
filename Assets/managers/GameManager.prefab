@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11448900}
   - 114: {fileID: 11452140}
   - 114: {fileID: 11489712}
+  - 114: {fileID: 11482716}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -124,6 +125,10 @@ MonoBehaviour:
   GameOverPrefab: {fileID: 11469834, guid: ef8c1e0ce9b965f4db5ce1b56f44f796, type: 2}
   InstructionsPrefab: {fileID: 11482144, guid: a97c70521b10e034097a9d4ca0c4165c, type: 2}
   FreeLifeSound: {fileID: 0}
+  Energize1Sound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+  Energize2Sound: {fileID: 8300000, guid: 6121e4bc8b300394baae0c496d66335d, type: 3}
+  BumpSound: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
+  LanceSound: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
   FREE_USER_AT: 10000
 --- !u!114 &11448900
 MonoBehaviour:
@@ -163,6 +168,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayFrameRate: 1
   DebugSinusoidalFrameRate: 0
+--- !u!114 &11482716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba388537797876d4c96a395c6732be22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 295
+    y: 175
+    width: 0
+    height: 0
+  gamePaused: 0
 --- !u!114 &11489712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -308,6 +331,38 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: BypassListenerEffects
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Energize1
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Energize2
+      value: 
+      objectReference: {fileID: 8300000, guid: 6121e4bc8b300394baae0c496d66335d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Energize1Soune
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Energize2Sound
+      value: 
+      objectReference: {fileID: 8300000, guid: 6121e4bc8b300394baae0c496d66335d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: BumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
+    - target: {fileID: 0}
+      propertyPath: LanceSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Energize1Sound
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: OutputAudioMixerGroup
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

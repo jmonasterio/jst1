@@ -55,8 +55,11 @@ public class Enemy : Base2DBehaviour
     // Update is called once per frame
     void FixedUpdate ()
     {
-#if OLD_WAY
         var rigidBody = GetComponent<Rigidbody2D>();
+
+
+
+#if OLD_WAY
 
         var target = _path[_curPoint];
         var curPos = this.transform.position;

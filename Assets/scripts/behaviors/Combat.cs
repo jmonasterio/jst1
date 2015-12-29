@@ -12,10 +12,17 @@ namespace Assets.scripts.behaviors
     {
         public const int maxHealth = 3;
 
-        [SyncVar]
-        public int health = maxHealth;
+        public AudioClip LanceSound;
+        public AudioClip BumpSound;
+
+        [SyncVar] public int health = maxHealth;
 
         private float _lastDamage;
+
+        public void Tie()
+        {
+            SafeGameManager.PlayClip(LanceSound);
+        }
 
         public void TakeDamage(int amount)
         {
@@ -29,7 +36,7 @@ namespace Assets.scripts.behaviors
                 return;
             }
             _lastDamage = Time.time;
-
+            SafeGameManager.PlayClip(BumpSound);
             health -= amount;
             if (health <= 0)
             {
@@ -54,7 +61,7 @@ namespace Assets.scripts.behaviors
                 }
                 else
                 {
-                    // tie
+                    this.Tie();
                 }
             }
         }

@@ -8,7 +8,13 @@ using Random = UnityEngine.Random;
 
 public class SceneController : Base2DBehaviour
 {
-
+    public struct Scenes
+    {
+        public const string Main = "main";
+        public const string Offline = "offline";
+        public const string Join = "join";
+        public const string Host = "host";
+    }
     public int Level { get; set; }
     //public Asteroid[] AsteroidPrefabs;
     public Enemy EnemyPrefab; 
@@ -21,6 +27,10 @@ public class SceneController : Base2DBehaviour
     //public AudioClip Jaws1;
     //public AudioClip Jaws2;
     public AudioClip FreeLifeSound;
+    public AudioClip Energize1Sound;
+    public AudioClip Energize2Sound;
+    public AudioClip BumpSound;
+    public AudioClip LanceSound;
     //public AudioClip AlienSoundBig;
     //public AudioClip AlienSoundSmall;
     public int FREE_USER_AT = 10000;
@@ -29,8 +39,9 @@ public class SceneController : Base2DBehaviour
 
     private GameOver _gameOver;
     private Instructions _instructions;
-    private Bird _birdPlayer;
-    private List<Asteroid> _asteroids = new List<Asteroid>();
+    private List<Bird> _birdPlayers;
+    private List<Enemy> _enemies;
+ //   private List<Asteroid> _asteroids = new List<Asteroid>();
 //    private Alien _alien;
 
     //private float _nextJawsSoundTime;
@@ -40,17 +51,27 @@ public class SceneController : Base2DBehaviour
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
 
+    private string GetRandomSpawmPoint()
+    {
+        int pt = Random.Range(1, 3);
+        return "SpawnPoint (" + pt + ")";
+    }
 
     public void AddSomeEnemies()
     {
-        const int numEnemies = 1;
+        const int numEnemies = 4;
         for (int i = 0; i < numEnemies; i++)
         {
-            var pos = SafeGameManager.SceneRoot.Find("SpawnPoint (1)").transform.position;
+            string spawnPoint = GetRandomSpawmPoint();
+            var pos = SafeGameManager.SceneRoot.Find(spawnPoint).transform.position;
 
             var enemy = EnemyPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+            _enemies.Add(enemy);
             enemy.transform.position = pos;
+            enemy.GetComponent<Blinker>().BlinkSprite(1.0f,0.05f);
+
             NetworkServer.Spawn(enemy.gameObject);
+            SafeGameManager.PlayClip(Energize2Sound);
         }
     }
 
@@ -97,8 +118,14 @@ public class SceneController : Base2DBehaviour
     }
 #endif
 
+    void Awake()
+    {
+        _birdPlayers = new List<Bird>();
+        _enemies = new List<Enemy>();
+    }
+
     // Use this for initialization
-    public void Start()
+    void Start()
     {
         try
         {
@@ -113,13 +140,18 @@ public class SceneController : Base2DBehaviour
             _gameOver = GameOverPrefab.InstantiateInTransform( SafeGameManager.SceneRoot);
             _instructions = InstructionsPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
 
-            ShowGameOver(true);
-            ShowInstructions(true);
+            ShowGameOver(false);
+            ShowInstructions(false);
             _disableStartButtonUntilTime = Time.time;
+
+            // Try to prevent game starting right after previous if you keep firing.
+            this.GetComponent<PlayController>().StartGame();
+            this.StartGame();
+
         }
         catch (Exception ex)
         {
-            Debug.Log("Scenecontroller.Start: " + ex.Message);
+            Debug.Log("SceneController.Start: " + ex.Message);
         }
 
     }
@@ -144,14 +176,6 @@ public class SceneController : Base2DBehaviour
         {
             if (Input.GetButton(PlayController.Buttons.FLAP))
             {
-                // Try to prevent game starting right after previous if you keep firing.
-                if (CanStartGame())
-                {
-                    SafeGameManager.StartGame();
-                    this.StartGame();
-
-
-                }
 
             }
         }
@@ -257,10 +281,13 @@ public class SceneController : Base2DBehaviour
 
     public void OnDestroy()
     {
-        if (_birdPlayer != null)
+        if (_birdPlayers != null)
         {
-            Destroy(_birdPlayer.gameObject);
-            _birdPlayer = null;
+            foreach (var birdPlayer in _birdPlayers)
+            {
+                Destroy(birdPlayer.gameObject);
+            }
+            _birdPlayers = new List<Bird>();
         }
         if (_instructions != null)
         {
@@ -300,15 +327,14 @@ public class SceneController : Base2DBehaviour
         
         Level = 0;
         _nextFreeLifeScore = FREE_USER_AT;
+        _birdPlayers = new List<Bird>(); // Only really used on  server?
 
         ShowGameOver(false);
-        ShowInstructions(false);
 #if OLD_WAY
         ClearBullets(this);
 #endif
         
         ShowInstructions(false);
-        //ClearAsteroids();
         StartLevel();
         //Respawn(_birdPlayer, 0.5f);
     }
@@ -324,7 +350,7 @@ public class SceneController : Base2DBehaviour
 
     private void AttachLocalPlayer( Bird bird)
     {
-        _birdPlayer = bird;
+        _birdPlayers.Add( bird);
     }
 
 #if OLD_WAY
@@ -385,7 +411,7 @@ public class SceneController : Base2DBehaviour
             _alien.PlaySound( false);
         }
 #endif
-        _birdPlayer = null;
+        _birdPlayers = new List<Bird>();
         Level = 0;
         // Leave score.
 
@@ -396,11 +422,10 @@ public class SceneController : Base2DBehaviour
 
     public void Respawn(Bird bird, float delay )
     {
-        _birdPlayer = null;
 
         StartCoroutine(CoroutineUtils.DelaySeconds(() =>
         {
-            _birdPlayer.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
+            bird.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
 
             // Change the count AFTER the respawn occurs. It looks better.
             SafeGameManager.PlayController.Lives--;

@@ -372,6 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a77f5b15b5f95146afa5bc056e81041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanceSound: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
+  BumpSound: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
   health: 3
 --- !u!114 &11443966
 MonoBehaviour:
@@ -441,7 +443,7 @@ MonoBehaviour:
   RiderChild: {fileID: 11420170}
   HealthBarChild: {fileID: 0}
   FaceDir: -1
-  Braking: 0
+  InBrake: 0
   InFlap: 0
   Thrust: 200
   SideThrust: 1000
@@ -450,6 +452,8 @@ MonoBehaviour:
   PlayerIndex: 0
   ExplosionSound: {fileID: 0}
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
+  BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
+  Energize1Sound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
   ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11496144
 MonoBehaviour:
@@ -773,6 +777,22 @@ Prefab:
       value: 
       objectReference: {fileID: 21300134, guid: b4115156b1ada4b4ca7982fa949e68a5,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: BumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
+    - target: {fileID: 0}
+      propertyPath: LanceSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
+    - target: {fileID: 0}
+      propertyPath: BrakeSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Energize1Sound
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

@@ -274,6 +274,11 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 8273396, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300001, guid: b663dc00b9933c9438055eff3d1c60ec,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 916cc4a2c2788754ca878d6ad8cdaeea, type: 2}
   m_IsPrefabParent: 0
@@ -516,11 +521,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 411076, guid: f12b594c2b6d7c649ae8c161af59d1fe, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.04
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 411076, guid: f12b594c2b6d7c649ae8c161af59d1fe, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.3
+      value: 2.22
       objectReference: {fileID: 0}
     - target: {fileID: 411076, guid: f12b594c2b6d7c649ae8c161af59d1fe, type: 2}
       propertyPath: m_LocalPosition.z

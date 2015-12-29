@@ -44,6 +44,7 @@ public class Bird : BaseNetworkBehaviour
     public AudioClip ExplosionSound;
     public AudioClip FlapSound;
     public AudioClip BrakeSound;
+    public AudioClip Energize1Sound;
 
     public ParticleSystem ExplosionParticlePrefab;
 
@@ -73,6 +74,7 @@ public class Bird : BaseNetworkBehaviour
             // change color of local player.
             RiderChild.GetComponent<SpriteRenderer>().sprite = LocalPlayerSprite;
 
+            SafeGameManager.PlayClip(Energize1Sound);
 
             this.PlayerIndex = 0;
             // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.

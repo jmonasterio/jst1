@@ -106,6 +106,11 @@ public class GameManager : BaseNetworkBehaviour
         //PlayController.Start();
     }
 
+    void Start()
+    {
+        
+    }
+
 
 
     // Update is called once per frame

@@ -37,7 +37,6 @@ GameObject:
   - 114: {fileID: 11421028}
   - 114: {fileID: 11475346}
   - 114: {fileID: 11486146}
-  - 81: {fileID: 8169560}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -208,13 +207,6 @@ PolygonCollider2D:
       - {x: 0.14768848, y: -0.009358458}
       - {x: -0.03440205, y: -0.0040436313}
       - {x: -0.03206078, y: 0.08750004}
---- !u!81 &8169560
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
 --- !u!82 &8286114
 AudioSource:
   m_ObjectHideFlags: 1
@@ -223,7 +215,8 @@ AudioSource:
   m_GameObject: {fileID: 134744}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: b663dc00b9933c9438055eff3d1c60ec,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -237,7 +230,7 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
+  BypassEffects: 1
   BypassListenerEffects: 0
   BypassReverbZones: 0
   rolloffCustomCurve:
@@ -432,6 +425,7 @@ MonoBehaviour:
   ExplosionSound: {fileID: 0}
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
   BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
+  Energize1Sound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
   ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11475346
 MonoBehaviour:
@@ -463,6 +457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a77f5b15b5f95146afa5bc056e81041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LanceSound: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
+  BumpSound: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
   health: 3
 --- !u!114 &11496144
 MonoBehaviour:
@@ -811,6 +807,27 @@ Prefab:
       propertyPath: BrakeSound
       value: 
       objectReference: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
+    - target: {fileID: 0}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300001, guid: b663dc00b9933c9438055eff3d1c60ec,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: BypassEffects
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Energize1Sound
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: BumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
+    - target: {fileID: 0}
+      propertyPath: LanceSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

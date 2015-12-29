@@ -57,7 +57,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 134744, guid: bc8133cc5ba932649863cf23bc225f43, type: 2}
   - {fileID: 151880, guid: 569f6a77bb5869443b27e875f9e8f66d, type: 2}
-  - {fileID: 103248, guid: 2515bcb084fcfaf4ebf6e276ae90da40, type: 2}
+  - {fileID: 0}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 150524}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 227461547, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
@@ -154,6 +154,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LogLevel
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
