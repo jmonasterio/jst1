@@ -50,6 +50,7 @@ public class SceneController : BaseNetworkBehaviour
     //private float _jawsIntervalSeconds;
     //private bool _jawsAlternate;
     private double _disableStartButtonUntilTime;
+    private const int MAX_ENEMIES = 5;
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
 
@@ -204,7 +205,7 @@ public class SceneController : BaseNetworkBehaviour
 
         UpdateFreeLives();
 
-        if (_enemyPrespawnCount < 3 && _players.Count > 0 )
+        if ((_enemyPrespawnCount < 3) && (_players.Count > 0) && (_enemies.Count < MAX_ENEMIES) )
         {
             EnemyPrespawnLater();
         }
@@ -385,22 +386,26 @@ public class SceneController : BaseNetworkBehaviour
         ShowInstructions(false);
         StartLevel();
 
-        ClientScene.AddPlayer(this.connectionToServer, 0);
-        foreach( var p in FindObjectsOfType<Player>())
-        {
-            var playerNetwork = p.GetComponent<NetworkBehaviour>();
-            if ( playerNetwork.localPlayerAuthority)
-            {
-                this.AttachLocalPlayer(p);
-            }
-        }
+        SpawnNewPlayer();
 
         if (GameManager.Instance.isServer)
         {
-            const int numEnemies = 3;
             for (int ii = 0; ii < _enemyPrespawnCount; ii++)
             {
                 EnemyPrespawnLater();
+            }
+        }
+    }
+
+    private void SpawnNewPlayer()
+    {
+        ClientScene.AddPlayer(this.connectionToServer, 0);
+        foreach (var p in FindObjectsOfType<Player>())
+        {
+            var playerNetwork = p.GetComponent<NetworkBehaviour>();
+            if (playerNetwork.localPlayerAuthority)
+            {
+                this.AttachLocalPlayer(p);
             }
         }
     }

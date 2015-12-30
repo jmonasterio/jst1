@@ -7,8 +7,12 @@
 // x http://wiki.unity3d.com/index.php/Toolbox
 // x Instantiate multiple enemies at spawn locations.
 // x Teleport across screen in network mode is problematic because of collions and "INTERPOLATE" mode on the NetworkTransform.
-// Enemies come up on top of each other.
+// x Enemies come up on top of each other.
 
+// Handle player respawn.
+// Enemies don't have feet.
+// Enemies should track.
+// Side scroll for a while before wrapping. Or just have a wall at the edge after some side scrolling.
 // x Spawned enemy doesn't have SOUND.
 // x Death and respawn.
 // Remote player doesn't "walk" on the server. 
@@ -20,7 +24,7 @@
 // AI enempies
 // x Animated player.
 // Eggs
-// Multi-game. Need to have same screensize everywhere.
+// Multi-game. Need to have same screensize everywhere. <-- Could be resolved by not wrapping. Or scaling screen to make sure it fits.
 // Multi-game. Guy sticks to top.
 // Multi-game. Extra player invisible.
 // Fallback to single player.
