@@ -65,7 +65,21 @@ namespace Assets.scripts
                     _lastError = "";
                     NetworkManager.singleton.StartClient();
                 }
-                posY += 44;
+                posY += 38;
+
+                if (GUI.Button(new Rect(Screen.width / 2 - 100, posY, 200, 33), "Exit Game\n[Press X]") ||
+                    Input.GetKeyDown(KeyCode.X))
+                {
+                    _lastError = "";
+#if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBPLAYER
+         Application.OpenURL("http://www.google.com");
+#else
+         Application.Quit();
+#endif
+                }
+                    posY += 44;
                 GUI.Label(new Rect(Screen.width / 2 - 100, posY, 200, 33), _lastError);
             }
             catch (Exception ex)
