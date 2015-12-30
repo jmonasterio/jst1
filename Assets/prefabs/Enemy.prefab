@@ -157,7 +157,7 @@ PolygonCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
@@ -318,7 +318,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalPlayerSprite: {fileID: 21300050, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
-  LegsChild: {fileID: 11449768, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  MovementSoundsOn: 0
+  LegsChild: {fileID: 11449768}
   RiderChild: {fileID: 11420170, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
   HealthBarChild: {fileID: 11411166, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
   FaceDir: -1
@@ -328,7 +329,6 @@ MonoBehaviour:
   SideThrust: 1000
   BrakingSpeed: 1
   MaxSpeed: 4
-  PlayerIndex: 0
   ExplosionSound: {fileID: 0}
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
   BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
@@ -577,8 +577,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: LegsChild
       value: 
-      objectReference: {fileID: 11449768, guid: 68bf65475d902e24ba59ec464e957212,
-        type: 2}
+      objectReference: {fileID: 11449768}
     - target: {fileID: 0}
       propertyPath: RiderChild
       value: 
@@ -766,6 +765,10 @@ Prefab:
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 9596594}
+    - target: {fileID: 0}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

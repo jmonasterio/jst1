@@ -10,7 +10,7 @@
 // x Enemies come up on top of each other.
 
 // Handle player respawn.
-// Enemies don't have feet.
+// x Enemies don't have feet.
 // x Enemies should track.
 // Side scroll for a while before wrapping. Or just have a wall at the edge after some side scrolling.
 // x Spawned enemy doesn't have SOUND.

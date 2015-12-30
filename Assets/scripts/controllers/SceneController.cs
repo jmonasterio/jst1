@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Assets.scripts;
+using Assets.scripts.behaviors;
 using Toolbox;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
@@ -56,20 +57,21 @@ public class SceneController : BaseNetworkBehaviour
     //private float _jawsIntervalSeconds;
     //private bool _jawsAlternate;
     private double _disableStartButtonUntilTime;
-    private const int MAX_ENEMIES = 5;
+    private const int MAX_ENEMIES = 3;
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
 
-    private string GetRandomSpawmPoint()
+    private Transform GetRandomSpawmPoint()
     {
         int pt = Random.Range(1, 4);
-        return "SpawnPoint (" + pt + ")";
+        string name = "SpawnPoint (" + pt + ")";
+        return SafeGameManager.SceneRoot.Find(name);
     }
 
     public Vector3 GetRandomSpawnPoint()
     {
-        string spawnPoint = GetRandomSpawmPoint();
-        var pos = SafeGameManager.SceneRoot.Find(spawnPoint).transform.position;
+        var spawnPoint = GetRandomSpawmPoint();
+        var pos = spawnPoint.position;
         return pos;
 
     }
@@ -78,10 +80,10 @@ public class SceneController : BaseNetworkBehaviour
     {
         _enemyPrespawnCount++;
 
-        StartCoroutine(CoroutineUtils.DelaySeconds(() =>
+        StartCoroutine(CoroutineUtils.DelaySeconds( 2.0f, () =>
         {
             AddSomeEnemies(1);
-        }, 2.0f));
+        }));
     }
 
     public void RespawnEnemy(Enemy enemy)
@@ -109,12 +111,7 @@ public class SceneController : BaseNetworkBehaviour
 
             var pos = GetRandomSpawnPoint();
 
-            const float MAX_DISTANCE_FROM_SPAWN = 0.5f;
-            if (_enemies.Any(_ => Vector3.Distance(_.transform.position, pos) < MAX_DISTANCE_FROM_SPAWN))
-            {
-                continue;
-            }
-            if ( (_players != null) && (_players.Any(_ => Vector3.Distance(_.transform.position, pos) < MAX_DISTANCE_FROM_SPAWN)))
+            if (!IsSafeSpawnPoint(pos))
             {
                 continue;
             }
@@ -128,20 +125,21 @@ public class SceneController : BaseNetworkBehaviour
         }
     }
 
-    public void PlayerKilled(Bird bird)
+    private bool IsSafeSpawnPoint(Vector3 pos)
     {
-        if (SafeGameManager.PlayController.Lives < 1)
+        const float MAX_DISTANCE_FROM_SPAWN = 0.7f;
+        if (_enemies.Any(_ => Vector3.Distance(_.transform.position, pos) < MAX_DISTANCE_FROM_SPAWN))
         {
-            SafeGameManager.SetGameState( PlayController.States.Over);
-            GameOver(bird);
+            return false;
         }
-        else
+        if ((_players != null) && (_players.Any(_ => Vector3.Distance(_.transform.position, pos) < MAX_DISTANCE_FROM_SPAWN)))
         {
-            //Respawn(bird, 2.0f);
-
+            return false;
         }
-
+        return true;
     }
+
+ 
 
     public void DestroyEnemy(Enemy e, bool explode = false)
     {
@@ -211,7 +209,7 @@ public class SceneController : BaseNetworkBehaviour
 
         UpdateFreeLives();
 
-        if ((_enemyPrespawnCount < 3) && (_players.Count > 0) && (_enemies.Count < MAX_ENEMIES) )
+        if ((_enemyPrespawnCount + _enemies.Count < MAX_ENEMIES) && (_players.Count > 0) )
         {
             EnemyPrespawnLater();
         }
@@ -411,15 +409,35 @@ public class SceneController : BaseNetworkBehaviour
             var playerNetwork = p.GetComponent<NetworkBehaviour>();
             if (playerNetwork.localPlayerAuthority)
             {
+                HideDeadPlayer(p); // Not to be seen or followed by enemies yet.
                 this.AttachLocalPlayer(p);
             }
         }
     }
 
-    public void RespawnPlayer( Player p)
+    public void RespawnPlayer(Player p)
     {
+        print("Start player respawn timer.");
         // Assume they still have more lives for now.
-        p.Respawn();
+        StartCoroutine(CoroutineUtils.DelaySeconds(1.0f, () =>
+            StartCoroutine(CoroutineUtils.UntilTrue(() =>
+            {
+                var spawnPoint = SafeGameManager.SceneController.GetRandomSpawnPoint();
+                if (IsSafeSpawnPoint(spawnPoint))
+                {
+                    p.RespawnAt(spawnPoint);
+                    if (!_players.Contains(p))
+                    {
+                        _players.Add(p);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }))));
+
     }
 
 #if OLD_WAY
@@ -486,7 +504,7 @@ public class SceneController : BaseNetworkBehaviour
         _instructions.GetComponent<MeshRenderer>().enabled = b;
     }
 
-    public void GameOver(Bird bird)
+    public void GameOver(Player p)
     {
 #if OLD_WAY
         if (_alien != null)
@@ -503,19 +521,7 @@ public class SceneController : BaseNetworkBehaviour
     }
 
 
-    public void Respawn(Bird bird, float delay )
-    {
-
-        StartCoroutine(CoroutineUtils.DelaySeconds(() =>
-        {
-            // Change the count AFTER the respawn occurs. It looks better.
-            SafeGameManager.PlayController.Lives--;
-#if OLD_WAY
-            _lastAsteroidKilled = Time.time;
-#endif
-        }, delay));
-
-    }
+   
 
 #if OLD_WAY
     public void DestroyAlien(Alien alien, bool explode)
@@ -623,5 +629,32 @@ public class SceneController : BaseNetworkBehaviour
 #endif
 
 
+    public void KillPlayer(Player pl)
+    {
 
+        HideDeadPlayer(pl);
+        _players.Remove(pl);
+
+        if (SafeGameManager.PlayController.Lives < 1)
+        {
+            if (_players.Count == 0)
+            {
+                SafeGameManager.SetGameState(PlayController.States.Over);
+                GameOver(pl);
+            }
+        }
+        else
+        {
+            RespawnPlayer(pl);
+        }
+    }
+
+    private void HideDeadPlayer(Player pl)
+    {
+        pl.IsDead = true; // So enemies don't follow anymore
+        pl.transform.position = new Vector3(-10000f,-10000f,-10000f);
+        // Move player off screen until respawn (so we don't see him anymore??)
+        var wrapped = pl.GetComponent<Wrapped2D>();
+        wrapped.StartTeleportTo(new Vector3(-10000f, -10000f, -10000.0f));
+    }
 }

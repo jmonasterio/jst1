@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.scripts;
 using Toolbox;
 
@@ -59,10 +60,31 @@ public class Enemy : BaseNetworkBehaviour
         if (!Network.isServer)
         {
             var enemyBird = GetComponent<Bird>();
+            float horz = 0.0f;
+            bool vert = false;
 
-            float horz = -Mathf.Sign(enemyBird.transform.position.x - SafeGameManager.SceneController.Players[0].transform.position.x)*0.4f;
-            bool vert = (enemyBird.transform.position.y < SafeGameManager.SceneController.Players[0].transform.position.y); // Represents flap
-            enemyBird.ApplyInputsForMovement(horz, vert);
+            var followPlayer = SafeGameManager.SceneController.Players.FirstOrDefault();
+            if (followPlayer != null)
+            {
+                horz = -Mathf.Sign(enemyBird.transform.position.x - followPlayer.transform.position.x) * 0.4f;
+                vert = (enemyBird.transform.position.y < followPlayer.transform.position.y); // Represents flap
+
+            }
+
+            // Player is unspawned. Just make sure player stays out of lava.
+            if (enemyBird.transform.position.y < -1.3f)
+            {
+                vert = true;
+            }
+
+            if ( (followPlayer == null) || (followPlayer.IsDead) ) // TBD Need better hack here.
+            {
+                // Player is unspawned/dead.
+            }
+            else
+            {
+                enemyBird.ApplyInputsForMovement(horz, vert);
+            }
 
             enemyBird.AnimateBird();
         }

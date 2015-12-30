@@ -8,6 +8,8 @@ public class Player : BaseNetworkBehaviour
 {
     private bool _flapButtonDown;
 
+    public bool IsDead;
+
     public override void OnStartLocalPlayer() // this is our player
     {
         base.OnStartLocalPlayer();
@@ -20,7 +22,7 @@ public class Player : BaseNetworkBehaviour
             var bird = GetComponent<Bird>();
             bird.SetAsLocalPlayer();
 
-            Respawn();
+            SafeGameManager.SceneController.RespawnPlayer(this);
 
             // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
             //this.transform.parent = SafeGameManager.SceneRoot;
@@ -46,10 +48,15 @@ public class Player : BaseNetworkBehaviour
 
     }
 
-    public void Respawn()
+    public void RespawnAt( Vector3 pos)
     {
         var bird = GetComponent<Bird>();
-        bird.transform.position = SafeGameManager.SceneController.GetRandomSpawnPoint();
+
+        IsDead = false;
+
+        var wrapped2d = this.GetComponent<Wrapped2D>();
+        wrapped2d.StartTeleportTo(pos);
+
         SafeGameManager.PlayClip(bird.SpawnSound);
     }
 

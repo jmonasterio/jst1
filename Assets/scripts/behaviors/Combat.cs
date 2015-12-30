@@ -54,7 +54,8 @@ namespace Assets.scripts.behaviors
             if (isLocalPlayer)
             {
                 var player = this.GetComponent<Player>();
-                SafeGameManager.SceneController.RespawnPlayer(player);
+
+                SafeGameManager.SceneController.KillPlayer(player);
             }
             else
             {

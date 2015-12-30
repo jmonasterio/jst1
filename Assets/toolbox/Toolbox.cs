@@ -234,7 +234,7 @@ namespace Toolbox
          *         2);
          */
 
-        public static IEnumerator DelaySeconds(Action action, float delay)
+        public static IEnumerator DelaySeconds(float delay, Action action)
         {
             yield return new WaitForSeconds(delay);
             action();
@@ -249,6 +249,50 @@ namespace Toolbox
         {
             action();
             yield return 0;
+        }
+
+        // Use like this:
+        // yield return StartCoroutine(CoroutineUtils.UntilTrue(() => (lives > 3)));
+        public static IEnumerator UntilTrue(System.Func<bool> fn)
+        {
+            while (!fn())
+            {
+                yield return null;
+            }
+        }
+
+        // yield return StartCoroutine(CoroutineUtils.WhileAnimating(animation));
+        public static IEnumerator WhileAnimating(Animation animation)
+        {
+            while (animation.isPlaying)
+            {
+                yield return null;
+            }
+        }
+
+        // A wait function using GameTime instead of Time
+        public static IEnumerator WaitForGameSecondsCoroutine(float time)
+        {
+            time = Mathf.Max(time, 0);
+            float timeElapsed = 0;
+            while (timeElapsed < time)
+            {
+                timeElapsed += Time.deltaTime;
+
+                yield return 0;
+            }
+        }
+
+        public static Coroutine WaitForGameSeconds(float time)
+        {
+            return GameManager.Instance.StartCoroutine(WaitForGameSecondsCoroutine(time));
+        }
+
+        // yield return StartCoroutine(CoroutineUtils.OnNextFrame(() => { doSomething() } ));
+        public static IEnumerator OnNextFrame(System.Action fn)
+        {
+            yield return null;
+            fn();
         }
     }
 
