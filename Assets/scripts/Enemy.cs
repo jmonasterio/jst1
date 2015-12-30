@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Assets.scripts;
 using Toolbox;
 
-[RequireComponent(typeof(AudioSource))]
-public class Enemy : Base2DBehaviour
+public class Enemy : BaseNetworkBehaviour
 {
+
     public enum Sizes
     {
         Big,
@@ -26,17 +26,18 @@ public class Enemy : Base2DBehaviour
     }
 #endif
 
-    public Sizes Size;
-    public AudioClip ExplosionSound;
-    public ParticleSystem ExplosionParticlePrefab;
-    public AudioClip ShootSound;
+    //public Sizes Size;
+    //public AudioClip ExplosionSound;
+    //public ParticleSystem ExplosionParticlePrefab;
+    //public AudioClip ShootSound;
 
-    private ParticleSystem _explosionParticleSystem;
+    //private ParticleSystem _explosionParticleSystem;
 
 
-    private List<Vector3> _path = new List<Vector3>();
-    private int _curPoint = 0;
+//private List<Vector3> _path = new List<Vector3>();
+///private int _curPoint = 0;
 
+#if OLD_WAY
     public void SetPath(List<Vector3> newPath)
     {
         _path = newPath;
@@ -50,16 +51,15 @@ public class Enemy : Base2DBehaviour
         //_explosionParticleSystem.loop = false;
         //_explosionParticleSystem.Stop();
     }
-
-
-    // Update is called once per frame
-    void FixedUpdate ()
-    {
-        var rigidBody = GetComponent<Rigidbody2D>();
-
+#endif
 
 
 #if OLD_WAY
+    // Update is called once per frame
+    void FixedUpdate ()
+    {
+
+        var rigidBody = GetComponent<Rigidbody2D>();
 
         var target = _path[_curPoint];
         var curPos = this.transform.position;
@@ -87,9 +87,8 @@ public class Enemy : Base2DBehaviour
             }
             
         }
-#endif
 
-    }
+}
 
 
     private void EnemyKilled()
@@ -114,6 +113,7 @@ public class Enemy : Base2DBehaviour
 
     }
 
+#endif
 
-    
+
 }

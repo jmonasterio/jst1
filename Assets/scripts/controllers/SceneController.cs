@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Assets.scripts;
 using Toolbox;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class SceneController : Base2DBehaviour
+public class SceneController : BaseNetworkBehaviour
 {
     public struct Scenes
     {
@@ -27,19 +29,19 @@ public class SceneController : Base2DBehaviour
     //public AudioClip Jaws1;
     //public AudioClip Jaws2;
     public AudioClip FreeLifeSound;
-    public AudioClip Energize1Sound;
-    public AudioClip Energize2Sound;
     public AudioClip BumpSound;
     public AudioClip LanceSound;
     //public AudioClip AlienSoundBig;
     //public AudioClip AlienSoundSmall;
     public int FREE_USER_AT = 10000;
 
+    private int _enemyPrespawnCount = 0;
+
     private int _nextFreeLifeScore;
 
     private GameOver _gameOver;
     private Instructions _instructions;
-    private List<Bird> _birdPlayers;
+    private List<Player> _players;
     private List<Enemy> _enemies;
  //   private List<Asteroid> _asteroids = new List<Asteroid>();
 //    private Alien _alien;
@@ -53,25 +55,69 @@ public class SceneController : Base2DBehaviour
 
     private string GetRandomSpawmPoint()
     {
-        int pt = Random.Range(1, 3);
+        int pt = Random.Range(1, 4);
         return "SpawnPoint (" + pt + ")";
     }
 
-    public void AddSomeEnemies()
+    public Vector3 GetRandomSpawnPoint()
     {
-        const int numEnemies = 4;
+        string spawnPoint = GetRandomSpawmPoint();
+        var pos = SafeGameManager.SceneRoot.Find(spawnPoint).transform.position;
+        return pos;
+
+    }
+
+    private void EnemyPrespawnLater()
+    {
+        _enemyPrespawnCount++;
+
+        StartCoroutine(CoroutineUtils.DelaySeconds(() =>
+        {
+            AddSomeEnemies(1);
+        }, 2.0f));
+    }
+
+    public void RespawnEnemy(Enemy enemy)
+    {
+        if (!GameManager.Instance.isServer)
+        {
+            return;
+        }
+
+        DestroyEnemy(enemy);
+
+        EnemyPrespawnLater();
+    }
+
+    public void AddSomeEnemies( int numEnemies)
+    {
+        if (!GameManager.Instance.isServer)
+        {
+            return;
+        }
+
         for (int i = 0; i < numEnemies; i++)
         {
-            string spawnPoint = GetRandomSpawmPoint();
-            var pos = SafeGameManager.SceneRoot.Find(spawnPoint).transform.position;
+            _enemyPrespawnCount--;
 
-            var enemy = EnemyPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
+            var pos = GetRandomSpawnPoint();
+
+            const float MAX_DISTANCE_FROM_SPAWN = 0.5f;
+            if (_enemies.Any(_ => Vector3.Distance(_.transform.position, pos) < MAX_DISTANCE_FROM_SPAWN))
+            {
+                continue;
+            }
+            if ( (_players != null) && (_players.Any(_ => Vector3.Distance(_.transform.position, pos) < MAX_DISTANCE_FROM_SPAWN)))
+            {
+                continue;
+            }
+            var enemy = EnemyPrefab.InstantiateInTransform(null);
             _enemies.Add(enemy);
             enemy.transform.position = pos;
-            enemy.GetComponent<Blinker>().BlinkSprite(1.0f,0.05f);
 
             NetworkServer.Spawn(enemy.gameObject);
-            SafeGameManager.PlayClip(Energize2Sound);
+
+            // Do this in OnStartServer, because sound needs to be played in the client.
         }
     }
 
@@ -92,7 +138,8 @@ public class SceneController : Base2DBehaviour
 
     public void DestroyEnemy(Enemy e, bool explode = false)
     {
-        // TBD: Need to remove from list or something.
+        _enemies.Remove(e);
+        Destroy(e.gameObject);
     }
 
 
@@ -120,7 +167,7 @@ public class SceneController : Base2DBehaviour
 
     void Awake()
     {
-        _birdPlayers = new List<Bird>();
+        _players = new List<Player>();
         _enemies = new List<Enemy>();
     }
 
@@ -129,13 +176,6 @@ public class SceneController : Base2DBehaviour
     {
         try
         {
-            var bird = FindObjectOfType(typeof(Bird));
-            this.AttachLocalPlayer( bird as Bird);
-
-            if (GameManager.Instance.isServer)
-            {
-                AddSomeEnemies();
-            }
             //_asteroidContainer = GameManager.Instance.SceneRoot.FindOrCreateTempContainer("AsteroidContainer");
             _gameOver = GameOverPrefab.InstantiateInTransform( SafeGameManager.SceneRoot);
             _instructions = InstructionsPrefab.InstantiateInTransform(SafeGameManager.SceneRoot);
@@ -145,9 +185,7 @@ public class SceneController : Base2DBehaviour
             _disableStartButtonUntilTime = Time.time;
 
             // Try to prevent game starting right after previous if you keep firing.
-            this.GetComponent<PlayController>().StartGame();
-            this.StartGame();
-
+            SafeGameManager.StartGame();
         }
         catch (Exception ex)
         {
@@ -165,6 +203,11 @@ public class SceneController : Base2DBehaviour
         // TBD: These could be components. Especially JAWS sound and free lives.
 
         UpdateFreeLives();
+
+        if (_enemyPrespawnCount < 3 && _players.Count > 0 )
+        {
+            EnemyPrespawnLater();
+        }
 
 #if OLD_WAY
         UpdateJawsSound();
@@ -187,6 +230,8 @@ public class SceneController : Base2DBehaviour
         }
 
     }
+
+    
 #if OLD_WAY
     private void UpdateAlienSpawn()
     {
@@ -281,13 +326,16 @@ public class SceneController : Base2DBehaviour
 
     public void OnDestroy()
     {
-        if (_birdPlayers != null)
+        if (_players != null)
         {
-            foreach (var birdPlayer in _birdPlayers)
+            foreach (var birdPlayer in _players)
             {
-                Destroy(birdPlayer.gameObject);
+                if (birdPlayer != null) // May have been destroyed when scene was unloading and somehow unity NULLs the object.
+                {
+                    Destroy(birdPlayer.gameObject);
+                }
             }
-            _birdPlayers = new List<Bird>();
+            _players = new List<Player>();
         }
         if (_instructions != null)
         {
@@ -327,7 +375,7 @@ public class SceneController : Base2DBehaviour
         
         Level = 0;
         _nextFreeLifeScore = FREE_USER_AT;
-        _birdPlayers = new List<Bird>(); // Only really used on  server?
+        _players = new List<Player>(); // Only really used on  server?
 
         ShowGameOver(false);
 #if OLD_WAY
@@ -336,7 +384,25 @@ public class SceneController : Base2DBehaviour
         
         ShowInstructions(false);
         StartLevel();
-        //Respawn(_birdPlayer, 0.5f);
+
+        ClientScene.AddPlayer(this.connectionToServer, 0);
+        foreach( var p in FindObjectsOfType<Player>())
+        {
+            var playerNetwork = p.GetComponent<NetworkBehaviour>();
+            if ( playerNetwork.localPlayerAuthority)
+            {
+                this.AttachLocalPlayer(p);
+            }
+        }
+
+        if (GameManager.Instance.isServer)
+        {
+            const int numEnemies = 3;
+            for (int ii = 0; ii < _enemyPrespawnCount; ii++)
+            {
+                EnemyPrespawnLater();
+            }
+        }
     }
 
 #if OLD_WAY
@@ -348,9 +414,9 @@ public class SceneController : Base2DBehaviour
     }
 #endif
 
-    private void AttachLocalPlayer( Bird bird)
+    private void AttachLocalPlayer( Player player)
     {
-        _birdPlayers.Add( bird);
+        _players.Add( player);
     }
 
 #if OLD_WAY
@@ -411,7 +477,7 @@ public class SceneController : Base2DBehaviour
             _alien.PlaySound( false);
         }
 #endif
-        _birdPlayers = new List<Bird>();
+        _players = new List<Player>();
         Level = 0;
         // Leave score.
 
@@ -425,8 +491,6 @@ public class SceneController : Base2DBehaviour
 
         StartCoroutine(CoroutineUtils.DelaySeconds(() =>
         {
-            bird.GetComponent<Blinker>().BlinkSprite(1.0f, 0.05f);
-
             // Change the count AFTER the respawn occurs. It looks better.
             SafeGameManager.PlayController.Lives--;
 #if OLD_WAY
@@ -540,6 +604,7 @@ public class SceneController : Base2DBehaviour
         return cnt;
     }
 #endif
+
 
 
 }

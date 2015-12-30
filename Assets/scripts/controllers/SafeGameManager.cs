@@ -29,6 +29,7 @@ namespace Assets.scripts
         public static void StartGame()
         {
             GameManager.Instance.PlayController.StartGame();
+            GameManager.Instance.SceneController.StartGame();
         }
 
         public static Transform SceneRoot
@@ -38,7 +39,12 @@ namespace Assets.scripts
 
         public static void PlayClip(AudioClip clip)
         {
-            GameManager.Instance.PlayController.PlayClip(clip);
+            if (GameManager.Instance.PlayController.State == PlayController.States.Over)
+            {
+                // No sound when not playing.
+                return;
+            }
+            GameManager.Instance.AudioPoolController.PlayClip(clip);
         }
 
         public static void SetGameState(PlayController.States state)

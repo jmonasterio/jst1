@@ -39,6 +39,14 @@ public class Blinker : MonoBehaviour {
         }
     }
 
+    public void BlinkSpriteAlpha(float duration, float interval)
+    {
+        if (GetComponent<SpriteRenderer>() != null)
+        {
+            StartCoroutine(BlinkSpriteAlphaCoroutine(duration, interval));
+        }
+    }
+
 
     public void BlinkSprite(float duration, float interval)
     {
@@ -53,6 +61,7 @@ public class Blinker : MonoBehaviour {
     private IEnumerator BlinkSpriteCoroutine(float duration, float interval)
     {
         var sprite = GetComponent<SpriteRenderer>();
+        var childSprites = GetComponentsInChildren<SpriteRenderer>();
         var originalEnabled = sprite.enabled;
         var endTime = Time.time + duration;
 
@@ -60,8 +69,45 @@ public class Blinker : MonoBehaviour {
         while (Time.time < endTime)
         {
             sprite.enabled = !originalEnabled;
+            foreach (var child in childSprites)
+            {
+                child.enabled = !originalEnabled;
+            }
             yield return new WaitForSeconds(interval);
             sprite.enabled = originalEnabled;
+            foreach (var child in childSprites)
+            {
+                child.enabled = originalEnabled;
+            }
+            yield return new WaitForSeconds(interval);
+
+        }
+    }
+
+    //function to blink the text 
+    private IEnumerator BlinkSpriteAlphaCoroutine(float duration, float interval)
+    {
+        var sprite = GetComponent<SpriteRenderer>();
+        var childSprites = GetComponentsInChildren<SpriteRenderer>();
+        var endTime = Time.time + duration;
+
+        var originalColor = sprite.color;
+        var transpColor = new Color(originalColor.r, originalColor.g, originalColor.b, 0.2f);
+
+        // Blink until duration is over.
+        while (Time.time < endTime)
+        {
+            sprite.color = transpColor;
+            foreach (var child in childSprites)
+            {
+                child.color = transpColor;
+            }
+            yield return new WaitForSeconds(interval);
+            sprite.color = originalColor;
+            foreach (var child in childSprites)
+            {
+                child.color = originalColor;
+            }
             yield return new WaitForSeconds(interval);
 
         }

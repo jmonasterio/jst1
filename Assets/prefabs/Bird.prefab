@@ -28,7 +28,7 @@ GameObject:
   - 50: {fileID: 5024572}
   - 60: {fileID: 6070650}
   - 114: {fileID: 11464982}
-  - 82: {fileID: 8286114}
+  - 114: {fileID: 11477742}
   - 212: {fileID: 21215820}
   - 114: {fileID: 11443966}
   - 114: {fileID: 11496144}
@@ -38,7 +38,7 @@ GameObject:
   - 114: {fileID: 11475346}
   - 114: {fileID: 11486146}
   m_Layer: 0
-  m_Name: Bird
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,81 +207,6 @@ PolygonCollider2D:
       - {x: 0.14768848, y: -0.009358458}
       - {x: -0.03440205, y: -0.0040436313}
       - {x: -0.03206078, y: 0.08750004}
---- !u!82 &8286114
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: b663dc00b9933c9438055eff3d1c60ec,
-    type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  Priority: 128
-  DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 1
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!95 &9596594
 Animator:
   serializedVersion: 3
@@ -425,7 +350,7 @@ MonoBehaviour:
   ExplosionSound: {fileID: 0}
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
   BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
-  Energize1Sound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+  SpawnSound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
   ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11475346
 MonoBehaviour:
@@ -446,6 +371,17 @@ MonoBehaviour:
   param3: 
   param4: 
   param5: 
+--- !u!114 &11477742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ec517d77b94ab419baac678a667787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11486146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -636,7 +572,7 @@ Prefab:
       objectReference: {fileID: 11420170}
     - target: {fileID: 0}
       propertyPath: m_Name
-      value: Bird
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: LegsChild
@@ -828,6 +764,10 @@ Prefab:
       propertyPath: LanceSound
       value: 
       objectReference: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
+    - target: {fileID: 0}
+      propertyPath: SpawnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

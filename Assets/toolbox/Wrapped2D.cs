@@ -73,7 +73,7 @@ public class Wrapped2D : BaseNetworkBehaviour
         StartTeleportTo(MathfExt.From2D(t));
     }
 
-    private void StartTeleportTo(Vector3 toPos)
+    public void StartTeleportTo(Vector3 toPos)
     {
         // Normally you want interpolation on, so you have smooth movement while networking.
         // But, while teleporting to other side of screen, you really don't want to interpolate because

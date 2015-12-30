@@ -39,19 +39,6 @@ public class PlayController : Base2DBehaviour
         Score = 0;
     }
 
-    // TBD: Put this in a soundController component attached to GameManager.
-    // Safer to play sounds on the game object, since bullets or or asteroids may get destroyed while sound is playing???
-    public void PlayClip(AudioClip clip, bool loop = false)
-    {
-        if (State == States.Over)
-        {
-            // No sound when not playing.
-            return;
-        }
-        var src = GetComponent<AudioSource>();
-        src.loop = loop;
-        src.PlayOneShot(clip, 1.0f);
-    }
-
+   
 
 }

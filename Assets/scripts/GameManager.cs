@@ -91,6 +91,8 @@ public class GameManager : BaseNetworkBehaviour
     [HideInInspector]
     public PlayController PlayController;
 
+    [HideInInspector] public AudioPoolController AudioPoolController;
+
 
     // Use this for initialization
     void Awake()
@@ -98,12 +100,11 @@ public class GameManager : BaseNetworkBehaviour
         // This gets set by Singleton.
         //DontDestroyOnLoad(this.gameObject);
 
+        // Cache COMPONENTS for quicker lookup.
         SceneController = GetComponent<SceneController>();
-        //SceneController.Start();
         OfflineSceneController = GetComponent<OfflineSceneController>();
-        //OfflineSceneController.Start();
         PlayController = GetComponent<PlayController>();
-        //PlayController.Start();
+        AudioPoolController = GetComponent< AudioPoolController>();
     }
 
     void Start()

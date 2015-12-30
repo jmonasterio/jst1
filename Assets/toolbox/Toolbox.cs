@@ -124,8 +124,8 @@ namespace Toolbox
 
         public static T InstantiateAtTransform<T>(this T prefab, Transform tr) where T:Component
         {
-            var instance = Object.Instantiate(prefab);
-            instance.transform.parent = tr;
+            var instance = Object.Instantiate<T>(prefab);
+            instance.transform.parent = tr.parent;
             instance.transform.position = tr.position;
             instance.transform.rotation = tr.rotation;
             return instance;
@@ -140,7 +140,7 @@ namespace Toolbox
         /// <returns></returns>
         public static T InstantiateInTransform<T>(this T prefab, Transform parent) where T : Component
         {
-            var instance = Object.Instantiate(prefab);
+            var instance = Object.Instantiate<T>(prefab);
             instance.transform.parent = parent;
             instance.transform.position = prefab.transform.position;
             instance.transform.rotation = prefab.transform.rotation;
@@ -288,11 +288,6 @@ namespace Toolbox
             return new Vector3(Random.Range(camRect.xMin / 2, camRect.xMax / 2),
                 Random.Range(camRect.yMin / 2, camRect.yMax / 2), 0.0f);
         }
-
-
-
-
-
 
     }
 }

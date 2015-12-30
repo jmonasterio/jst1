@@ -40,8 +40,24 @@ namespace Assets.scripts.behaviors
             health -= amount;
             if (health <= 0)
             {
-                health = 0;
                 Debug.Log("Dead!");
+                health = maxHealth;
+
+                // Called on the server, will be invoked on the clients.
+                RpcRespawn();
+            }
+        }
+
+        [ClientRpc]
+        void RpcRespawn()
+        {
+            if (isLocalPlayer)
+            {
+            }
+            else
+            {
+                var enemy = this.GetComponent<Enemy>();
+                SafeGameManager.SceneController.RespawnEnemy( enemy);
             }
         }
 

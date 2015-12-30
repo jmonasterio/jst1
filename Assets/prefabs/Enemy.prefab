@@ -26,8 +26,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 410068}
   - 50: {fileID: 5024572}
-  - 114: {fileID: 11464982}
-  - 82: {fileID: 8286114}
   - 212: {fileID: 21215820}
   - 114: {fileID: 11443966}
   - 114: {fileID: 11496144}
@@ -37,6 +35,8 @@ GameObject:
   - 114: {fileID: 11443892}
   - 60: {fileID: 6018764}
   - 114: {fileID: 11443994}
+  - 114: {fileID: 11420890}
+  - 114: {fileID: 11434842}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -207,80 +207,6 @@ PolygonCollider2D:
       - {x: 0.14768848, y: -0.009358458}
       - {x: -0.03440205, y: -0.0040436313}
       - {x: -0.03206078, y: 0.08750004}
---- !u!82 &8286114
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  Priority: 128
-  DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!95 &9596594
 Animator:
   serializedVersion: 3
@@ -341,6 +267,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 325571dfd53a9e04e95c5e32edd80e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11420890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 9596594}
+  m_ParameterSendBits: 0
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &11421028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,14 +298,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 2
-  m_SendInterval: 0.1
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 1
   m_InterpolateRotation: 1
   m_InterpolateMovement: 0
+--- !u!114 &11434842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04dfbf24e12ea5b40a8f3dda0c6dfbf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalPlayerSprite: {fileID: 21300050, guid: b4115156b1ada4b4ca7982fa949e68a5, type: 3}
+  LegsChild: {fileID: 11449768, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  RiderChild: {fileID: 11420170, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  HealthBarChild: {fileID: 11411166, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  FaceDir: -1
+  InBrake: 0
+  InFlap: 0
+  Thrust: 200
+  SideThrust: 1000
+  BrakingSpeed: 1
+  MaxSpeed: 4
+  PlayerIndex: 0
+  ExplosionSound: {fileID: 0}
+  FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
+  BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
+  SpawnSound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+  ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11443892
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -397,10 +370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb4fa7f531438a4b807616f5b616fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: 0
-  ExplosionSound: {fileID: 0}
-  ExplosionParticlePrefab: {fileID: 0}
-  ShootSound: {fileID: 0}
 --- !u!114 &11447832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,34 +396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85aeb660c665faf428a5074b224894be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11464982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04dfbf24e12ea5b40a8f3dda0c6dfbf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LocalPlayerSprite: {fileID: 0}
-  LegsChild: {fileID: 11449768}
-  RiderChild: {fileID: 11420170}
-  HealthBarChild: {fileID: 0}
-  FaceDir: -1
-  InBrake: 0
-  InFlap: 0
-  Thrust: 200
-  SideThrust: 1000
-  BrakingSpeed: 1
-  MaxSpeed: 4
-  PlayerIndex: 0
-  ExplosionSound: {fileID: 0}
-  FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
-  BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
-  Energize1Sound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
-  ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11496144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -636,11 +577,13 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: LegsChild
       value: 
-      objectReference: {fileID: 11449768}
+      objectReference: {fileID: 11449768, guid: 68bf65475d902e24ba59ec464e957212,
+        type: 2}
     - target: {fileID: 0}
       propertyPath: RiderChild
       value: 
-      objectReference: {fileID: 11420170}
+      objectReference: {fileID: 11420170, guid: 68bf65475d902e24ba59ec464e957212,
+        type: 2}
     - target: {fileID: 0}
       propertyPath: m_UseAutoMass
       value: 1
@@ -793,6 +736,36 @@ Prefab:
       propertyPath: Energize1Sound
       value: 
       objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: SpawnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: LocalPlayerSprite
+      value: 
+      objectReference: {fileID: 21300050, guid: b4115156b1ada4b4ca7982fa949e68a5,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: HealthBarChild
+      value: 
+      objectReference: {fileID: 11411166, guid: 68bf65475d902e24ba59ec464e957212,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: ExplosionSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SendInterval
+      value: 0.033333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SnapThreshold
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Animator
+      value: 
+      objectReference: {fileID: 9596594}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}
