@@ -53,6 +53,8 @@ namespace Assets.scripts.behaviors
         {
             if (isLocalPlayer)
             {
+                var player = this.GetComponent<Player>();
+                SafeGameManager.SceneController.RespawnPlayer(player);
             }
             else
             {

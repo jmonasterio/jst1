@@ -6,6 +6,7 @@ using Toolbox;
 
 public class Player : BaseNetworkBehaviour
 {
+    private bool _flapButtonDown;
 
     public override void OnStartLocalPlayer() // this is our player
     {
@@ -19,10 +20,7 @@ public class Player : BaseNetworkBehaviour
             var bird = GetComponent<Bird>();
             bird.SetAsLocalPlayer();
 
-            bird.transform.position = SafeGameManager.SceneController.GetRandomSpawnPoint();
-            
-
-            SafeGameManager.PlayClip(bird.SpawnSound);
+            Respawn();
 
             // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
             //this.transform.parent = SafeGameManager.SceneRoot;
@@ -48,14 +46,56 @@ public class Player : BaseNetworkBehaviour
 
     }
 
+    public void Respawn()
+    {
+        var bird = GetComponent<Bird>();
+        bird.transform.position = SafeGameManager.SceneController.GetRandomSpawnPoint();
+        SafeGameManager.PlayClip(bird.SpawnSound);
+    }
 
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    void Update()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+        _flapButtonDown = Input.GetButtonDown(global::PlayController.Buttons.FLAP);
+
+
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (Network.isServer)
+        {
+            return;
+        }
+        if (!isLocalPlayer)
+        {
+            // I think remote player will get animated because of NetworkAnimation component.
+            return;
+        }
+
+        try
+        {
+
+            // Get user inputs
+            float horz = Input.GetAxisRaw(PlayController.Buttons.HORIZ);
+            bool vert = _flapButtonDown;
+            _flapButtonDown = false;
+
+            var bird = GetComponent<Bird>();
+            bird.ApplyInputsForMovement(horz, vert);
+            bird.AnimateBird();
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Player.FixedUpdate: " + ex.Message);
+        }
+    }
+
 }

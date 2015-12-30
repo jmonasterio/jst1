@@ -11,7 +11,7 @@
 
 // Handle player respawn.
 // Enemies don't have feet.
-// Enemies should track.
+// x Enemies should track.
 // Side scroll for a while before wrapping. Or just have a wall at the edge after some side scrolling.
 // x Spawned enemy doesn't have SOUND.
 // x Death and respawn.

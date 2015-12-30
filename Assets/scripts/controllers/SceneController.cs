@@ -43,6 +43,12 @@ public class SceneController : BaseNetworkBehaviour
     private Instructions _instructions;
     private List<Player> _players;
     private List<Enemy> _enemies;
+
+    public IList<Player> Players
+    {
+        get { return _players; }
+    } 
+
  //   private List<Asteroid> _asteroids = new List<Asteroid>();
 //    private Alien _alien;
 
@@ -408,6 +414,12 @@ public class SceneController : BaseNetworkBehaviour
                 this.AttachLocalPlayer(p);
             }
         }
+    }
+
+    public void RespawnPlayer( Player p)
+    {
+        // Assume they still have more lives for now.
+        p.Respawn();
     }
 
 #if OLD_WAY

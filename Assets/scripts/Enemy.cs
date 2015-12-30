@@ -34,8 +34,8 @@ public class Enemy : BaseNetworkBehaviour
     //private ParticleSystem _explosionParticleSystem;
 
 
-//private List<Vector3> _path = new List<Vector3>();
-///private int _curPoint = 0;
+    //private List<Vector3> _path = new List<Vector3>();
+    ///private int _curPoint = 0;
 
 #if OLD_WAY
     public void SetPath(List<Vector3> newPath)
@@ -52,6 +52,22 @@ public class Enemy : BaseNetworkBehaviour
         //_explosionParticleSystem.Stop();
     }
 #endif
+
+
+    void FixedUpdate()
+    {
+        if (!Network.isServer)
+        {
+            var enemyBird = GetComponent<Bird>();
+
+            float horz = -Mathf.Sign(enemyBird.transform.position.x - SafeGameManager.SceneController.Players[0].transform.position.x)*0.4f;
+            bool vert = (enemyBird.transform.position.y < SafeGameManager.SceneController.Players[0].transform.position.y); // Represents flap
+            enemyBird.ApplyInputsForMovement(horz, vert);
+
+            enemyBird.AnimateBird();
+        }
+    }
+
 
 
 #if OLD_WAY
@@ -116,4 +132,4 @@ public class Enemy : BaseNetworkBehaviour
 #endif
 
 
-}
+    }

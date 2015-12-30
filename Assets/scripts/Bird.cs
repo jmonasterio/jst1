@@ -77,7 +77,6 @@ public class Bird : BaseNetworkBehaviour
     private float _lastFlap;
     private Animator _animator;
     private Rigidbody2D _rigidBody;
-    private bool _flapButtonDown;
 
 
     // Use this for initialization
@@ -135,97 +134,72 @@ public class Bird : BaseNetworkBehaviour
 #endif
 
 
-    void Update()
+
+    public void AnimateBird()
     {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
+        // Only works when animator is enabled. The faceDir was not handled by the NetworkTransform.
+        this.transform.localScale = new Vector3(FaceDir, 1, 1);
 
-        _flapButtonDown = Input.GetButtonDown(global::PlayController.Buttons.FLAP);
-
-
+        // Using networkAnimator, so assume this stuff will get sent over.
+        var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
+        _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
+        _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
+        _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x));
+        _animator.SetBool(AnimParams.InBrake, InBrake);
+        _animator.SetBool(AnimParams.InFlap, InFlap);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // Can be reused for AI of enemies.
+    public void ApplyInputsForMovement(float horz, bool vert)
     {
-        if (Network.isServer)
+        if (horz != 0.0f)
         {
-            return;
-        }
-        if (!isLocalPlayer)
-        {
-            // Only works when animator is enabled. The faceDir was not handled by the NetworkTransform.
-            this.transform.localScale = new Vector3(FaceDir, 1, 1);
-            return;
-        }
+            _rigidBody.AddForce(Vector2.right * SideThrust * horz, ForceMode2D.Force);
+            _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
 
-        try
-        {
-            float horz = Input.GetAxisRaw(PlayController.Buttons.HORIZ);
-            if (horz != 0.0f)
+            // Sync var will get sent over network so other player flips.
+            var newFaceDir = Mathf.Sign(horz);
+            if (newFaceDir != FaceDir)
             {
-                _rigidBody.AddForce(Vector2.right*SideThrust*horz, ForceMode2D.Force);
-                _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
-
-                // Sync var will get sent over network so other player flips.
-                var newFaceDir = Mathf.Sign(horz);
-                if (newFaceDir != FaceDir)
+                FaceDir = newFaceDir;
+                if (!Network.isServer)
                 {
-                    FaceDir = newFaceDir;
                     CmdSetFaceDir(newFaceDir);
                 }
-                InBrake = false;
             }
-            else
-            {
-                var horzSpeedLocal = Mathf.Abs(_rigidBody.velocity.x);
-                bool wasInBrake = InBrake;
-                InBrake = (horzSpeedLocal > BrakingSpeed) && (horz == 0.0f) && LegsChild.IsGrounded;
-                if (InBrake && !wasInBrake)
-                {
-                    SafeGameManager.PlayClip(BrakeSound);
-                }
-            }
-
-            bool vert = _flapButtonDown;
-            _flapButtonDown = false;
-
-            // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
-            if (vert)
-            {
-                _rigidBody.AddForce(Vector2.up*Thrust, ForceMode2D.Impulse);
-                _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
-                SafeGameManager.PlayClip(FlapSound);
-
-                InFlap = true;
-                _lastFlap = Time.time;
-            }
-            else
-            {
-                if (Time.time - _lastFlap > 0.5f)
-                {
-                    InFlap = false;
-                    _lastFlap = 0.0f;
-                }
-            }
-
-            // Only works when animator is enabled. The faceDir was not handled by the NetworkTransform.
-            this.transform.localScale = new Vector3(FaceDir, 1, 1);
-
-            // Using networkAnimator, so assume this stuff will get sent over.
-            var horzSpeed = Mathf.Abs(_rigidBody.velocity.x);
-            _animator.SetFloat(AnimParams.HorzSpeed, horzSpeed);
-            _animator.SetBool(Bird.AnimParams.Grounded, LegsChild.IsGrounded);
-            _animator.SetFloat(Bird.AnimParams.HorzSpeed, Mathf.Abs(_rigidBody.velocity.x));
-            _animator.SetBool(AnimParams.InBrake, InBrake);
-            _animator.SetBool(AnimParams.InFlap, InFlap);
+            InBrake = false;
         }
-        catch (Exception ex)
+        else
         {
-            Debug.Log("Bird.FixedUpdate: " + ex.Message);
+            var horzSpeedLocal = Mathf.Abs(_rigidBody.velocity.x);
+            bool wasInBrake = InBrake;
+            InBrake = (horzSpeedLocal > BrakingSpeed) && (horz == 0.0f) && LegsChild.IsGrounded;
+            if (InBrake && !wasInBrake)
+            {
+                SafeGameManager.PlayClip(BrakeSound);
+            }
         }
+
+
+        // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
+        if (vert)
+        {
+            _rigidBody.AddForce(Vector2.up * Thrust, ForceMode2D.Impulse);
+            _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
+            SafeGameManager.PlayClip(FlapSound);
+
+            InFlap = true;
+            _lastFlap = Time.time;
+        }
+        else
+        {
+            if (Time.time - _lastFlap > 0.5f)
+            {
+                InFlap = false;
+                _lastFlap = 0.0f;
+            }
+        }
+
     }
 
     [Command]
@@ -261,4 +235,5 @@ public class Bird : BaseNetworkBehaviour
     {
         this.RiderChild.GetComponent<SpriteRenderer>().sprite = this.LocalPlayerSprite;
     }
+
 }
