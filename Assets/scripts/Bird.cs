@@ -24,6 +24,7 @@ public class Bird : BaseNetworkBehaviour
         public const string HorzSpeed = "HorzSpeed"; // Float
     }
 
+    public bool MovementSoundsOn;
     public Legs LegsChild;
     public Rider RiderChild;
     public HealthBar HealthBarChild;
@@ -58,7 +59,6 @@ public class Bird : BaseNetworkBehaviour
     {
         print(this.SpawnSound);
         System.Diagnostics.Debug.Assert(isClient);
-
 
         SafeGameManager.PlayClip(this.SpawnSound);
         this.GetComponent<Blinker>().BlinkSpriteAlpha(this.SpawnSound.length, 0.05f);
@@ -174,9 +174,12 @@ public class Bird : BaseNetworkBehaviour
             var horzSpeedLocal = Mathf.Abs(_rigidBody.velocity.x);
             bool wasInBrake = InBrake;
             InBrake = (horzSpeedLocal > BrakingSpeed) && (horz == 0.0f) && LegsChild.IsGrounded;
-            if (InBrake && !wasInBrake)
+            if (MovementSoundsOn)
             {
-                SafeGameManager.PlayClip(BrakeSound);
+                if (InBrake && !wasInBrake)
+                {
+                    SafeGameManager.PlayClip(BrakeSound);
+                }
             }
         }
 
@@ -186,7 +189,10 @@ public class Bird : BaseNetworkBehaviour
         {
             _rigidBody.AddForce(Vector2.up * Thrust, ForceMode2D.Impulse);
             _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
-            SafeGameManager.PlayClip(FlapSound);
+            if (MovementSoundsOn)
+            {
+                SafeGameManager.PlayClip(FlapSound);
+            }
 
             InFlap = true;
             _lastFlap = Time.time;
