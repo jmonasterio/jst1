@@ -50,7 +50,9 @@ public class Legs : MonoBehaviour {
 #endif
             if ( IsCloseTo(pointOfContact.x,0.0f,.2f) && IsCloseTo(pointOfContact.y, 1.0f,.2f))
             {
+#if VERBOSE
                 Debug.Log("touched ground: " + this.transform.parent);
+#endif
                 _isGrounded = true;
             }
 

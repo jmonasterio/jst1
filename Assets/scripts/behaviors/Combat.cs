@@ -40,7 +40,9 @@ namespace Assets.scripts.behaviors
             health -= amount;
             if (health <= 0)
             {
+#if VERBOSE
                 Debug.Log("Dead!");
+#endif
                 health = maxHealth;
 
                 // Called on the server, will be invoked on the clients.

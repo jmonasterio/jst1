@@ -150,8 +150,13 @@ public class Bird : BaseNetworkBehaviour
     }
 
     // Can be reused for AI of enemies.
-    public void ApplyInputsForMovement(float horz, bool vert)
+    public void ApplyInputsForMovement(float horz, float vert)
     {
+        if (vert < 0.0f)
+        {
+            throw new Exception( "Unsupported. Vert should be between 0-1");
+        }
+
         if (horz != 0.0f)
         {
             _rigidBody.AddForce(Vector2.right * SideThrust * horz, ForceMode2D.Force);
@@ -185,9 +190,9 @@ public class Bird : BaseNetworkBehaviour
 
 
         // Maybe a thruster component? Or maybe Rotator+Thruster=PlayerMover component.
-        if (vert)
+        if (vert > 0.0f)
         {
-            _rigidBody.AddForce(Vector2.up * Thrust, ForceMode2D.Impulse);
+            _rigidBody.AddForce(Vector2.up * Thrust * vert, ForceMode2D.Impulse);
             _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxSpeed);
             if (MovementSoundsOn)
             {

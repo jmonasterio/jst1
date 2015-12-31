@@ -91,7 +91,7 @@ public class Player : BaseNetworkBehaviour
 
             // Get user inputs
             float horz = Input.GetAxisRaw(PlayController.Buttons.HORIZ);
-            bool vert = _flapButtonDown;
+            float vert = _flapButtonDown ? 1.0f : 0.0f;
             _flapButtonDown = false;
 
             var bird = GetComponent<Bird>();

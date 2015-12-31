@@ -1,12 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.scripts;
 using Toolbox;
+using Random = UnityEngine.Random;
 
 public class Enemy : BaseNetworkBehaviour
 {
+    public enum AiTactics
+    {
+        Follow,
+        RunAway,
+    }
 
     public enum Sizes
     {
@@ -19,6 +26,8 @@ public class Enemy : BaseNetworkBehaviour
         Live,
         Killed
     }
+
+    public AiTactics AiTactic;
 
 #if OLD_WAY
     public struct GoNames
@@ -54,6 +63,11 @@ public class Enemy : BaseNetworkBehaviour
     }
 #endif
 
+    void Start()
+    {
+        AiTactic = (Random.Range(0, 2) == 0) ? AiTactics.Follow : AiTactics.RunAway;
+    }
+
 
     void FixedUpdate()
     {
@@ -61,21 +75,15 @@ public class Enemy : BaseNetworkBehaviour
         {
             var enemyBird = GetComponent<Bird>();
             float horz = 0.0f;
-            bool vert = false;
+            float vert = 0.0f; 
 
             var followPlayer = SafeGameManager.SceneController.Players.FirstOrDefault();
             if (followPlayer != null)
             {
-                horz = -Mathf.Sign(enemyBird.transform.position.x - followPlayer.transform.position.x) * 0.4f;
-                vert = (enemyBird.transform.position.y < followPlayer.transform.position.y); // Represents flap
+                this.CalcMove(followPlayer, out horz, out vert);
 
             }
 
-            // Player is unspawned. Just make sure player stays out of lava.
-            if (enemyBird.transform.position.y < -1.3f)
-            {
-                vert = true;
-            }
 
             if ( (followPlayer == null) || (followPlayer.IsDead) ) // TBD Need better hack here.
             {
@@ -89,6 +97,54 @@ public class Enemy : BaseNetworkBehaviour
             enemyBird.AnimateBird();
         }
     }
+
+    private void CalcMove(Player followPlayer, out float horz, out float vert)
+    {
+        float distance = Vector3.Distance(this.transform.position, followPlayer.transform.position);
+
+        vert = 0;
+        horz = 0;
+        if (AiTactic == AiTactics.Follow)
+        {
+            horz = -Mathf.Sign(this.transform.position.x - followPlayer.transform.position.x)*0.25f;
+            if (this.transform.position.y < followPlayer.transform.position.y)
+            {
+                vert = 0.3f; // Represents soft flap
+            }
+        }
+        else if (AiTactic == AiTactics.RunAway)
+        {
+            if (distance < 2.0f)
+            {
+                horz = +Mathf.Sign(this.transform.position.x - followPlayer.transform.position.x)*0.1f;
+            }
+            if (this.transform.position.y > followPlayer.transform.position.y)
+            {
+                vert = 0.3f; // Represents soft flap
+            }
+            if (this.transform.position.y > 1.0f)
+            {
+                vert = 0.0f;
+            }
+            else if (this.transform.position.y < -1.0f)
+            {
+                vert = 0.3f; // Hard flap
+            }
+        }
+        else
+        {
+            throw new NotImplementedException("Unknown AiTactic.");
+        }
+
+
+        // Just try to make sure player stays out of lava.
+        if (this.transform.position.y < -1.3f)
+        {
+            vert = 1.0f; // hard falp
+        }
+
+    }
+
 
 
 
@@ -154,4 +210,4 @@ public class Enemy : BaseNetworkBehaviour
 #endif
 
 
-    }
+}
