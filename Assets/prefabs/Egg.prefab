@@ -11,6 +11,9 @@ GameObject:
   - 114: {fileID: 11414084}
   - 114: {fileID: 11459170}
   - 212: {fileID: 21214594}
+  - 58: {fileID: 5873810}
+  - 50: {fileID: 5049598}
+  - 114: {fileID: 11490088}
   m_Layer: 0
   m_Name: Egg
   m_TagString: Untagged
@@ -25,11 +28,42 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 151880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.96, y: 0.38, z: 0}
+  m_LocalPosition: {x: 1.9570246, y: 5.0150537, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!50 &5049598
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151880}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!58 &5873810
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151880}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: bd2d0a5403b513c439dfe61db06756fc, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.08346939
 --- !u!114 &11414084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -73,6 +107,19 @@ MonoBehaviour:
     i15: 109
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11490088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df222afc96ca6e3469b82407e65310a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickupSound: {fileID: 8300000, guid: b37a66dda7cdadd429fcbc50c08f23a8, type: 3}
+  PickedUp: {fileID: 0}
 --- !u!212 &21214594
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -109,7 +156,27 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: bd2d0a5403b513c439dfe61db06756fc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: PickupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b37a66dda7cdadd429fcbc50c08f23a8, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 151880}

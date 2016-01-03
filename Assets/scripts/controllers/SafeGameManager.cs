@@ -28,13 +28,18 @@ namespace Assets.scripts
 
         public static void StartGame()
         {
+            Debug.Log( "Start game");
             GameManager.Instance.PlayController.StartGame();
             GameManager.Instance.SceneController.StartGame();
         }
 
         public static Transform SceneRoot
         {
-            get { return GameManager.Instance.SceneRoot.transform; } 
+            get
+            {
+                Debug.LogWarning("Get Scene Roots");
+                return GameManager.Instance.SceneRoot.transform;
+            } 
         }
 
         public static void PlayClip(AudioClip clip)

@@ -38,7 +38,7 @@ GameObject:
   - 114: {fileID: 11475346}
   - 114: {fileID: 11486146}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Bird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -382,6 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ec517d77b94ab419baac678a667787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDead: 0
 --- !u!114 &11486146
 MonoBehaviour:
   m_ObjectHideFlags: 1

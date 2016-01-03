@@ -62,7 +62,7 @@ namespace Assets.scripts.behaviors
             else
             {
                 var enemy = this.GetComponent<Enemy>();
-                SafeGameManager.SceneController.RespawnEnemy( enemy);
+                SafeGameManager.SceneController.KillEnemy( enemy);
             }
         }
 

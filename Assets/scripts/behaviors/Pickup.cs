@@ -11,7 +11,7 @@ namespace Assets.scripts.behaviors
         [SyncVar]
         public GameObject PickedUp = null;
 
-        public void Grab(GameObject pickup)
+        public void Grab(GameObject picker)
         {
             if (!isServer)
             {
@@ -19,13 +19,18 @@ namespace Assets.scripts.behaviors
             }
 
             SafeGameManager.PlayClip(PickupSound);
-            PickedUp = pickup;
+            PickedUp = this.gameObject;
+            Destroy( PickedUp, 0.01f);
         }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            var hit = collision.gameObject;
-            this.Grab(hit);
+            var bird = collision.gameObject.GetComponent<Bird>();
+            if (bird != null)
+            {
+                var hit = collision.gameObject;
+                this.Grab(hit);
+            }
         }
     }
 }

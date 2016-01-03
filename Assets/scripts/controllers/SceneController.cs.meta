@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: b1e8fa80afd3b2b4599e04e82644410e
-timeCreated: 1451363933
+timeCreated: 1451794054
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - EnemyPrefab: {fileID: 11443994, guid: bc8133cc5ba932649863cf23bc225f43, type: 2}
   - BirdPrefab: {fileID: 11464982, guid: 68bf65475d902e24ba59ec464e957212, type: 2}
+  - EggPrefab: {fileID: 11414084, guid: 569f6a77bb5869443b27e875f9e8f66d, type: 2}
   - GameOverPrefab: {fileID: 11469834, guid: ef8c1e0ce9b965f4db5ce1b56f44f796, type: 2}
   - InstructionsPrefab: {fileID: 11482144, guid: a97c70521b10e034097a9d4ca0c4165c,
       type: 2}

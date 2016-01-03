@@ -157,7 +157,7 @@ PolygonCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb4fa7f531438a4b807616f5b616fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AiTactic: 0
 --- !u!114 &11447832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,7 +768,7 @@ Prefab:
       objectReference: {fileID: 9596594}
     - target: {fileID: 0}
       propertyPath: m_UsedByEffector
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

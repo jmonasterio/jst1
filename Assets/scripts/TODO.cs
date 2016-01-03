@@ -4,7 +4,9 @@
 //    GameManager needs to be a networkbehaviour and have a network identity.
 //    GameManager can't be on offline screen because the logic for moving between screens creates copies of the singleton which you can see in the hierarchy.
 
-// Eggs
+// Scene should have an array of spawn points.
+// Overload cast operator. Components are a lot like COM interfaces.
+// Eggs - What do they give me.
 // Enemy should understand that the world wraps.
 // Can get stuck if enemies park on spawns.
 // Multi-game. Need to have same screensize everywhere. <-- Could be resolved by not wrapping. Or scaling screen to make sure it fits.

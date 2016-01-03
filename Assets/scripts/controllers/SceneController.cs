@@ -22,6 +22,7 @@ public class SceneController : BaseNetworkBehaviour
     //public Asteroid[] AsteroidPrefabs;
     public Enemy EnemyPrefab; 
     public Bird BirdPrefab;
+    public Egg EggPrefab;
     public GameOver GameOverPrefab;
     public Instructions InstructionsPrefab;
 #if OLD_WAY
@@ -44,6 +45,7 @@ public class SceneController : BaseNetworkBehaviour
     private Instructions _instructions;
     private List<Player> _players;
     private List<Enemy> _enemies;
+    private List<Egg> _eggs; 
 
     public IList<Player> Players
     {
@@ -86,16 +88,26 @@ public class SceneController : BaseNetworkBehaviour
         }));
     }
 
-    public void RespawnEnemy(Enemy enemy)
+    public void KillEnemy(Enemy enemy)
     {
         if (!GameManager.Instance.isServer)
         {
             return;
         }
 
+        EggSpawn(enemy.transform.position);
         DestroyEnemy(enemy);
 
         EnemyPrespawnLater();
+    }
+
+    private void EggSpawn( Vector3 pos)
+    {
+        var egg = EggPrefab.InstantiateInTransform(null);
+        _eggs.Add(egg);
+        egg.transform.position = pos;
+
+        NetworkServer.Spawn(egg.gameObject);
     }
 
     public void AddSomeEnemies( int numEnemies)
@@ -174,6 +186,7 @@ public class SceneController : BaseNetworkBehaviour
     {
         _players = new List<Player>();
         _enemies = new List<Enemy>();
+        _eggs = new List<Egg>();
     }
 
     // Use this for initialization
@@ -417,7 +430,7 @@ public class SceneController : BaseNetworkBehaviour
 
     public void RespawnPlayer(Player p)
     {
-        print("Start player respawn timer.");
+        //print("Start player respawn timer.");
         // Assume they still have more lives for now.
         StartCoroutine(CoroutineUtils.DelaySeconds(1.0f, () =>
             StartCoroutine(CoroutineUtils.UntilTrue(() =>

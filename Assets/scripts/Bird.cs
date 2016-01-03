@@ -57,7 +57,7 @@ public class Bird : BaseNetworkBehaviour
 
     public override void OnStartClient()
     {
-        print(this.SpawnSound);
+        //print(this.SpawnSound);
         System.Diagnostics.Debug.Assert(isClient);
 
         SafeGameManager.PlayClip(this.SpawnSound);
