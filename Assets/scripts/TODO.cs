@@ -6,7 +6,11 @@
 
 // Scene should have an array of spawn points.
 // Overload cast operator. Components are a lot like COM interfaces.
+// x Eggs - When player dies, create an egg too.
+// x 2D scrolling.
+// Slow down enemy vertical. Too fast.
 // Eggs - What do they give me.
+// Hatch enemy eggs
 // Enemy should understand that the world wraps.
 // Can get stuck if enemies park on spawns.
 // Multi-game. Need to have same screensize everywhere. <-- Could be resolved by not wrapping. Or scaling screen to make sure it fits.
@@ -16,7 +20,6 @@
 // Score
 // Lives
 // Dragon
-// Hatch enemy eggs
 // Flames
 // Hand
 // Asset bundles

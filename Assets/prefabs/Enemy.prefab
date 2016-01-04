@@ -28,7 +28,6 @@ GameObject:
   - 50: {fileID: 5024572}
   - 212: {fileID: 21215820}
   - 114: {fileID: 11443966}
-  - 114: {fileID: 11496144}
   - 95: {fileID: 9596594}
   - 114: {fileID: 11403320}
   - 114: {fileID: 11421028}
@@ -37,6 +36,7 @@ GameObject:
   - 114: {fileID: 11443994}
   - 114: {fileID: 11420890}
   - 114: {fileID: 11434842}
+  - 114: {fileID: 11431772}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -306,6 +306,17 @@ MonoBehaviour:
   m_SnapThreshold: 1
   m_InterpolateRotation: 1
   m_InterpolateMovement: 0
+--- !u!114 &11431772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2937f8f0b902bca4a879adf1fb2dcf76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11434842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -397,18 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85aeb660c665faf428a5074b224894be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11496144
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a9d94a53c9b45a4285508a594e66263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VerticalWrap: 0
 --- !u!212 &21207818
 SpriteRenderer:
   m_ObjectHideFlags: 1

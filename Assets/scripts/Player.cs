@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using Assets.scripts;
+using Assets.toolbox;
 using Toolbox;
 
 public class Player : BaseNetworkBehaviour
@@ -22,7 +23,7 @@ public class Player : BaseNetworkBehaviour
             var bird = GetComponent<Bird>();
             bird.SetAsLocalPlayer();
 
-            SafeGameManager.SceneController.RespawnPlayer(this);
+            //SafeGameManager.SceneController.RespawnPlayer(this);
 
             // TBD _birdPlayer.GetComponent<Rigidbody2D>().gravityScale = 0.0f; // Turn off gravity.
             //this.transform.parent = SafeGameManager.SceneRoot;
@@ -54,8 +55,8 @@ public class Player : BaseNetworkBehaviour
 
         IsDead = false;
 
-        var wrapped2d = this.GetComponent<Wrapped2D>();
-        wrapped2d.StartTeleportTo(pos);
+        var teleportable = this.GetComponent<Teleportable>();
+        teleportable.StartTeleportTo(pos);
 
         SafeGameManager.PlayClip(bird.SpawnSound);
     }

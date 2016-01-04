@@ -131,6 +131,12 @@ namespace Toolbox
             return instance;
         }
 
+        // Must be defined inside a class called Fahrenheit:
+        public static T QC<T>(this GameObject go )  where T:MonoBehaviour
+        {
+            return go.GetComponent<T>();
+        }
+
         /// <summary>
         /// Prefab contains position and rotation.
         /// </summary>

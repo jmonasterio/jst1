@@ -26,6 +26,11 @@ namespace Assets.scripts
             get { return (GameManager.Instance.PlayController); }
         }
 
+        public static Player LocalPlayer
+        {
+            get { return SceneController.LocalPlayer; }
+        }
+
         public static void StartGame()
         {
             Debug.Log( "Start game");

@@ -31,12 +31,12 @@ GameObject:
   - 114: {fileID: 11477742}
   - 212: {fileID: 21215820}
   - 114: {fileID: 11443966}
-  - 114: {fileID: 11496144}
   - 95: {fileID: 9596594}
   - 114: {fileID: 11403320}
   - 114: {fileID: 11421028}
   - 114: {fileID: 11475346}
   - 114: {fileID: 11486146}
+  - 114: {fileID: 11445306}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -313,6 +313,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455847127d5628949b1bb1c2a99fbc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Duration: 0.5
+  Interval: 0.05
+  TextOffColor: {r: 0, g: 0, b: 0, a: 0}
+  AlphaTransparency: 0.3
+--- !u!114 &11445306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2937f8f0b902bca4a879adf1fb2dcf76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11449768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -351,6 +366,7 @@ MonoBehaviour:
   FlapSound: {fileID: 8300000, guid: 9beac8cf29164d04b99337914034bbc9, type: 3}
   BrakeSound: {fileID: 8300000, guid: 9e0c1232aea9e5646a95096158dc58af, type: 3}
   SpawnSound: {fileID: 8300000, guid: dddc3e5d68f3dea42b103c291bf1f95d, type: 3}
+  DieSound: {fileID: 8300000, guid: e24837dd91444034f966a2bf91d17730, type: 3}
   ExplosionParticlePrefab: {fileID: 0}
 --- !u!114 &11475346
 MonoBehaviour:
@@ -397,18 +413,6 @@ MonoBehaviour:
   LanceSound: {fileID: 8300000, guid: 422e2aab35593a740aba2d15309b9fab, type: 3}
   BumpSound: {fileID: 8300000, guid: 989c4caf66bebc84a965665e61d85bb8, type: 3}
   health: 3
---- !u!114 &11496144
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a9d94a53c9b45a4285508a594e66263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VerticalWrap: 0
 --- !u!212 &21215820
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -773,6 +777,22 @@ Prefab:
       propertyPath: MovementSoundsOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Duration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Interval
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: AlphaTransparency
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DieSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e24837dd91444034f966a2bf91d17730, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134744}

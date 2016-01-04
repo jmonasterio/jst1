@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.toolbox;
 using Toolbox;
 using UnityEngine.Networking;
 
@@ -11,14 +12,12 @@ public class Wrapped2D : BaseNetworkBehaviour
 {
     public bool VerticalWrap = false;
 
-    private bool InTeleport = false;
     private Rect? _camRect = null;
-    private Rigidbody2D _rigidBody2D;
-    private RigidbodyInterpolation2D _oldInterpolate;
+    private Teleportable _teleportable;
 
     void Start()
     {
-        _rigidBody2D = this.GetComponent<Rigidbody2D>();
+        _teleportable = this.GetComponent<Teleportable>();
     }
 
     // Update is called once per frame
@@ -26,14 +25,11 @@ public class Wrapped2D : BaseNetworkBehaviour
     {
         if( isLocalPlayer || isServer)
         {
-            if (InTeleport)
-            {
-                EndTeleport();
-            }
             WrapScreen();
         }
     }
 
+    // Assumes the camera rectangle doesn't change on each frame.
     protected void WrapScreen()
     {
         if (!_camRect.HasValue)
@@ -70,26 +66,7 @@ public class Wrapped2D : BaseNetworkBehaviour
             }
         }
 
-        StartTeleportTo(MathfExt.From2D(t));
+        _teleportable.StartTeleportTo(MathfExt.From2D(t));
     }
 
-    public void StartTeleportTo(Vector3 toPos)
-    {
-        // Normally you want interpolation on, so you have smooth movement while networking.
-        // But, while teleporting to other side of screen, you really don't want to interpolate because
-        //  you'll collide with objects between current position and other side.
-        _oldInterpolate = _rigidBody2D.interpolation;
-        _rigidBody2D.interpolation = RigidbodyInterpolation2D.None;
-
-        // No position.
-        this.transform.position = toPos;
-
-        // Notify server (if necessary) that this player is teleporting. Server will end the telport.
-        InTeleport = true;
-    }
-
-    private void EndTeleport()
-    {
-        _rigidBody2D.interpolation = _oldInterpolate;
-    }
 }

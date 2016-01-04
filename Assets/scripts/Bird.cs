@@ -44,6 +44,7 @@ public class Bird : BaseNetworkBehaviour
     public AudioClip FlapSound;
     public AudioClip BrakeSound;
     public AudioClip SpawnSound;
+    public AudioClip DieSound;
 
     public ParticleSystem ExplosionParticlePrefab;
 
@@ -60,8 +61,6 @@ public class Bird : BaseNetworkBehaviour
         //print(this.SpawnSound);
         System.Diagnostics.Debug.Assert(isClient);
 
-        SafeGameManager.PlayClip(this.SpawnSound);
-        this.GetComponent<Blinker>().BlinkSpriteAlpha(this.SpawnSound.length, 0.05f);
     }
 
     public override void OnStartServer()

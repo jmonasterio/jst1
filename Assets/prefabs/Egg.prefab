@@ -14,6 +14,7 @@ GameObject:
   - 58: {fileID: 5873810}
   - 50: {fileID: 5049598}
   - 114: {fileID: 11490088}
+  - 114: {fileID: 11400994}
   m_Layer: 0
   m_Name: Egg
   m_TagString: Untagged
@@ -64,6 +65,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.08346939
+--- !u!114 &11400994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455847127d5628949b1bb1c2a99fbc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duration: 1
+  Interval: 0.05
+  TextOffColor: {r: 0, g: 0, b: 0, a: 0}
+  AlphaTransparency: 0.2
 --- !u!114 &11414084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -75,6 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eb3ec59064764d4e9812fb403d8e389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mother: 0
+  HatchTime: 0
+  BlinkStartTime: 0
 --- !u!114 &11459170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,6 +196,18 @@ Prefab:
       propertyPath: PickupSound
       value: 
       objectReference: {fileID: 8300000, guid: b37a66dda7cdadd429fcbc50c08f23a8, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Interval
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: AlphaTransparency
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 151880}

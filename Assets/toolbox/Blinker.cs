@@ -1,7 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Blinker : MonoBehaviour {
+public class Blinker : MonoBehaviour
+{
+
+    public float Duration;
+    public float Interval;
+    public Color TextOffColor;
+    public float AlphaTransparency; // 0.0f (blink off completely), 0.1 (dim), 0.2 (brigher), etc.
+
+    public void Blink()
+    {
+        if (GetComponent<TextMesh>())
+        {
+            BlinkText( Duration, Interval, TextOffColor);
+        }
+        else if (GetComponent<SpriteRenderer>())
+        {
+            BlinkSpriteAlpha( Duration, Interval, AlphaTransparency);
+        }
+    }
+
 
 	// Use this for initialization
 	void Start () {
@@ -39,11 +58,11 @@ public class Blinker : MonoBehaviour {
         }
     }
 
-    public void BlinkSpriteAlpha(float duration, float interval)
+    public void BlinkSpriteAlpha(float duration, float interval, float alphaTransparency)
     {
         if (GetComponent<SpriteRenderer>() != null)
         {
-            StartCoroutine(BlinkSpriteAlphaCoroutine(duration, interval));
+            StartCoroutine(BlinkSpriteAlphaCoroutine(duration, interval, alphaTransparency));
         }
     }
 
@@ -85,14 +104,14 @@ public class Blinker : MonoBehaviour {
     }
 
     //function to blink the text 
-    private IEnumerator BlinkSpriteAlphaCoroutine(float duration, float interval)
+    private IEnumerator BlinkSpriteAlphaCoroutine(float duration, float interval, float alphaTransparency)
     {
         var sprite = GetComponent<SpriteRenderer>();
         var childSprites = GetComponentsInChildren<SpriteRenderer>();
         var endTime = Time.time + duration;
 
         var originalColor = sprite.color;
-        var transpColor = new Color(originalColor.r, originalColor.g, originalColor.b, 0.2f);
+        var transpColor = new Color(originalColor.r, originalColor.g, originalColor.b, alphaTransparency);
 
         // Blink until duration is over.
         while (Time.time < endTime)

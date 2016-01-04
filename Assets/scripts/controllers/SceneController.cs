@@ -7,6 +7,7 @@ using Assets.scripts;
 using Assets.scripts.behaviors;
 using Toolbox;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 using Random = UnityEngine.Random;
 
 public class SceneController : BaseNetworkBehaviour
@@ -25,6 +26,8 @@ public class SceneController : BaseNetworkBehaviour
     public Egg EggPrefab;
     public GameOver GameOverPrefab;
     public Instructions InstructionsPrefab;
+    public AudioClip LevelStartSound;
+
 #if OLD_WAY
     public ParticleSystem AsteroidExplosionParticlePrefab;
 #endif
@@ -38,6 +41,7 @@ public class SceneController : BaseNetworkBehaviour
     public int FREE_USER_AT = 10000;
 
     private int _enemyPrespawnCount = 0;
+    public int _remainingEnemiesToSpawnOnThisLevel;
 
     private int _nextFreeLifeScore;
 
@@ -59,6 +63,7 @@ public class SceneController : BaseNetworkBehaviour
     //private float _jawsIntervalSeconds;
     //private bool _jawsAlternate;
     private double _disableStartButtonUntilTime;
+    public Player LocalPlayer;
     private const int MAX_ENEMIES = 3;
     //private GameObject _asteroidContainer;
     //private float _lastAsteroidKilled;
@@ -81,6 +86,7 @@ public class SceneController : BaseNetworkBehaviour
     private void EnemyPrespawnLater()
     {
         _enemyPrespawnCount++;
+        _remainingEnemiesToSpawnOnThisLevel--;
 
         StartCoroutine(CoroutineUtils.DelaySeconds( 2.0f, () =>
         {
@@ -95,13 +101,18 @@ public class SceneController : BaseNetworkBehaviour
             return;
         }
 
-        EggSpawn(enemy.transform.position);
+        var rigidbody2D = enemy.GetComponent<Rigidbody2D>();
+        EggSpawn(enemy.transform.position, rigidbody2D.velocity, MakeMother(enemy)); 
         DestroyEnemy(enemy);
-
-        EnemyPrespawnLater();
     }
 
-    private void EggSpawn( Vector3 pos)
+    private Egg.Mothers MakeMother(Enemy enemy)
+    {
+        // TBD: Figure out mother based on type of enemy.
+        return Egg.Mothers.Enemy1;
+    }
+
+    private void EggSpawn( Vector3 pos, Vector3 v, Egg.Mothers mother)
     {
         var egg = EggPrefab.InstantiateInTransform(null);
         _eggs.Add(egg);
@@ -127,14 +138,21 @@ public class SceneController : BaseNetworkBehaviour
             {
                 continue;
             }
-            var enemy = EnemyPrefab.InstantiateInTransform(null);
-            _enemies.Add(enemy);
-            enemy.transform.position = pos;
-
-            NetworkServer.Spawn(enemy.gameObject);
+            SpawnEnemyAt(pos);
 
             // Do this in OnStartServer, because sound needs to be played in the client.
         }
+    }
+
+    public void SpawnEnemyAt(Vector3 pos)
+    {
+        var enemy = EnemyPrefab.InstantiateInTransform(null);
+        _enemies.Add(enemy);
+        enemy.transform.position = pos;
+
+        NetworkServer.Spawn(enemy.gameObject);
+
+        _remainingEnemiesToSpawnOnThisLevel--;
     }
 
     private bool IsSafeSpawnPoint(Vector3 pos)
@@ -212,6 +230,11 @@ public class SceneController : BaseNetworkBehaviour
 
     }
 
+    public int GetEnemyCountForLevel()
+    {
+        return MAX_ENEMIES + Level;
+    }
+
     // Update is called once per frame
     void Update()
 	{
@@ -222,8 +245,10 @@ public class SceneController : BaseNetworkBehaviour
 
         UpdateFreeLives();
 
-        if ((_enemyPrespawnCount + _enemies.Count < MAX_ENEMIES) && (_players.Count > 0) )
+        if ((_remainingEnemiesToSpawnOnThisLevel > 0) && (_players.Count > 0) )
         {
+            Debug.Assert(_remainingEnemiesToSpawnOnThisLevel > 0);
+            Debug.Assert((_players.Count > 0));
             EnemyPrespawnLater();
         }
 
@@ -422,7 +447,7 @@ public class SceneController : BaseNetworkBehaviour
             var playerNetwork = p.GetComponent<NetworkBehaviour>();
             if (playerNetwork.localPlayerAuthority)
             {
-                HideDeadPlayer(p); // Not to be seen or followed by enemies yet.
+                SetPlayerDead( p, false);
                 this.AttachLocalPlayer(p);
             }
         }
@@ -441,8 +466,9 @@ public class SceneController : BaseNetworkBehaviour
                     p.RespawnAt(spawnPoint);
                     if (!_players.Contains(p))
                     {
-                        _players.Add(p);
+                        this.AttachLocalPlayer(p);
                     }
+                    SetPlayerDead( p, false);
                     return true;
                 }
                 else
@@ -465,6 +491,7 @@ public class SceneController : BaseNetworkBehaviour
     private void AttachLocalPlayer( Player player)
     {
         _players.Add( player);
+        LocalPlayer = player;
     }
 
 #if OLD_WAY
@@ -492,7 +519,8 @@ public class SceneController : BaseNetworkBehaviour
     public void StartLevel()
     {
         Level++;
-
+        _remainingEnemiesToSpawnOnThisLevel = GetEnemyCountForLevel();
+        SafeGameManager.PlayClip(LevelStartSound);
 #if OLD_WAY
         _jawsIntervalSeconds = 0.9f;
         _jawsAlternate = true;
@@ -645,7 +673,7 @@ public class SceneController : BaseNetworkBehaviour
     public void KillPlayer(Player pl)
     {
 
-        HideDeadPlayer(pl);
+        SetPlayerDead(pl, true);
         _players.Remove(pl);
 
         if (SafeGameManager.PlayController.Lives < 1)
@@ -662,12 +690,32 @@ public class SceneController : BaseNetworkBehaviour
         }
     }
 
-    private void HideDeadPlayer(Player pl)
+    private void SetPlayerDead(Player pl, bool dead )
     {
-        pl.IsDead = true; // So enemies don't follow anymore
-        pl.transform.position = new Vector3(-10000f,-10000f,-10000f);
+        pl.IsDead = dead; // So enemies don't follow anymore
+        pl.gameObject.SetActive( !dead);
+        if (!dead)
+        {
+            SafeGameManager.PlayClip(pl.GetComponent<Bird>().SpawnSound);
+            pl.GetComponent<Blinker>().Blink();
+        }
+        else
+        {
+            SafeGameManager.PlayClip(pl.GetComponent<Bird>().DieSound);
+        }
+        //Show(pl, !dead);
+        //pl.transform.position = new Vector3(-10000f,-10000f,-10000f);
         // Move player off screen until respawn (so we don't see him anymore??)
-        var wrapped = pl.GetComponent<Wrapped2D>();
-        wrapped.StartTeleportTo(new Vector3(-10000f, -10000f, -10000.0f));
+        //var wrapped = pl.GetComponent<Wrapped2D>();
+        //wrapped.StartTeleportTo(new Vector3(-10000f, -10000f, -10000.0f));
+    }
+
+    private void Show(Player pl, bool show)
+    {
+        foreach (var sr in GetComponents<SpriteRenderer>())
+        {
+            sr.enabled = show;
+        }
+
     }
 }
