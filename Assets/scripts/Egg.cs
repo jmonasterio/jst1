@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Assets.scripts;
+using Toolbox;
+
 
 public class Egg : MonoBehaviour
 {
+    public event TypedEventHandler.EventHandler<Egg> Hatched;
+    //public event EventHandler Hatched;
+
     public enum Mothers
     {
         Player,
@@ -42,10 +48,12 @@ public class Egg : MonoBehaviour
         switch (Mother)
         {
             default:
-                var pos = this.transform.position;
-                pos = new Vector3(pos.x, pos.y+0.1f, pos.z); // Spawn player a little higher so feet not in ground.
-                SafeGameManager.SceneController.SpawnEnemyAt(pos);
-                Destroy(this.gameObject);
+                if (this.Hatched != null)
+                {
+                    this.Hatched(this, new EventArgs());
+                }
+
+                //SafeGameManager.SceneController.HatchEgg(this);
                 break;
         }
     }

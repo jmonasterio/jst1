@@ -1,4 +1,5 @@
-﻿using Toolbox;
+﻿using System;
+using Toolbox;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -7,9 +8,13 @@ namespace Assets.scripts.behaviors
     class Pickup : BaseNetworkBehaviour
     {
         public AudioClip PickupSound;
+        public event TypedEventHandler.EventHandler<Pickup> PickedUp;
 
         [SyncVar]
-        public GameObject PickedUp = null;
+        public GameObject PickedUpItem = null;
+
+        [SyncVar]
+        public GameObject PickedUpBy = null;
 
         public void Grab(GameObject picker)
         {
@@ -19,8 +24,17 @@ namespace Assets.scripts.behaviors
             }
 
             SafeGameManager.PlayClip(PickupSound);
-            PickedUp = this.gameObject;
-            Destroy( PickedUp, 0.01f);
+            if (PickedUp != null)
+            {
+                PickedUpItem = this.gameObject;
+                PickedUpBy = picker;
+                PickedUp(this, new EventArgs());
+            }
+            else
+            {
+                // Event not handled, so let's just destroy ourselves.
+                Destroy(PickedUpItem, 0.01f);
+            }
         }
 
         void OnCollisionEnter2D(Collision2D collision)

@@ -82,6 +82,16 @@ namespace Assets.scripts.behaviors
                 }
                 else
                 {
+                    // Flip bird around when joust tie.
+                    var thisBird = this.GetComponent<Bird>();
+                    var hitBird = this.GetComponent<Bird>();
+                    thisBird.CmdSetFaceDir(-thisBird.FaceDir);
+                    hitBird.CmdSetFaceDir(-hitBird.FaceDir);
+                    thisBird.FaceDir=(-thisBird.FaceDir);
+                    hitBird.FaceDir=(-hitBird.FaceDir);
+
+
+                    // Play music.
                     this.Tie();
                 }
             }

@@ -11,6 +11,7 @@ public class Enemy : BaseNetworkBehaviour
 {
     public enum AiTactics
     {
+        OneWay,
         Follow,
         RunAway,
     }
@@ -71,6 +72,7 @@ public class Enemy : BaseNetworkBehaviour
 
     void FixedUpdate()
     {
+
         if (!Network.isServer)
         {
             var enemyBird = GetComponent<Bird>();
@@ -104,23 +106,27 @@ public class Enemy : BaseNetworkBehaviour
 
         vert = 0;
         horz = 0;
+        if (AiTactic == AiTactics.OneWay)
+        {
+            horz = 0.2f*GetComponent<Bird>().FaceDir;
+        }
         if (AiTactic == AiTactics.Follow)
         {
-            horz = -Mathf.Sign(this.transform.position.x - followPlayer.transform.position.x)*0.25f;
+            horz = -Mathf.Sign(this.transform.position.x - followPlayer.transform.position.x)*0.2f;
             if (this.transform.position.y < followPlayer.transform.position.y)
             {
-                vert = 0.3f; // Represents soft flap
+                vert = 0.2f; // Represents soft flap
             }
         }
         else if (AiTactic == AiTactics.RunAway)
         {
             if (distance < 2.0f)
             {
-                horz = +Mathf.Sign(this.transform.position.x - followPlayer.transform.position.x)*0.1f;
+                horz = +Mathf.Sign(this.transform.position.x - followPlayer.transform.position.x)*0.2f;
             }
             if (this.transform.position.y > followPlayer.transform.position.y)
             {
-                vert = 0.3f; // Represents soft flap
+                vert = 0.1f; // Represents soft flap
             }
             if (this.transform.position.y > 1.0f)
             {
@@ -128,7 +134,7 @@ public class Enemy : BaseNetworkBehaviour
             }
             else if (this.transform.position.y < -1.0f)
             {
-                vert = 0.3f; // Hard flap
+                vert = 0.1f; // Hard flap
             }
         }
         else

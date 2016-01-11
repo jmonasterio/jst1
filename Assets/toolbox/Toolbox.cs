@@ -11,6 +11,13 @@ using Random = UnityEngine.Random;
 
 namespace Toolbox
 {
+
+    public class TypedEventHandler
+    {
+        [Serializable]
+        public delegate void EventHandler<T>(T sender, EventArgs args);
+    }
+
     [System.Serializable]
     public class Language
     {

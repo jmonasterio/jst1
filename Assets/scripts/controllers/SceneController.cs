@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 
 public class SceneController : BaseNetworkBehaviour
 {
+
     public struct Scenes
     {
         public const string Main = "main";
@@ -94,6 +95,7 @@ public class SceneController : BaseNetworkBehaviour
         }));
     }
 
+    // TBD: Should be event.
     public void KillEnemy(Enemy enemy)
     {
         if (!GameManager.Instance.isServer)
@@ -117,9 +119,12 @@ public class SceneController : BaseNetworkBehaviour
         var egg = EggPrefab.InstantiateInTransform(null);
         _eggs.Add(egg);
         egg.transform.position = pos;
+        egg.Hatched += egg_hatched; //not firing.
+        egg.GetComponent<Pickup>().PickedUp += egg_pickedUp;
 
         NetworkServer.Spawn(egg.gameObject);
     }
+
 
     public void AddSomeEnemies( int numEnemies)
     {
@@ -245,11 +250,15 @@ public class SceneController : BaseNetworkBehaviour
 
         UpdateFreeLives();
 
-        if ((_remainingEnemiesToSpawnOnThisLevel > 0) && (_players.Count > 0) )
+        if ( ShouldSpawnMoreEnemies() )
         {
             Debug.Assert(_remainingEnemiesToSpawnOnThisLevel > 0);
             Debug.Assert((_players.Count > 0));
             EnemyPrespawnLater();
+        }
+        else if (IsLevelOver())
+        {
+            StartLevel();
         }
 
 #if OLD_WAY
@@ -274,7 +283,17 @@ public class SceneController : BaseNetworkBehaviour
 
     }
 
-    
+    private bool ShouldSpawnMoreEnemies()
+    {
+        return (_remainingEnemiesToSpawnOnThisLevel > 0) && (_players.Count > 0);
+    }
+
+    private bool IsLevelOver()
+    {
+        return  (_enemies.Count == 0) && (_eggs.Count == 0)  && (_enemyPrespawnCount <= 0 ) && (_remainingEnemiesToSpawnOnThisLevel <= 0) && (_players.Count > 0);
+    }
+
+
 #if OLD_WAY
     private void UpdateAlienSpawn()
     {
@@ -562,7 +581,7 @@ public class SceneController : BaseNetworkBehaviour
     }
 
 
-   
+
 
 #if OLD_WAY
     public void DestroyAlien(Alien alien, bool explode)
@@ -669,7 +688,40 @@ public class SceneController : BaseNetworkBehaviour
     }
 #endif
 
+    private void egg_pickedUp(Pickup pickup, EventArgs e)
+    {
+        if (pickup.PickedUpBy.GetComponent<Player>() != null)
+        {
+            // TBD: Increase score
+        }
+        else if (pickup.PickedUpBy.GetComponent<Enemy>() != null)
+        {
+            // TBD: Powerup enemy.
+        }
+        else
+        {
+            Debug.Assert(false, "Who picked up egg?");
+        }
 
+        Cleanup(pickup.PickedUpItem.GetComponent<Egg>());
+    }
+
+    private void egg_hatched(Egg egg, EventArgs e)
+    {
+        var pos = this.transform.position;
+        pos = new Vector3(pos.x, pos.y + 0.1f, pos.z); // Spawn player a little higher so feet not in ground.
+        SafeGameManager.SceneController.SpawnEnemyAt(pos);
+        Cleanup(egg);
+    }
+
+    private void Cleanup(Egg egg)
+    {
+        _eggs.Remove(egg);
+        egg.Hatched -= egg_hatched;
+        Destroy(egg.gameObject);
+    }
+
+    // TBD: Should be event.
     public void KillPlayer(Player pl)
     {
 
